@@ -1,14 +1,14 @@
 {
   "name": "org-mode",
   "main": "./lib/org-mode",
-  "version": "0.0.0",
-  "description": "A short description of your package",
+  "version": "0.0.1",
+  "description": "Atom grammar for org-mode syntax",
   "keywords": [
   ],
   "activationCommands": {
     "atom-workspace": "org-mode:toggle"
   },
-  "repository": "https://github.com/atom/org-mode",
+  "repository": "https://github.com/melioratus/org-mode",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
