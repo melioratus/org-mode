@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "Toggle org-mode",
+        "command": "org-mode:toggle"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "org-mode",
+          "submenu": [
+            {
+              "label": "Toggle",
+              "command": "org-mode:toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
