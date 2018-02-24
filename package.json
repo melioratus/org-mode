@@ -1,10 +1,9 @@
 {
   "name": "org-mode",
   "main": "./lib/org-mode",
-  "version": "0.0.1",
+  "version": "0.3.1",
   "description": "Atom grammar for org-mode syntax",
-  "keywords": [
-  ],
+  "keywords": [],
   "activationCommands": {
     "atom-workspace": "org-mode:toggle"
   },
@@ -13,6 +12,5 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
