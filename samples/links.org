@@ -1,0 +1,6 @@
+# -*- mode: org; -*-
+
++ [[https://www.google.com]]
++ [[https://www.google.com][Google Search]]
++ [[file:links.org]]
++ [[file:links.org][This Code Example]]

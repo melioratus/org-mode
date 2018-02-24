@@ -1,0 +1,24 @@
+# -*- mode: org; -*-
+
+This line is not part of the ordered list.
+
+ - List 1 Item 1
+  Body of List
+ - List 1 Item 2
+  Body of List
+ - List 1 Item 3
+  Body of List
+
+ + List 2 Item 1
+  Body of List
+ + List 2 Item 2
+  Body of List
+ + List 2 Item 3
+  Body of List
+
+ * List 2 Item 1
+  Body of List
+ * List 2 Item 2
+  Body of List
+ * List 2 Item 3
+  Body of List

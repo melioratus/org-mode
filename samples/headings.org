@@ -1,0 +1,20 @@
+# -*- mode: org; -*-
+
+* Heading 1
+  Body of Heading
+** Heading 2
+   Body of Heading
+*** Heading 3
+    Body of Heading
+**** Heading 4
+     Body of Heading
+***** Heading 5
+      Body of Heading
+****** Heading 6
+       Body of Heading
+******* Heading 7
+        Body of Heading
+******** Heading 8
+         Body of Heading
+********* Heading 9
+          Body of Heading

@@ -1,0 +1,10 @@
+# -*- mode: org; -*-
+
+This is not a literal example.
+
+: This is a literal example on single line.
+
+#+BEGIN_EXAMPLE
+  This is a
+  multiple line literal example.
+#+END_EXAMPLE

@@ -1,0 +1,8 @@
+# -*- mode: org; -*-
+
+This is not inside the quote block.
+
+#+BEGIN_QUOTE
+This is inside the quote block.
+*bold*, /italic/, _underlined_ +strike-through+
+#+END_QUOTE

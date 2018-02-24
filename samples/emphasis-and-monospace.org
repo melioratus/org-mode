@@ -1,0 +1,89 @@
+# -*- mode: org; -*-
+
+# Standard Usage
+*bold*, /italic/, _underlined_, =verbatim=, ~code~, and +strike-through+
+
+# Including Spaces - Yes
+*Am I Bold?*  
+/Am I Italic?/  
+_Am I Underlined?_  
+=Am I Verbatim?=  
+~Am I Code?~  
+
+# Multiple Lines - Yes
+*Start Bold on Line 1  
+End Bold on Line 2*  
+
+/Start Italic on Line 1  
+End Italic on Line 2/  
+
+_Start Underlined on Line 1  
+End Underlined on Line 2_  
+
+=Start Verbatim on Line 1  
+End Verbatim on Line 2=  
+
+~Start Code on Line 1    
+End Code on Line 2~  
+
+# Embedded
+*bold*bold*  
+*bold *still bold*  
+*bold* not bold*  
+
+/italic/italic/  
+/italic /still italic/  
+/italic/ not italic/  
+
+_underlined_underlined_  
+_underlined _still underlined_  
+_underlined_ not underlined_  
+
++strike-through+strike-through+  
++strike-through +still strike-through+  
++strike-through+ not strike-through+  
+
+=verbatim=verbatim=  
+=verbatim =still verbatim=  
+=verbatim= not verbatim=  
+
+~code~code~  
+~code ~still code~  
+~code~ not code~  
+
+# Nested
+*bold /italic/ bold*  
+*bold _underline_ bold*  
+*bold +strike-through+ bold*  
+*bold =verbatim= bold*  
+*bold ~code~ bold*  
+
+/italic *bold* italic/  
+/italic _underline_ italic/  
+/italic +strike-through+ italic/  
+/italic =verbatim= italic/  
+/italic ~code~ italic/  
+
+_underline *bold* underline_  
+_underline /italic/ underline_  
+_underline +strike-through+ underline_  
+_underline =verbatim= underline_  
+_underline ~code~ underline_  
+
++strike-through *bold* strike-through+  
++strike-through /italic/ strike-through+  
++strike-through _underline_ strike-through+  
++strike-through =verbatim= strike-through+  
++strike-through ~code~ strike-through+  
+
+=verbatim *bold* verbatim=  
+=verbatim /italic/ verbatim=  
+=verbatim _underline_ verbatim=  
+=verbatim +strike-through+ verbatim=  
+=verbatim ~code~ verbatim=  
+
+~code *bold* code~  
+~code /italic/ code~  
+~code _underline_ code~  
+~code +strike-through+ code~  
+~code =verbatim= code~  

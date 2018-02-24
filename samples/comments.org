@@ -1,0 +1,11 @@
+# -*- mode: org; -*-
+
+This is not a comment.
+
+# This is a comment
+
+#+BEGIN_COMMENT
+  This
+  is a multi line
+  comment.
+#+END_COMMENT
