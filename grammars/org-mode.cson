@@ -46,6 +46,9 @@
     'include': '#code-block-css'
   }
   {
+    'include': '#options-line'
+  }
+  {
     'include': '#keywords-line'
   }
   {
@@ -912,6 +915,26 @@
             }
           ]
         }
+    ]
+
+  'options-line':
+    'patterns': [
+      {
+        'begin': '^(\\s*#[+])(OPTIONS|TITLE|DATE|AUTHOR|EMAIL|LANGUAGE|CREATOR|SELECT_TAGS|EXCLUDE_TAGS|SETUP|PROPERTY|MACRO)(:)((\\s+)(.+))?'
+        'end': '$'
+        'captures':
+          '1':
+            'name': 'punctuation.definition.keyword.org-mode'
+          '2':
+            'name': 'markup.function.keyword.key-name.org-mode'
+          '3':
+            'name': 'punctuation.definition.keyword.org-mode'
+          '5':
+            'name': 'punctuation.definition.keyword.space.org-mode'
+          '6':
+            'name': 'punctuation.definition.keyword.key-value.org-mode'
+        'name': 'markup.keyword.org-mode'
+      }
     ]
 
   'keywords-line':
