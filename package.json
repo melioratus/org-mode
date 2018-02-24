@@ -1,12 +1,18 @@
 {
   "name": "org-mode",
-  "main": "./lib/org-mode",
   "version": "0.3.5",
   "description": "Atom grammar for org-mode syntax",
-  "keywords": [],
-  "activationCommands": {
-    "atom-workspace": "org-mode:toggle"
-  },
+  "keywords": [
+      "org",
+      "org-mode",
+      "org mode",
+      "orgmode",
+      "emacs",
+      "literate programming",
+      "literate devops",
+      "devops",
+      "reproducible research"
+    ],
   "repository": "https://github.com/melioratus/org-mode",
   "license": "MIT",
   "engines": {
