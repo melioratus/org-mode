@@ -12,5 +12,8 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "coffee-script": "1.7.0",
+    "coffeelint": "^1.10.1"
+  }
 }
