@@ -1,7 +1,7 @@
 {
   "name": "org-mode",
   "main": "./lib/org-mode",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Atom grammar for org-mode syntax",
   "keywords": [],
   "activationCommands": {
