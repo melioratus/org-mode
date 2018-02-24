@@ -1,6 +1,25 @@
+#+OPTIONS: f:t
+
 * Welcome to Atom =org-mode= Package 
 
-The Atom =org-mode= Package Road Map:  
+The [[http://org-mode.org][org-mode]] application provides an astounding set of features that can literally[fn:1] change your life for the better!  
+
+Below is just a very small subset of things you can do using a text file + org-mode + emacs:
+
+- Literate Programming with over 30 languages. 
+- Project, Task and Time Management.
+- Data Science 
+- Reproducible Research 
+- Create and Maintain Documentation in Multiple Popular Formats including PDF, HTML and Markdown.
+- Track and Synchronize Data Across Heterogeneous Technologies and Formats including Source Code, Network Diagrams, DevOps Platforms, Databases, Servers and Services.
+- Learn New Skills and Share Complex Ideas in a Consistent Repeatible Way.
+
+
+** The Atom =org-mode= Package Road Map  
 
  - Provide org-mode syntax highlighting to allow Atom users to easily create and maintain documentation. 
+
+* Footnotes
+
+[fn:1] pun intended
 
