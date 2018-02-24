@@ -44,6 +44,9 @@ flycheck_*.el
 # directory configuration
 .dir-locals.el
 
+# ignore junk files
+junk*
+
 # Default Atom gitignore
 .DS_Store
 npm-debug.log
