@@ -1,8 +1,40 @@
 
+
 Welcome to Atom `org-mode` Package
 ==================================
 
-The Atom `org-mode` Package Road Map:  
+The [org-mode](http://org-mode.org) application provides an astounding set of features that can literally<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> change your life for the better!  
+
+Below is just a very small subset of things you can do using a text file + org-mode + emacs:
+
+-   Literate Programming<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup><sup>, </sup><sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup> with over 30 languages.
+-   Project, Task and Time Management.
+-   Data Science
+-   Reproducible Research
+-   Create and maintain documentation<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup> in multiple popular formats including PDF, HTML<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup> and Markdown.
+-   Track and synchronize data across heterogeneous paradigms, technologies and formats including source code, network diagrams, Infrastructure as Code, DevOps<sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup>, databases, servers and services.
+-   Learn new skills and share complex ideas in a consistent repeatible way.
+
+Let us begin our journey into a better future.
+
+
+The Atom `org-mode` Package Road Map
+------------------------------------
 
 -   Provide org-mode syntax highlighting to allow Atom users to easily create and maintain documentation.
 
+
+Footnotes
+=========
+
+<sup><a id="fn.1" href="#fnr.1">1</a></sup> pun intended
+
+<sup><a id="fn.2" href="#fnr.2">2</a></sup> <https://en.wikipedia.org/wiki/Literate_programming>
+
+<sup><a id="fn.3" href="#fnr.3">3</a></sup> <http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/>
+
+<sup><a id="fn.4" href="#fnr.4">4</a></sup> <https://github.com/fniessen/refcard-org-mode>
+
+<sup><a id="fn.5" href="#fnr.5">5</a></sup> <https://github.com/fniessen/org-html-themes>
+
+<sup><a id="fn.6" href="#fnr.6">6</a></sup> <http://howardism.org/Technical/Emacs/literate-devops.html>
