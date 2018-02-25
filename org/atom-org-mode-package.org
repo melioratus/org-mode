@@ -1,0 +1,29 @@
+
+* Atom org-mode Package
+
+In order to maintain compatibility, the Atom =org-mode= package will follow the syntax specification[fn:1][fn:2] provided on [[http://orgmode.org][orgmode.org]].
+
+* Export Settings                                                  :noexport:
+
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
+#+OPTIONS: author:t broken-links:nil c:nil creator:nil
+#+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
+#+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+OPTIONS: timestamp:t title:t toc:nil todo:t |:t
+#+TITLE: atom-org-mode-package
+#+DATE: <2018-02-25 Sun>
+#+AUTHOR: Brian Smith
+#+EMAIL: melioratus@Brians-MacBook-Pro.local
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+CREATOR: Emacs 25.3.1 (Org mode 9.1.6)
+
+* Footnotes
+
+[fn:1] [[https://orgmode.org/worg/dev/org-syntax.html]]
+
+[fn:2] [[file:orgmode.org/worg/dev/org-syntax.org]]
+
