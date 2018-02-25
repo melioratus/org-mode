@@ -3,6 +3,55 @@
 
 In order to maintain compatibility, the Atom =org-mode= package will follow the syntax specification[fn:1][fn:2] provided on [[http://orgmode.org][orgmode.org]].
 
+* Project Files
+
+- [[file:../README.md][README.md]]
+
+  # Link to [[file:atom-org-mode-package.org::README.md][README.md Section]]
+
+** README.md                                                      :noexport:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ../README.md
+:EXPORT_OPTIONS: f:t
+:END:
+
+# Export using C-c C-e C-s m m
+
+*** Welcome to Atom =org-mode= Package 
+
+The [[http://org-mode.org][org-mode]] application provides an astounding set of features that can literally[fn:1] change your life for the better!  
+
+Below is just a very small subset of things you can do using a text file + org-mode + emacs:
+
+- Literate Programming[fn:2][fn:3] with over 30 languages. 
+- Project, Task and Time Management.
+- Data Science 
+- Reproducible Research 
+- Create and maintain documentation[fn:4] in multiple popular formats including PDF, HTML[fn:5] and Markdown.
+- Track and synchronize data across heterogeneous paradigms, technologies and formats including source code, network diagrams, Infrastructure as Code, DevOps[fn:6], databases, servers and services.
+- Learn new skills and share complex ideas in a consistent repeatible way.
+
+
+Let us begin our journey into a better future.
+
+**** The Atom =org-mode= Package Road Map  
+
+ - Provide org-mode syntax highlighting to allow Atom users to easily create and maintain documentation. 
+
+*** Footnotes
+
+[fn:1] pun intended
+
+[fn:2] [[https://en.wikipedia.org/wiki/Literate_programming]]
+
+[fn:3] [[http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/]]
+
+[fn:4] [[https://github.com/fniessen/refcard-org-mode]]
+
+[fn:5] [[https://github.com/fniessen/org-html-themes]]
+
+[fn:6] [[http://howardism.org/Technical/Emacs/literate-devops.html]]
+
 * Export Settings                                                  :noexport:
 
 #+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline

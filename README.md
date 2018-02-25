@@ -1,5 +1,4 @@
 
-
 Welcome to Atom `org-mode` Package
 ==================================
 
