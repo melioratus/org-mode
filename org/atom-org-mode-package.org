@@ -21,9 +21,1111 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
   # Link to [[file:atom-org-mode-package.org::org-mode.cson][org-mode.cson Section]]
 
+- [[file:../grammars/shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson]]
+
+  # Link to [[file:atom-org-mode-package.org::shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson Section]]
+
 * Exported Files                                                   :noexport:
 
 ** grammars
+
+*** shell-unix-bash-org-mode.cson
+:PROPERTIES:
+:ID:       72AAECB5-1ECD-40D5-A38E-9DF98C7794E8
+:END:
+
+# Tangle file with C-u C-c C-v t
+
+#+BEGIN_SRC javascript :eval never :tangle ../grammars/shell-unix-bash-org-mode.cson :mkdirp yes 
+  'scopeName': 'source.shell-org-mode'
+  'name': 'Shell Script - Org-Mode Syntax'
+  'fileTypes': [
+    'sh'
+    'bash'
+    'ksh'
+    'zsh'
+    'zsh-theme'
+    'zshenv'
+    'zlogin'
+    'zlogout'
+    'zprofile'
+    'zshrc'
+    'bashrc'
+    'bash_aliases'
+    'bash_profile'
+    'bash_login'
+    'profile'
+    'bash_logout'
+    '.textmate_init'
+    'npmrc'
+    'PKGBUILD'
+    'install'
+    'cygport'
+    'bats'
+    'ebuild'
+  ]
+  'firstLineMatch': '''(?x)
+    # Hashbang
+    ^\\#!.*(?:\\s|\\/)
+      (?:bash|zsh|sh|tcsh|ksh|dash|ash|csh|rc)
+    (?:$|\\s)
+    |
+    # Modeline
+    (?i:
+      # Emacs
+      -\\*-(?:\\s*(?=[^:;\\s]+\\s*-\\*-)|(?:.*?[;\\s]|(?<=-\\*-))mode\\s*:\\s*)
+        (?:shell-script|sh)
+      (?=[\\s;]|(?<![-*])-\\*-).*?-\\*-
+      |
+      # Vim
+      (?:(?:\\s|^)vi(?:m[<=>]?\\d+|m)?|\\sex)(?=:(?=\\s*set?\\s[^\\n:]+:)|:(?!\\s* set?\\s))(?:(?:\\s|\\s*:\\s*)\\w*(?:\\s*=(?:[^\\n\\\\\\s]|\\\\.)*)?)*[\\s:](?:filetype|ft|syntax)\\s*=
+        sh
+      (?=\\s|:|$)
+    )
+  '''
+  'patterns': [
+    {
+      'include': '#comment'
+    }
+    {
+      'include': '#pipeline'
+    }
+    {
+      'include': '#list'
+    }
+    {
+      'include': '#compound-command'
+    }
+    {
+      'include': '#loop'
+    }
+    {
+      'include': '#string'
+    }
+    {
+      'include': '#function-definition'
+    }
+    {
+      'include': '#variable'
+    }
+    {
+      'include': '#interpolation'
+    }
+    {
+      'include': '#heredoc'
+    }
+    {
+      'include': '#herestring'
+    }
+    {
+      'include': '#redirection'
+    }
+    {
+      'include': '#pathname'
+    }
+    {
+      'include': '#keyword'
+    }
+    {
+      'include': '#support'
+    }
+  ]
+  'repository':
+    'case-clause':
+      'patterns': [
+        {
+          'begin': '(?=\\S)'
+          'end': ';;'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.terminator.case-clause.shell-org-mode'
+          'name': 'meta.scope.case-clause.shell-org-mode'
+          'patterns': [
+            {
+              'begin': '\\(|(?=\\S)'
+              'beginCaptures':
+                '0':
+                  'name': 'punctuation.definition.case-pattern.shell-org-mode'
+              'end': '\\)'
+              'endCaptures':
+                '0':
+                  'name': 'punctuation.definition.case-pattern.shell-org-mode'
+              'name': 'meta.scope.case-pattern.shell-org-mode'
+              'patterns': [
+                {
+                  'match': '\\|'
+                  'name': 'punctuation.separator.pipe-sign.shell-org-mode'
+                }
+                {
+                  'include': '#string'
+                }
+                {
+                  'include': '#variable'
+                }
+                {
+                  'include': '#interpolation'
+                }
+                {
+                  'include': '#pathname'
+                }
+              ]
+            }
+            {
+              'begin': '(?<=\\))'
+              'end': '(?=;;)'
+              'name': 'meta.scope.case-clause-body.shell-org-mode'
+              'patterns': [
+                {
+                  'include': '$self'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    'comment':
+      'begin': '(^\\s+)?(?<=^|\\W)(?=#)(?!#[{+])'
+      'beginCaptures':
+        '1':
+          'name': 'punctuation.whitespace.comment.leading.shell-org-mode'
+      'end': '(?!\\G)'
+      'patterns': [
+        {
+          'begin': '#!'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.comment.shebang.shell-org-mode'
+          'end': '$'
+          'name': 'comment.line.number-sign.shebang.shell-org-mode'
+        }
+        {
+          'begin': '#'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.comment.shell-org-mode'
+          'end': '$'
+          'name': 'comment.line.number-sign.shell-org-mode'
+        }
+      ]
+    'compound-command':
+      'patterns': [
+        {
+          'begin': '\\[{1,2}'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.logical-expression.shell-org-mode'
+          'end': '\\]{1,2}'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.logical-expression.shell-org-mode'
+          'name': 'meta.scope.logical-expression.shell-org-mode'
+          'patterns': [
+            {
+              'include': '#logical-expression'
+            }
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '\\({2}'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '\\){2}'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.other.math.shell-org-mode'
+          'patterns': [
+            {
+              'include': '#math'
+            }
+          ]
+        }
+        {
+          'begin': '\\('
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.subshell.shell-org-mode'
+          'end': '\\)'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.subshell.shell-org-mode'
+          'name': 'meta.scope.subshell.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '(?<=\\s|^){(?=\\s|$)'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.group.shell-org-mode'
+          'end': '(?<=^|;)\\s*(})'
+          'endCaptures':
+            '1':
+              'name': 'punctuation.definition.group.shell-org-mode'
+          'name': 'meta.scope.group.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+      ]
+    'function-definition':
+      'patterns': [
+        {
+          'begin': '(?<=^|;|&|\\s)(function)\\s+([^\\s\\\\]+)(?:\\s*(\\(\\)))?'
+          'beginCaptures':
+            '1':
+              'name': 'storage.type.function.shell-org-mode'
+            '2':
+              'name': 'entity.name.function.shell-org-mode'
+            '3':
+              'name': 'punctuation.definition.arguments.shell-org-mode'
+          'end': ';|&|$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.function.shell-org-mode'
+          'name': 'meta.function.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '(?<=^|;|&|\\s)([^\\s\\\\=]+)\\s*(\\(\\))'
+          'beginCaptures':
+            '1':
+              'name': 'entity.name.function.shell-org-mode'
+            '2':
+              'name': 'punctuation.definition.arguments.shell-org-mode'
+          'end': ';|&|$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.function.shell-org-mode'
+          'name': 'meta.function.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+      ]
+    'heredoc':
+      'patterns': [
+        {
+          'begin': '(<<)-("|\'|)\\s*(RUBY)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(RUBY)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.ruby.shell-org-mode'
+          'contentName': 'source.ruby.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.ruby'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*(RUBY)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(RUBY)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.ruby.shell-org-mode'
+          'contentName': 'source.ruby.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.ruby'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)-("|\'|)\\s*(PYTHON)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(PYTHON)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.python.shell-org-mode'
+          'contentName': 'source.python.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.python'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*(PYTHON)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(PYTHON)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.python.shell-org-mode'
+          'contentName': 'source.python.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.python'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)-("|\'|)\\s*(APPLESCRIPT)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(APPLESCRIPT)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.applescript.shell-org-mode'
+          'contentName': 'source.applescript.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.applescript'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*(APPLESCRIPT)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(APPLESCRIPT)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.applescript.shell-org-mode'
+          'contentName': 'source.applescript.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.applescript'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)-("|\'|)\\s*(HTML)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(HTML)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.html.shell-org-mode'
+          'contentName': 'text.html.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'text.html.basic'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*(HTML)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(HTML)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.html.shell-org-mode'
+          'contentName': 'text.html.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'text.html.basic'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)-("|\'|)\\s*(MARKDOWN)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(MARKDOWN)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.markdown.shell-org-mode'
+          'contentName': 'text.html.markdown.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'text.html.markdown'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*(MARKDOWN)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(MARKDOWN)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.markdown.shell-org-mode'
+          'contentName': 'text.html.markdown.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'text.html.markdown'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)-("|\'|)\\s*(TEXTILE)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(TEXTILE)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.textile.shell-org-mode'
+          'contentName': 'text.html.textile.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'text.html.textile'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*(TEXTILE)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(TEXTILE)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.textile.shell-org-mode'
+          'contentName': 'text.html.textile.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'text.html.textile'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)-("|\'|)\\s*(SHELL)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(\\3)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'contentName': 'source.shell.embedded.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.shell.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.shell-org-mode'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*(SHELL)(?=\\s|;|&|<|"|\')\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(\\3)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.shell.shell-org-mode'
+          'contentName': 'source.shell.embedded.shell-org-mode'
+          'patterns': [
+            {
+              'include': 'source.shell-org-mode'
+            }
+          ]
+        }
+        {
+          'begin': '(<<)-("|\'|)\\s*\\\\?([^;&<\\s]+)\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^\\t*(\\3)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.no-indent.shell-org-mode'
+        }
+        {
+          'begin': '(<<)("|\'|)\\s*\\\\?([^;&<\\s]+)\\2'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.heredoc.shell-org-mode'
+            '3':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'end': '^(\\3)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.heredoc-token.shell-org-mode'
+          'name': 'string.unquoted.heredoc.shell-org-mode'
+        }
+      ]
+    'herestring':
+      'patterns': [
+        {
+          'begin': '(<<<)\\s*((\'))'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.herestring.shell-org-mode'
+            '2':
+              'name': 'string.quoted.single.shell-org-mode'
+            '3':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '(\')'
+          'endCaptures':
+            '0':
+              'name': 'string.quoted.single.shell-org-mode'
+            '1':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'meta.herestring.shell-org-mode'
+          'contentName': 'string.quoted.single.shell-org-mode'
+        }
+        {
+          'begin': '(<<<)\\s*(("))'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.herestring.shell-org-mode'
+            '2':
+              'name': 'string.quoted.double.shell-org-mode'
+            '3':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '(")'
+          'endCaptures':
+            '0':
+              'name': 'string.quoted.double.shell-org-mode'
+            '1':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'meta.herestring.shell-org-mode'
+          'contentName': 'string.quoted.double.shell-org-mode'
+        }
+        {
+          'captures':
+            '1':
+              'name': 'keyword.operator.herestring.shell-org-mode'
+            '2':
+              'name': 'string.unquoted.herestring.shell-org-mode'
+              'patterns': [
+                {
+                  'include': '$self'
+                }
+              ]
+          'match': '(<<<)\\s*(([^\\s)\\\\]|\\\\.)+)'
+          'name': 'meta.herestring.shell-org-mode'
+        }
+      ]
+    'interpolation':
+      'patterns': [
+        {
+          'begin': '\\$\\({2}'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '\\){2}'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.other.math.shell-org-mode'
+          'patterns': [
+            {
+              'include': '#math'
+            }
+          ]
+        }
+        {
+          'begin': '`'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '`'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.interpolated.backtick.shell-org-mode'
+          'patterns': [
+            {
+              'match': '\\\\[`\\\\$]'
+              'name': 'constant.character.escape.shell-org-mode'
+            }
+            {
+              # Lifted from the #comment section to handle ending on ` instead of $
+              'begin': '(?<=\\W)(?=#)(?!#[{+])'
+              'beginCaptures':
+                '1':
+                  'name': 'punctuation.whitespace.comment.leading.shell-org-mode'
+              'end': '(?!\\G)'
+              'patterns': [
+                {
+                  'begin': '#'
+                  'beginCaptures':
+                    '0':
+                      'name': 'punctuation.definition.comment.shell-org-mode'
+                  'end': '(?=`)'
+                  'name': 'comment.line.number-sign.shell-org-mode'
+                }
+              ]
+            }
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '\\$\\('
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '\\)'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.interpolated.dollar.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+      ]
+    'keyword':
+      'patterns': [
+        {
+          'match': '(?<=^|;|&|\\s)(then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)(?=\\s|;|&|$)'
+          'name': 'keyword.control.shell-org-mode'
+        }
+        {
+          'match': '(?<=^|;|&|\\s)(?:export|declare|typeset|local|readonly)(?=\\s|;|&|$)'
+          'name': 'storage.modifier.shell-org-mode'
+        }
+      ]
+    'list':
+      'patterns': [
+        {
+          'match': ';|&&|&|\\|\\|'
+          'name': 'keyword.operator.list.shell-org-mode'
+        }
+      ]
+    'logical-expression':
+      'patterns': [
+        {
+          'comment': 'do we want a special rule for ( expr )?'
+          'match': '=[=~]?|!=?|<|>|&&|\\|\\|'
+          'name': 'keyword.operator.logical.shell-org-mode'
+        }
+        {
+          'match': '(?<!\\S)-(nt|ot|ef|eq|ne|l[te]|g[te]|[a-hknoprstuwxzOGLSN])'
+          'name': 'keyword.operator.logical.shell-org-mode'
+        }
+      ]
+    'loop':
+      'patterns': [
+        {
+          'begin': '(?<=^|;|&|\\s)(for)\\s+(?=\\({2})'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.control.shell-org-mode'
+          'end': '(?<=^|;|&|\\s)done(?=\\s|;|&|$)'
+          'endCaptures':
+            '0':
+              'name': 'keyword.control.shell-org-mode'
+          'name': 'meta.scope.for-loop.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '(?<=^|;|&|\\s)(for)\\s+(.+?)\\s+(in)(?=\\s|;|&|$)'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.control.shell-org-mode'
+            '2':
+              'name': 'variable.other.loop.shell-org-mode'
+              'patterns': [
+                {
+                  'include': '#string'
+                }
+              ]
+            '3':
+              'name': 'keyword.control.shell-org-mode'
+          'end': '(?<=^|;|&|\\s)done(?=\\s|;|&|$)'
+          'endCaptures':
+            '0':
+              'name': 'keyword.control.shell-org-mode'
+          'name': 'meta.scope.for-in-loop.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '(?<=^|;|&|\\s)(while|until)(?=\\s|;|&|$)'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.control.shell-org-mode'
+          'end': '(?<=^|;|&|\\s)done(?=\\s|;|&|$)'
+          'endCaptures':
+            '0':
+              'name': 'keyword.control.shell-org-mode'
+          'name': 'meta.scope.while-loop.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '(?<=^|;|&|\\s)(select)\\s+((?:[^\\s\\\\]|\\\\.)+)(?=\\s|;|&|$)'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.control.shell-org-mode'
+            '2':
+              'name': 'variable.other.loop.shell-org-mode'
+          'end': '(?<=^|;|&|\\s)(done)(?=\\s|;|&|$)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.shell-org-mode'
+          'name': 'meta.scope.select-block.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '(?<=^|;|&|\\s)case(?=\\s|;|&|$)'
+          'beginCaptures':
+            '0':
+              'name': 'keyword.control.shell-org-mode'
+          'end': '(?<=^|;|&|\\s)esac(?=\\s|;|&|$)'
+          'endCaptures':
+            '0':
+              'name': 'keyword.control.shell-org-mode'
+          'name': 'meta.scope.case-block.shell-org-mode'
+          'patterns': [
+            {
+              'begin': '(?<=^|;|&|\\s)in(?=\\s|;|&|$)'
+              'beginCaptures':
+                '0':
+                  'name': 'keyword.control.shell-org-mode'
+              'end': '(?<=^|;|&|\\s)(?=esac(\\s|;|&|$))'
+              'name': 'meta.scope.case-body.shell-org-mode'
+              'patterns': [
+                {
+                  'include': '#comment'
+                }
+                {
+                  'include': '#case-clause'
+                }
+                {
+                  'include': '$self'
+                }
+              ]
+            }
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          'begin': '(?<=^|;|&|\\s)if(?=\\s|;|&|$)'
+          'beginCaptures':
+            '0':
+              'name': 'keyword.control.shell-org-mode'
+          'end': '(?<=^|;|&|\\s)fi(?=\\s|;|&|$)'
+          'endCaptures':
+            '0':
+              'name': 'keyword.control.shell-org-mode'
+          'name': 'meta.scope.if-block.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+      ]
+    'math':
+      'patterns': [
+        {
+          'include': '#variable'
+        }
+        {
+          'match': '\\+{1,2}|-{1,2}|!|~|\\*{1,2}|/|%|<[<=]?|>[>=]?|==|!=|^|\\|{1,2}|&{1,2}|\\?|\\:|,|=|[*/%+\\-&^|]=|<<=|>>='
+          'name': 'keyword.operator.arithmetic.shell-org-mode'
+        }
+        {
+          'match': '0[xX][0-9A-Fa-f]+'
+          'name': 'constant.numeric.hex.shell-org-mode'
+        }
+        {
+          'match': '0\\d+'
+          'name': 'constant.numeric.octal.shell-org-mode'
+        }
+        {
+          'match': '\\d{1,2}#[0-9a-zA-Z@_]+'
+          'name': 'constant.numeric.other.shell-org-mode'
+        }
+        {
+          'match': '\\d+'
+          'name': 'constant.numeric.integer.shell-org-mode'
+        }
+      ]
+    'pathname':
+      'patterns': [
+        {
+          'match': '(?<=\\s|:|=|^)~'
+          'name': 'keyword.operator.tilde.shell-org-mode'
+        }
+        {
+          'match': '\\*|\\?'
+          'name': 'keyword.operator.glob.shell-org-mode'
+        }
+        {
+          'begin': '([?*+@!])(\\()'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.operator.extglob.shell-org-mode'
+            '2':
+              'name': 'punctuation.definition.extglob.shell-org-mode'
+          'end': '\\)'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.extglob.shell-org-mode'
+          'name': 'meta.structure.extglob.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+      ]
+    'pipeline':
+      'patterns': [
+        {
+          'match': '(?<=^|;|&|\\s)(time)(?=\\s|;|&|$)'
+          'name': 'keyword.other.shell-org-mode'
+        }
+        {
+          'match': '[|!]'
+          'name': 'keyword.operator.pipe.shell-org-mode'
+        }
+      ]
+    'redirection':
+      'patterns': [
+        {
+          'begin': '[><]\\('
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '\\)'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.interpolated.process-substitution.shell-org-mode'
+          'patterns': [
+            {
+              'include': '$self'
+            }
+          ]
+        }
+        {
+          # valid: &>word >&word >word [n]>&[n] [n]<word [n]>word [n]>>word [n]<&word (last one is duplicate)
+          'match': '(?<![<>])(&>|\\d*>&\\d*|\\d*(>>|>|<)|\\d*<&|\\d*<>)(?![<>])'
+          'name': 'keyword.operator.redirect.shell-org-mode'
+        }
+      ]
+    'string':
+      'patterns': [
+        {
+          'match': '\\\\.'
+          'name': 'constant.character.escape.shell-org-mode'
+        }
+        {
+          'begin': '\''
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '\''
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.quoted.single.shell-org-mode'
+        }
+        {
+          'begin': '\\$?"'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '"'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.quoted.double.shell-org-mode'
+          'patterns': [
+            {
+              'match': '\\\\[\\$`"\\\\\\n]'
+              'name': 'constant.character.escape.shell-org-mode'
+            }
+            {
+              'include': '#variable'
+            }
+            {
+              'include': '#interpolation'
+            }
+          ]
+        }
+        {
+          'begin': '\\$\''
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.shell-org-mode'
+          'end': '\''
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.shell-org-mode'
+          'name': 'string.quoted.single.dollar.shell-org-mode'
+          'patterns': [
+            {
+              'match': '\\\\(a|b|e|f|n|r|t|v|\\\\|\')'
+              'name': 'constant.character.escape.ansi-c.shell-org-mode'
+            }
+            {
+              'match': '\\\\[0-9]{3}'
+              'name': 'constant.character.escape.octal.shell-org-mode'
+            }
+            {
+              'match': '\\\\x[0-9a-fA-F]{2}'
+              'name': 'constant.character.escape.hex.shell-org-mode'
+            }
+            {
+              'match': '\\\\c.'
+              'name': 'constant.character.escape.control-char.shell-org-mode'
+            }
+          ]
+        }
+      ]
+    'support':
+      'patterns': [
+        {
+          'match': '(?<=^|;|&|\\s)(?::|\\.)(?=\\s|;|&|$)'
+          'name': 'support.function.builtin.shell-org-mode'
+        }
+        {
+          'match': '(?<=^|;|&|\\s)(?:alias|bg|bind|break|builtin|caller|cd|command|compgen|complete|dirs|disown|echo|enable|eval|exec|exit|false|fc|fg|getopts|hash|help|history|jobs|kill|let|logout|popd|printf|pushd|pwd|read|readonly|set|shift|shopt|source|suspend|test|times|trap|true|type|ulimit|umask|unalias|unset|wait)(?=\\s|;|&|$)'
+          'name': 'support.function.builtin.shell-org-mode'
+        }
+      ]
+    'variable':
+      'patterns': [
+        {
+          'captures':
+            '1':
+              'name': 'punctuation.definition.variable.shell-org-mode'
+          'match': '(\\$)[a-zA-Z_][a-zA-Z0-9_]*'
+          'name': 'variable.other.normal.shell-org-mode'
+        }
+        {
+          'captures':
+            '1':
+              'name': 'punctuation.definition.variable.shell-org-mode'
+          'match': '(\\$)[-*@#?$!0_]'
+          'name': 'variable.other.special.shell-org-mode'
+        }
+        {
+          'captures':
+            '1':
+              'name': 'punctuation.definition.variable.shell-org-mode'
+          'match': '(\\$)[1-9]'
+          'name': 'variable.other.positional.shell-org-mode'
+        }
+        {
+          'begin': '\\${'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.variable.shell-org-mode'
+          'end': '}'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.variable.shell-org-mode'
+          'name': 'variable.other.bracket.shell-org-mode'
+          'patterns': [
+            {
+              'match': '!|:[-=?]?|\\*|@|\#\{1,2}|%{1,2}|/' # #{ is escaped to prevent coffeelint complaining about interpolation
+              'name': 'keyword.operator.expansion.shell-org-mode'
+            }
+            {
+              'captures':
+                '1':
+                  'name': 'punctuation.section.array.shell-org-mode'
+                '3':
+                  'name': 'punctuation.section.array.shell-org-mode'
+              'match': '(\\[)([^\\]]+)(\\])'
+            }
+            {
+              'include': '#variable'
+            }
+            {
+              'include': '#string'
+            }
+          ]
+        }
+      ]
+
+#+END_SRC
 
 *** org-mode.cson
 :PROPERTIES:
@@ -1219,6 +2321,7 @@ Let us begin our journey into a better future.
 - [[file:package.json][package.json]]
 - [[file:coffeelint.json][coffeelint.json]]
 - [[file:grammars/org-mode.cson][org-mode.cson]]
+- [[file:grammars/shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson]]
 
 *** Footnotes
 
