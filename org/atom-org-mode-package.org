@@ -5,399 +5,1073 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
 * Package Files
 
-- [[file:../README.md][README.md]]
-
-  # Link to [[file:atom-org-mode-package.org::README.md][README.md Section]]
-
-- [[file:../package.json][package.json]]
-
-  # Link to [[file:atom-org-mode-package.org::package.json][package.json Section]]
-
 - [[file:../coffeelint.json][coffeelint.json]]
 
   # Link to [[file:atom-org-mode-package.org::coffeelint.json][coffeelint.json Section]]
-
-- [[file:../grammars/org-mode.cson][org-mode.cson]]
-
-  # Link to [[file:atom-org-mode-package.org::org-mode.cson][org-mode.cson Section]]
-
-- [[file:../grammars/shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson]]
-
-  # Link to [[file:atom-org-mode-package.org::shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson Section]]
-
-- [[file:../styles/org-mode.less][org-mode.less]]
-
-  # Link to [[file:atom-org-mode-package.org::org-mode.less][shell-unix-bash-org-mode.less Section]]
 
 - [[file:../spec/org-mode-spec.coffee][org-mode-spec.coffee]]
 
   # Link to [[file:atom-org-mode-package.org::org-mode-spec.coffee][org-mode-spec.coffee Section]]
 
+- [[file:../grammars/org-mode.cson][org-mode.cson]]
+
+  # Link to [[file:atom-org-mode-package.org::org-mode.cson][org-mode.cson Section]]
+
+- [[file:../styles/org-mode.less][org-mode.less]]
+
+  # Link to [[file:atom-org-mode-package.org::org-mode.less][shell-unix-bash-org-mode.less Section]]
+
+- [[file:../package.json][package.json]]
+
+  # Link to [[file:atom-org-mode-package.org::package.json][package.json Section]]
+
+- [[file:../README.md][README.md]]
+
+  # Link to [[file:atom-org-mode-package.org::README.md][README.md Section]]
+
+- [[file:../grammars/shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson]]
+
+  # Link to [[file:atom-org-mode-package.org::shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson Section]]
+
 * Exported Files                                                   :noexport:
 
-** spec
-
-*** org-mode-spec.coffee
+** coffeelint.json                                                :noexport:
 :PROPERTIES:
-:ID:       3373486E-50FB-4A83-9E04-4630A5A3DD58
-:END:
-
-#+BEGIN_SRC javascript :eval never :tangle ../spec/org-mode-spec.coffee :mkdirp yes 
-  describe "org-mode package grammar", ->
-    grammar = null
-
-    beforeEach ->
-      waitsForPromise ->
-        atom.packages.activatePackage("org-mode")
-
-      runs ->
-        grammar = atom.grammars.grammarForScopeName("source.org-mode")
-
-    it "parses the grammar", ->
-      expect(grammar).toBeDefined()
-      expect(grammar.scopeName).toBe "source.org-mode"
-
-    it "tokenizes spaces", ->
-      {tokens} = grammar.tokenizeLine(" ")
-      expect(tokens[0]).toEqual value: " ", scopes: ["source.org-mode"]
-
-    it "tokenizes single line comments", ->
-      {tokens} = grammar.tokenizeLine(" # this is a comment")
-      expect(tokens[0]).toEqual value: " # ", scopes: ["source.org-mode", "comment.line.org-mode","punctuation.definition.comment.org-mode"]
-      expect(tokens[1]).toEqual value: "this is a comment", scopes: ["source.org-mode", "comment.line.org-mode"]
-
-    it "tokenizes multi line comments", ->
-      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
-      ,#+BEGIN_COMMENT
-      This is a
-      multi line comment.
-      ,#+END_COMMENT
-      """
-      expect(firstLineTokens[0]).toEqual value: "#+BEGIN_COMMENT", scopes: ["source.org-mode", "comment.block.org-mode", "punctuation.definition.comment.org-mode"]
-      expect(secondLineTokens[0]).toEqual value: "This is a", scopes: ["source.org-mode", "comment.block.org-mode"]
-      expect(thirdLineTokens[0]).toEqual value: "multi line comment.", scopes: ["source.org-mode", "comment.block.org-mode"]
-      expect(forthLineTokens[0]).toEqual value: "#+END_COMMENT", scopes: ["source.org-mode", "comment.block.org-mode", "punctuation.definition.comment.org-mode"]
-
-    it "tokenizes single line literal examples", ->
-      {tokens} = grammar.tokenizeLine(" : This is a literal example on single line.")
-      expect(tokens[0]).toEqual value: " : ", scopes: ["source.org-mode", "string.unquoted.org-mode", "punctuation.definition.string.org-mode"]
-      expect(tokens[1]).toEqual value: "This is a literal example on single line.", scopes: ["source.org-mode", "string.unquoted.org-mode"]
-
-    it "tokenizes multi line literal examples", ->
-      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
-      ,#+BEGIN_EXAMPLE
-      This is a
-      multiple line literal example.
-      ,#+END_EXAMPLE
-      """
-      expect(firstLineTokens[0]).toEqual value: "#+BEGIN_EXAMPLE", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
-      expect(secondLineTokens[0]).toEqual value: "This is a", scopes: ["source.org-mode", "string.unquoted.org-mode"]
-      expect(thirdLineTokens[0]).toEqual value: "multiple line literal example.", scopes: ["source.org-mode", "string.unquoted.org-mode"]
-      expect(forthLineTokens[0]).toEqual value: "#+END_EXAMPLE", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
-
-    it "tokenizes multi line quote blocks", ->
-      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
-      ,#+BEGIN_QUOTE
-      This is a
-      multiple line quote.
-      ,#+END_QUOTE
-      """
-      expect(firstLineTokens[0]).toEqual value: "#+BEGIN_QUOTE", scopes: ["source.org-mode", "punctuation.definition.quote.org-mode"]
-      expect(secondLineTokens[0]).toEqual value: "This is a", scopes: ["source.org-mode", "markup.quote.org-mode"]
-      expect(thirdLineTokens[0]).toEqual value: "multiple line quote.", scopes: ["source.org-mode", "markup.quote.org-mode"]
-      expect(forthLineTokens[0]).toEqual value: "#+END_QUOTE", scopes: ["source.org-mode", "punctuation.definition.quote.org-mode"]
-
-
-    it "tokenizes shell code blocks", ->
-      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens, fifthLineTokens, sixthLineTokens] = grammar.tokenizeLines """
-      ,#+NAME: shell-code
-      ,#+BEGIN_SRC shell :eval never :noweb yes
-      VARIABLE_NAME=`hostname`
-      echo ${VARIABLE_NAME}
-      ,#+END_SRC
-      # Comment below shell-code
-      """
-      # Disabled # expect(firstLineTokens[0]).toEqual value: "#+NAME: shell-code", scopes: ["source.org-mode"]
-      expect(secondLineTokens[0]).toEqual value: "#+BEGIN_SRC ", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
-      expect(secondLineTokens[1]).toEqual value: "shell", scopes: ["source.org-mode", "code-block.type.org-mode"]
-      expect(secondLineTokens[2]).toEqual value: " :eval never :noweb yes", scopes: ["source.org-mode", "code-block.code-block-headers.org-mode"]
-      # Disabled # expect(secondLineTokens[3]).toEqual value: "This is a", scopes: ["source.org-mode", "bc4"]
-      # Disabled # expect(secondLineTokens[4]).toEqual value: "This is a", scopes: ["source.org-mode", "bc5"]
-      expect(thirdLineTokens[0]).toEqual value: "VARIABLE_NAME=", scopes: ["source.org-mode", "source.embedded.shell-org-mode"]
-      expect(thirdLineTokens[1]).toEqual value: "`", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "string.interpolated.backtick.shell-org-mode", "punctuation.definition.string.begin.shell-org-mode"]
-      expect(thirdLineTokens[2]).toEqual value: "hostname", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "string.interpolated.backtick.shell-org-mode"]
-      expect(thirdLineTokens[3]).toEqual value: "`", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "string.interpolated.backtick.shell-org-mode", "punctuation.definition.string.end.shell-org-mode"]
-      expect(forthLineTokens[0]).toEqual value: "echo", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "support.function.builtin.shell-org-mode"]
-      expect(forthLineTokens[1]).toEqual value: " ", scopes: ["source.org-mode", "source.embedded.shell-org-mode"]
-      expect(forthLineTokens[2]).toEqual value: "${", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "variable.other.bracket.shell-org-mode", "punctuation.definition.variable.shell-org-mode"]
-      expect(forthLineTokens[3]).toEqual value: "VARIABLE_NAME", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "variable.other.bracket.shell-org-mode"]
-      expect(forthLineTokens[4]).toEqual value: "}", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "variable.other.bracket.shell-org-mode", "punctuation.definition.variable.shell-org-mode"]
-      expect(fifthLineTokens[0]).toEqual value: "#+END_SRC", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
-      expect(sixthLineTokens[0]).toEqual value: "# ", scopes: ["source.org-mode", "comment.line.org-mode", "punctuation.definition.comment.org-mode"]
-      expect(sixthLineTokens[1]).toEqual value: "Comment below shell-code", scopes: ["source.org-mode", "comment.line.org-mode"]
-
-
-
-    it "tokenizes heading 9", ->
-      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
-      ,********* Heading 9
-      Body of Heading - Line 1
-      ,* Another Heading
-      """
-      expect(firstLineTokens[0]).toEqual value: "********", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode", "leading-star.org-mode"]
-      expect(firstLineTokens[1]).toEqual value: "*", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode", "markup.heading.marker.org-mode"]
-      expect(firstLineTokens[2]).toEqual value: " ", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode", "markup.heading.space.org-mode"]
-      expect(firstLineTokens[3]).toEqual value: "Heading 9", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode"]
-      expect(secondLineTokens[0]).toEqual value: "Body of Heading - Line 1", scopes: ["source.org-mode"]
-      expect(thirdLineTokens[0]).toEqual value: "*", scopes: ["source.org-mode", "markup.heading.heading-1.org-mode", "markup.heading.marker.org-mode"]
-
-  #
-  #   it "tokenizes heading 8", ->
-  #     [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens, fifthLineTokens] = grammar.tokenizeLines """
-  #     ******** Heading 8
-  #     Body of Heading - Line 1
-  #     ********* Heading 9
-  #     Body of Heading - Line 1
-  #     * Another Heading
-  #     """
-  #     expect(firstLineTokens[0]).toEqual value: "********", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "punctuation.definition.markup.heading.heading-8.begin.org-mode"]
-  #     expect(firstLineTokens[1]).toEqual value: " ", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "punctuation.definition.markup.heading.spaces.org-mode"]
-  #     expect(firstLineTokens[2]).toEqual value: "Heading 8", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "markup.heading.org-mode"]
-  #     expect(secondLineTokens[0]).toEqual value: "Body of Heading - Line 1", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", 'meta.section.block']
-  #     expect(thirdLineTokens[0]).toEqual value: "#+END_QUOTE", scopes: ["source.org-mode", "text.plain.embedded.org-mode", "punctuation.definition.string.org-mode"]
-  #     expect(forthLineTokens[0]).toEqual value: "* ", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "punctuation.definition.markup.heading.heading-8.end.org-mode"]
-
-#+END_SRC
-
-** styles
-
-*** org-mode.less
-:PROPERTIES:
-:ID:       845DF488-2DEB-4F11-911C-D036DDDF66DC
+:ID:       05A40356-D779-4E4B-9DDB-14D86B00ED74
 :END:
 
 # Tangle file with C-u C-c C-v t
 
-#+BEGIN_SRC css  :eval never :tangle ../styles/org-mode.less :mkdirp yes 
-  // The ui-variables file is provided by base themes provided by Atom.
-  //
-  // See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
-  // for a full listing of what's available.
-  @import "ui-variables";
-
-  @default-very-light-gray: #c5c8c6;
-  @default-light-gray: #969896;
-  @default-gray: #373b41;
-  @default-dark-gray: #282a2e;
-  @default-very-dark-gray: #1d1f21;
-
-  @default-cyan: cyan;
-  @default-blue: blue;
-  @default-purple: purple;
-  @default-green: green;
-  @default-red: red;
-  @default-orange: orange;
-  @default-light-orange: #ffd280;
-
-
-  .grammar-tests {
-  }
-
-
-  .syntax--bold.syntax--org-mode  {
-    color: lighten(@syntax-text-color, 15%);
-    font-weight: bold;
-  }
-
-  .syntax--italic.syntax--org-mode  {
-    // color: lighten(@syntax-text-color, 15%);
-    font-style: italic;
-  }
-
-  .syntax--underline.syntax--org-mode  {
-    // color: lighten(@syntax-text-color, 15%);
-    text-decoration: underline;
-  }
-
-  .syntax--strike.syntax--org-mode  {
-    // color: lighten(@default-red, 25%);
-    text-decoration: line-through;
-    font-weight: 100;
-  }
-
-  .syntax--leading-star.syntax--org-mode  {
-    color: @syntax-invisible-character-color;
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+#+BEGIN_SRC javascript :eval never :tangle ../coffeelint.json 
+  {
+    "max_line_length": {
+      "level": "ignore"
+    },
+    "no_empty_param_list": {
+      "level": "error"
+    },
+    "arrow_spacing": {
+      "level": "error"
+    },
+    "no_interpolation_in_single_quotes": {
+      "level": "error"
+    },
+    "no_debugger": {
+      "level": "error"
+    },
+    "prefer_english_operator": {
+      "level": "error"
+    },
+    "colon_assignment_spacing": {
+      "spacing": {
+        "left": 0,
+        "right": 1
+      },
+      "level": "error"
+    },
+    "braces_spacing": {
+      "spaces": 0,
+      "level": "error"
+    },
+    "spacing_after_comma": {
+      "level": "error"
+    },
+    "no_stand_alone_at": {
+      "level": "error"
     }
-  }
-
-  .syntax--heading-1.syntax--org-mode  {
-     font-weight: bolder;
-  }
-
-   .syntax--heading-2.syntax--org-mode  {
-     font-weight: bolder;
-  }
-
-  .syntax--heading-3.syntax--org-mode  {
-    font-weight: bolder;
-  }
-
-  .syntax--heading-4.syntax--org-mode  {
-    font-weight: bolder;
-  }
-
-  .syntax--heading-5.syntax--org-mode  {
-    font-weight: bolder;
-  }
-
-  .syntax--heading-6.syntax--org-mode  {
-    font-weight: bolder;
-  }
-
-  .syntax--heading-7.syntax--org-mode  {
-    font-weight: bolder;
-  }
-
-  .syntax--heading-8.syntax--org-mode  {
-    font-weight: bolder;
-  }
-
-  .syntax--heading-9.syntax--org-mode  {
-    font-weight: bolder;
-  }
-
-  .syntax--variable.syntax--checkbox.syntax--list.syntax--org-mode {
-    font-weight: bolder;
-  }
-
-  .syntax--variable.syntax--ordered.syntax--list.syntax--org-mode {
-    // color: darken(@syntax-text-color, 11%);
-    font-weight: 500;
-    &:hover {
-      font-weight: bolder;
-    }
-  }
-
-  .syntax--variable.syntax--unordered.syntax--list.syntax--org-mode {
-    // color: darken(@syntax-text-color, 11%);
-    font-weight: 500;
-    &:hover {
-      font-weight: bolder;
-    }
-  }
-
-  .syntax--constant.syntax--task.syntax--status.syntax--todo.syntax--org-mode {
-    //color: darken(@syntax-background-color, 15%);
-    background-color: darken(@syntax-background-color, 5%);
-    font-family: monospace;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 5px;
-  }
-
-  .syntax--constant.syntax--task.syntax--status.syntax--done.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    background-color: darken(@syntax-background-color, 1%);
-    font-family: monospace;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 5px;
-  }
-
-  .syntax--punctuation.syntax--definition.syntax--quote.syntax--org-mode {
-
-    color: @syntax-invisible-character-color;
-
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-    }
-  }
-
-  .syntax--markup.syntax--quote.syntax--org-mode {
-     font-weight: 100;
-     color: darken(@syntax-text-color, 20%);
-     &::before {
-       content: "  ";
-     }
-  }
-
-  .syntax--string.syntax--unquoted.syntax--org-mode {
-    font-weight: 100;
-    color: @syntax-text-color;
-  }
-
-  .syntax--punctuation.syntax--definition.syntax--string.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-    }
-  }
-
-  // punctuation.definition.entity
-  .syntax--punctuation.syntax--definition.syntax--character.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    font-style: normal;
-    font-weight: 100;
-
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-    }
-  }
-
-  .syntax--markup.syntax--code.syntax--line.syntax--org-mode {
-    font-family: serif;
-    // font-weight: lighter;
-  }
-
-  .syntax--markup.syntax--verbatim.syntax--org-mode {
-    // color: lighten(blue, 20%);
-    font-family: monospace;
-  }
-  .syntax--border.syntax--pipe.syntax--outer {
-    color: multiply(@syntax-invisible-character-color, gray);
-    font-weight: bold;
-  }
-  .syntax--border.syntax--header {
-    color: multiply(@syntax-invisible-character-color, gray);
-    font-weight: bold;
-    text-decoration: line-through;
-  }
-
-  .syntax--border.syntax--pipe.syntax--inner {
-    color: multiply(@syntax-invisible-character-color, gray);
-    font-weight: bold;
-  }
-
-  .syntax--table {
-      // background-color: lighten(@syntax-background-color, 2%);
-  }
-
-  .syntax--code-block.syntax--type.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    font-style: italic;
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-      font-style: normal;
-      font-weight: bold;
-    }
-
-  }
-
-  .syntax--code-block.syntax--code-block-headers.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    font-style: italic;
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-      font-style: normal;
-    }
-
   }
 #+END_SRC
 
 ** grammars
+
+*** org-mode.cson
+:PROPERTIES:
+:ID:       93C158C1-6209-4A22-9C45-0E46CD7DE030
+:END:
+
+# Tangle file with C-u C-c C-v t
+
+#+BEGIN_SRC javascript :eval never :tangle ../grammars/org-mode.cson :mkdirp yes 
+  'name': 'Org-Mode Syntax'
+  'scopeName': 'source.org-mode'
+  'limitLineLength': false
+  'fileTypes': [
+    'org-mode'
+    'org'
+  ]
+  'patterns': [
+    {
+      'include': '#comment-line'
+    }
+    {
+      'include': '#comment-block'
+    }
+    {
+      'include': '#example-line'
+    }
+    {
+      'include': '#example-block'
+    }
+    {
+      'include': '#quote-block'
+    }
+    {
+      'include': '#verbatim'
+    }
+    {
+      'include': '#code'
+    }
+    {
+      'include': '#emphasis'
+    }
+    {
+      'include': '#code-block-shell'
+    }
+    {
+      'include': '#code-block-ruby'
+    }
+    {
+      'include': '#code-block-python'
+    }
+    {
+      'include': '#code-block-sql'
+    }
+    {
+      'include': '#code-block-css'
+    }
+    {
+      'include': '#options-line'
+    }
+    {
+      'include': '#keywords-line'
+    }
+    {
+      'include': '#babel-call'
+    }
+
+    {
+      'begin': '^(\\*{3})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-4.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{4})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-5.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{5})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-6.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{6})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-7.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+    {
+      'begin': '^(-----BEGIN PGP MESSAGE-----)$'
+      'end': '^(-----END PGP MESSAGE-----)$'
+      'name': 'crypt.pgp.message.string.org-mode'
+      'beginCaptures':
+        '1':
+          'name': 'crypt.pgp.message.begin.string.org-mode'
+      'endCaptures':
+        '1':
+          'name': 'crypt.pgp.message.begin.string.org-mode'
+      'patterns': [
+      ]
+    }
+
+
+    {
+      'match': '^(\\s*\\d+\\.)(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
+      'captures':
+        '1':
+          'name': 'variable.ordered.list.org-mode'
+        '2':
+          'name': 'punctuation.definition.list.space.org-mode'
+        '3':
+          'name': 'variable.checkbox.list.org-mode'
+        '4':
+          'name': 'punctuation.definition.checkbox.begin.list.org-mode'
+        '5':
+          'name': 'checkbox.string.org-mode'
+        '6':
+          'name': 'punctuation.definition.checkbox.end.list.org-mode'
+    }
+
+    {
+      'match': '^(\\s+[*]|\\s*[+-])(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
+      'captures':
+        '1':
+          'name': 'variable.unordered.list.org-mode'
+        '2':
+          'name': 'punctuation.definition.list.space.org-mode'
+        '3':
+          'name': 'variable.checkbox.list.org-mode'
+        '4':
+          'name': 'punctuation.definition.checkbox.begin.list.org-mode'
+        '5':
+          'name': 'checkbox.string.org-mode'
+        '6':
+          'name': 'punctuation.definition.checkbox.end.list.org-mode'
+    }
+
+    {
+      'begin': '^(?:[ \\t]*)(\\|)'
+      'end': '(\\|)?(?:\\s*)$'
+      'beginCaptures':
+        '1':
+          'name': 'border.pipe.outer.org-mode'
+      'endCaptures':
+        '1':
+          'name': 'border.pipe.outer.org-mode'
+      'name': 'table.grmtsts'
+      'patterns': [
+        {
+          'match': '(-+(?=[-+|]))([+]?)'
+          'captures':
+            '1':
+              'name': 'border.header.org-mode'
+            '2':
+              'name': 'border.header.org-mode'
+        }
+        {
+          'match': '\\|'
+          'name': 'border.pipe.inner.org-mode'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-1.org-mode'
+      'captures':
+        '1':
+          'name': 'markup.heading.marker.org-mode'
+        '2':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{1})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-2.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.star-1.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{2})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-3.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{3})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-4.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{4})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-5.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{5})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-6.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{6})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-7.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+    {
+      'begin': '^(\\*{7})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-8.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+    {
+      'begin': '^(\\*{8})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-9.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+  ]
+  'repository':
+
+    'comment-line':
+      'patterns': [
+        {
+          'begin': '^\\s*#\\s'
+          'end': '$'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.comment.org-mode'
+          'name': 'comment.line.org-mode'
+        }
+      ]
+
+    'comment-block':
+      'patterns': [
+        {
+          'begin': '^(?i:\\s*#\\+BEGIN_COMMENT\\s*)'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.comment.org-mode'
+          'end': '^(?i:\\s*#\\+END_COMMENT\\s*)'
+          'name': 'comment.block.org-mode'
+        }
+      ]
+
+    'example-line':
+      'patterns': [
+        {
+          'begin': '^\\s*:\\s'
+          'end': '$'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'name': 'string.unquoted.org-mode'
+        }
+      ]
+
+    'example-block':
+      'patterns':[
+          {
+            'begin': '^(?i:\\s*#\\+BEGIN_EXAMPLE\\s*)'
+            'beginCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'end': '^(?i:\\s*#\\+END_EXAMPLE\\s*)'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'string.unquoted.org-mode'
+          }
+      ]
+
+    'quote-block':
+      'patterns': [
+        {
+          'begin': '^(?i:\\s*#\\+BEGIN_QUOTE\\s*)'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.quote.org-mode'
+          'end': '^(?i:\\s*#\\+END_QUOTE\\s*)'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.quote.org-mode'
+          'contentName': 'markup.quote.org-mode'
+          'patterns': [
+            {
+              'include': '#emphasis'
+            }
+          ]
+        }
+      ]
+
+    'unordered-list':
+      'patterns': [
+          {
+            'match': '^\\s+([*+-])(\\s+)'
+            'captures':
+              '1':
+                'name': 'punctuation.definition.item.org-mode'
+              '2':
+                'name': 'punctuation.definition.item.space.org-mode'
+          }
+      ]
+
+    'emphasis':
+      'patterns':[
+        {
+          'include': '#bold'
+        }
+        {
+          'include': '#italic'
+        }
+        {
+          'include': '#underline'
+        }
+        {
+          'include': '#strike-through'
+        }
+      ]
+
+    'task-status-todo':
+        'patterns': [
+            {
+              'match': '(?<=[\\\*]\\s)(TODO)\\b'
+              'name': 'constant.task.status.todo.org-mode'
+            }
+        ]
+
+    'task-status-done':
+        'patterns': [
+            {
+              'match': '(?<=[\\\*]\\s)(DONE)\\b'
+              'name': 'constant.task.status.done.org-mode'
+            }
+        ]
+
+    'task-status':
+        'patterns': [
+            {
+              'include': '#task-status-todo'
+            }
+            {
+              'include': '#task-status-done'
+            }
+        ]
+
+    'code':
+        'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d\\~])(\\~)(?!$|\\~|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\~)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.raw.code.line.org-mode'
+
+          }
+      ]
+
+    'verbatim':
+        'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d\\=])(\\=)(?!$|\\=|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\=)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.raw.verbatim.org-mode'
+          }
+      ]
+
+    'bold':
+        'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d\\*])(\\*)(?!$|\\*|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\*)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.bold.org-mode'
+            'patterns': [
+              {
+                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+                'name': 'constant.character.entity.org-mode'
+                'captures':
+                  '1':
+                    'name': 'punctuation.definition.entity.org-mode'
+                  '3':
+                    'name': 'punctuation.definition.entity.org-mode'
+              }
+              {
+                'include': '#italic'
+              }
+              {
+                'include': '#underline'
+              }
+              {
+                'include': '#strike-through'
+              }
+              {
+                'include': '#code'
+              }
+              {
+                'include': '#verbatim'
+              }
+            ]
+        }
+      ]
+
+    'underline':
+      'patterns':[
+         {
+           'begin': '(?<=^|[^\\w\\d_])(_)(?!$|_|\\s)'
+           'beginCaptures':
+             '1':
+               'name': 'punctuation.definition.character.org-mode'
+           'end': '(?<!^|\\s)(_)(?=$|[^\\w|\\d])'
+           'endCaptures':
+             '1':
+               'name': 'punctuation.definition.character.org-mode'
+           'name': 'markup.underline.link.org-mode'
+           'patterns': [
+             {
+               'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+               'name': 'constant.character.entity.org-mode'
+               'captures':
+                 '1':
+                   'name': 'punctuation.definition.entity.org-mode'
+                 '3':
+                   'name': 'punctuation.definition.entity.org-mode'
+             }
+            {
+               'include': '#bold'
+            }
+            {
+              'include': '#italic'
+            }
+            {
+              'include': '#strike-through'
+            }
+            {
+              'include': '#code'
+            }
+            {
+              'include': '#verbatim'
+            }
+           ]
+         }
+
+      ]
+    'italic':
+      'patterns':[
+        {
+            'begin': '(?<=^|[^\\w\\d\\/])(\\/)(?!$|\\/|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\/)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.italic.org-mode'
+            'patterns': [
+              {
+                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+                'name': 'constant.character.entity.org-mode'
+                'captures':
+                  '1':
+                    'name': 'punctuation.definition.entity.org-mode'
+                  '3':
+                    'name': 'punctuation.definition.entity.org-mode'
+              }
+              {
+                'include': '#bold'
+              }
+              {
+                'include': '#underline'
+              }
+              {
+                'include': '#strike-through'
+              }
+              {
+                'include': '#code'
+              }
+              {
+                'include': '#verbatim'
+              }
+            ]
+          }
+      ]
+
+    'strike-through':
+      'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d#\\+])(\\+)(?!$|\\+|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\+)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.strike.org-mode'
+            'patterns': [
+              {
+                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+                'name': 'constant.character.entity.org-mode'
+                'captures':
+                  '1':
+                    'name': 'punctuation.definition.entity.org-mode'
+                  '3':
+                    'name': 'punctuation.definition.entity.org-mode'
+              }
+              {
+                'include': '#bold'
+              }
+              {
+                'include': '#italic'
+              }
+              {
+                'include': '#underline'
+              }
+              {
+                'include': '#code'
+              }
+              {
+                'include': '#verbatim'
+              }
+            ]
+          }
+      ]
+
+    'code-block-shell':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sh|shell|bash)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.shell-org-mode'
+            'patterns':[
+              {
+                'include': 'source.shell-org-mode'
+              }
+            ]
+          }
+      ]
+
+    'code-block-ruby':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(ruby)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.ruby-org-mode'
+            'patterns':[
+              {
+                'include': 'source.ruby'
+              }
+            ]
+          }
+      ]
+
+    'code-block-python':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(python)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.python-org-mode'
+            'patterns':[
+              {
+                'include': 'source.python'
+              }
+            ]
+          }
+      ]
+
+    'code-block-sql':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sql)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.sql-org-mode'
+            'patterns':[
+              {
+                'include': 'source.sql'
+              }
+            ]
+          }
+      ]
+    'code-block-css':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(css)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.css-org-mode'
+            'patterns':[
+              {
+                'include': 'source.css'
+              }
+            ]
+          }
+      ]
+
+    'options-line':
+      'patterns': [
+        {
+          'begin': '^(\\s*#[+])(OPTIONS|TITLE|DATE|AUTHOR|EMAIL|LANGUAGE|CREATOR|SELECT_TAGS|EXCLUDE_TAGS|SETUP|PROPERTY|MACRO)(:)((\\s+)(.+))?'
+          'end': '$'
+          'captures':
+            '1':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '2':
+              'name': 'markup.function.keyword.key-name.org-mode'
+            '3':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '5':
+              'name': 'punctuation.definition.keyword.space.org-mode'
+            '6':
+              'name': 'punctuation.definition.keyword.key-value.org-mode'
+          'name': 'markup.keyword.org-mode'
+        }
+      ]
+
+    'keywords-line':
+      'patterns': [
+        {
+          'begin': '^(\\s*#[+])(HEADER|NAME|PLOT|CAPTION|RESULTS[\\\[\\\]a-f0-9]*)(:)((\\s+)(.+))?'
+          'end': '$'
+          'captures':
+            '1':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '2':
+              'name': 'markup.function.keyword.key-name.org-mode'
+            '3':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '5':
+              'name': 'punctuation.definition.keyword.space.org-mode'
+            '6':
+              'name': 'punctuation.definition.keyword.key-value.org-mode'
+          'name': 'markup.keyword.org-mode'
+        }
+      ]
+
+    'babel-call':
+      'patterns': [
+        {
+          'begin': '^(\\s*#[+])(CALL[\\\[\\\]a-zA-Z0-9,]*)(:)((\\s+)(.+))?'
+          'end': '$'
+          'captures':
+            '1':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '2':
+              'name': 'markup.function.keyword.key-name.org-mode'
+            '3':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '5':
+              'name': 'punctuation.definition.keyword.space.org-mode'
+            '6':
+              'name': 'punctuation.definition.keyword.key-value.org-mode'
+          'name': 'markup.keyword.org-mode'
+        }
+      ]
+
+#+END_SRC
 
 *** shell-unix-bash-org-mode.cson
 :PROPERTIES:
@@ -1497,1042 +2171,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
 #+END_SRC
 
-*** org-mode.cson
-:PROPERTIES:
-:ID:       93C158C1-6209-4A22-9C45-0E46CD7DE030
-:END:
-
-# Tangle file with C-u C-c C-v t
-
-#+BEGIN_SRC javascript :eval never :tangle ../grammars/org-mode.cson :mkdirp yes 
-  'name': 'Org-Mode Syntax'
-  'scopeName': 'source.org-mode'
-  'limitLineLength': false
-  'fileTypes': [
-    'org-mode'
-    'org'
-  ]
-  'patterns': [
-    {
-      'include': '#comment-line'
-    }
-    {
-      'include': '#comment-block'
-    }
-    {
-      'include': '#example-line'
-    }
-    {
-      'include': '#example-block'
-    }
-    {
-      'include': '#quote-block'
-    }
-    {
-      'include': '#verbatim'
-    }
-    {
-      'include': '#code'
-    }
-    {
-      'include': '#emphasis'
-    }
-    {
-      'include': '#code-block-shell'
-    }
-    {
-      'include': '#code-block-ruby'
-    }
-    {
-      'include': '#code-block-python'
-    }
-    {
-      'include': '#code-block-sql'
-    }
-    {
-      'include': '#code-block-css'
-    }
-    {
-      'include': '#options-line'
-    }
-    {
-      'include': '#keywords-line'
-    }
-    {
-      'include': '#babel-call'
-    }
-
-    {
-      'begin': '^(\\*{3})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-4.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-      ]
-    }
-
-    {
-      'begin': '^(\\*{4})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-5.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-
-    {
-      'begin': '^(\\*{5})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-6.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-
-    {
-      'begin': '^(\\*{6})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-7.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-    {
-      'begin': '^(-----BEGIN PGP MESSAGE-----)$'
-      'end': '^(-----END PGP MESSAGE-----)$'
-      'name': 'crypt.pgp.message.string.org-mode'
-      'beginCaptures':
-        '1':
-          'name': 'crypt.pgp.message.begin.string.org-mode'
-      'endCaptures':
-        '1':
-          'name': 'crypt.pgp.message.begin.string.org-mode'
-      'patterns': [
-      ]
-    }
-
-
-    {
-      'match': '^(\\s*\\d+\\.)(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
-      'captures':
-        '1':
-          'name': 'variable.ordered.list.org-mode'
-        '2':
-          'name': 'punctuation.definition.list.space.org-mode'
-        '3':
-          'name': 'variable.checkbox.list.org-mode'
-        '4':
-          'name': 'punctuation.definition.checkbox.begin.list.org-mode'
-        '5':
-          'name': 'checkbox.string.org-mode'
-        '6':
-          'name': 'punctuation.definition.checkbox.end.list.org-mode'
-    }
-
-    {
-      'match': '^(\\s+[*]|\\s*[+-])(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
-      'captures':
-        '1':
-          'name': 'variable.unordered.list.org-mode'
-        '2':
-          'name': 'punctuation.definition.list.space.org-mode'
-        '3':
-          'name': 'variable.checkbox.list.org-mode'
-        '4':
-          'name': 'punctuation.definition.checkbox.begin.list.org-mode'
-        '5':
-          'name': 'checkbox.string.org-mode'
-        '6':
-          'name': 'punctuation.definition.checkbox.end.list.org-mode'
-    }
-
-    {
-      'begin': '^(?:[ \\t]*)(\\|)'
-      'end': '(\\|)?(?:\\s*)$'
-      'beginCaptures':
-        '1':
-          'name': 'border.pipe.outer.org-mode'
-      'endCaptures':
-        '1':
-          'name': 'border.pipe.outer.org-mode'
-      'name': 'table.grmtsts'
-      'patterns': [
-        {
-          'match': '(-+(?=[-+|]))([+]?)'
-          'captures':
-            '1':
-              'name': 'border.header.org-mode'
-            '2':
-              'name': 'border.header.org-mode'
-        }
-        {
-          'match': '\\|'
-          'name': 'border.pipe.inner.org-mode'
-        }
-      ]
-    }
-
-    {
-      'begin': '^(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-1.org-mode'
-      'captures':
-        '1':
-          'name': 'markup.heading.marker.org-mode'
-        '2':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-      ]
-    }
-
-    {
-      'begin': '^(\\*{1})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-2.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.star-1.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-      ]
-    }
-
-    {
-      'begin': '^(\\*{2})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-3.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-      ]
-    }
-
-    {
-      'begin': '^(\\*{3})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-4.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-      ]
-    }
-
-    {
-      'begin': '^(\\*{4})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-5.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-
-    {
-      'begin': '^(\\*{5})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-6.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-
-    {
-      'begin': '^(\\*{6})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-7.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-    {
-      'begin': '^(\\*{7})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-8.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-    {
-      'begin': '^(\\*{8})(\\*{1})(\\s+)'
-      'end': '$'
-      'name': 'markup.heading.heading-9.org-mode'
-      'captures':
-        '1':
-          'name': 'leading-star.org-mode'
-        '2':
-          'name': 'markup.heading.marker.org-mode'
-        '3':
-          'name': 'markup.heading.space.org-mode'
-      'patterns': [
-          {
-            'include': '#task-status'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
-          {
-            'include': '#emphasis'
-          }
-        ]
-    }
-  ]
-  'repository':
-
-    'comment-line':
-      'patterns': [
-        {
-          'begin': '^\\s*#\\s'
-          'end': '$'
-          'captures':
-            '0':
-              'name': 'punctuation.definition.comment.org-mode'
-          'name': 'comment.line.org-mode'
-        }
-      ]
-
-    'comment-block':
-      'patterns': [
-        {
-          'begin': '^(?i:\\s*#\\+BEGIN_COMMENT\\s*)'
-          'captures':
-            '0':
-              'name': 'punctuation.definition.comment.org-mode'
-          'end': '^(?i:\\s*#\\+END_COMMENT\\s*)'
-          'name': 'comment.block.org-mode'
-        }
-      ]
-
-    'example-line':
-      'patterns': [
-        {
-          'begin': '^\\s*:\\s'
-          'end': '$'
-          'captures':
-            '0':
-              'name': 'punctuation.definition.string.org-mode'
-          'name': 'string.unquoted.org-mode'
-        }
-      ]
-
-    'example-block':
-      'patterns':[
-          {
-            'begin': '^(?i:\\s*#\\+BEGIN_EXAMPLE\\s*)'
-            'beginCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'end': '^(?i:\\s*#\\+END_EXAMPLE\\s*)'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'string.unquoted.org-mode'
-          }
-      ]
-
-    'quote-block':
-      'patterns': [
-        {
-          'begin': '^(?i:\\s*#\\+BEGIN_QUOTE\\s*)'
-          'beginCaptures':
-            '0':
-              'name': 'punctuation.definition.quote.org-mode'
-          'end': '^(?i:\\s*#\\+END_QUOTE\\s*)'
-          'endCaptures':
-            '0':
-              'name': 'punctuation.definition.quote.org-mode'
-          'contentName': 'markup.quote.org-mode'
-          'patterns': [
-            {
-              'include': '#emphasis'
-            }
-          ]
-        }
-      ]
-
-    'unordered-list':
-      'patterns': [
-          {
-            'match': '^\\s+([*+-])(\\s+)'
-            'captures':
-              '1':
-                'name': 'punctuation.definition.item.org-mode'
-              '2':
-                'name': 'punctuation.definition.item.space.org-mode'
-          }
-      ]
-
-    'emphasis':
-      'patterns':[
-        {
-          'include': '#bold'
-        }
-        {
-          'include': '#italic'
-        }
-        {
-          'include': '#underline'
-        }
-        {
-          'include': '#strike-through'
-        }
-      ]
-
-    'task-status-todo':
-        'patterns': [
-            {
-              'match': '(?<=[\\\*]\\s)(TODO)\\b'
-              'name': 'constant.task.status.todo.org-mode'
-            }
-        ]
-
-    'task-status-done':
-        'patterns': [
-            {
-              'match': '(?<=[\\\*]\\s)(DONE)\\b'
-              'name': 'constant.task.status.done.org-mode'
-            }
-        ]
-
-    'task-status':
-        'patterns': [
-            {
-              'include': '#task-status-todo'
-            }
-            {
-              'include': '#task-status-done'
-            }
-        ]
-
-    'code':
-        'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d\\~])(\\~)(?!$|\\~|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\~)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.raw.code.line.org-mode'
-
-          }
-      ]
-
-    'verbatim':
-        'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d\\=])(\\=)(?!$|\\=|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\=)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.raw.verbatim.org-mode'
-          }
-      ]
-
-    'bold':
-        'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d\\*])(\\*)(?!$|\\*|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\*)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.bold.org-mode'
-            'patterns': [
-              {
-                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-                'name': 'constant.character.entity.org-mode'
-                'captures':
-                  '1':
-                    'name': 'punctuation.definition.entity.org-mode'
-                  '3':
-                    'name': 'punctuation.definition.entity.org-mode'
-              }
-              {
-                'include': '#italic'
-              }
-              {
-                'include': '#underline'
-              }
-              {
-                'include': '#strike-through'
-              }
-              {
-                'include': '#code'
-              }
-              {
-                'include': '#verbatim'
-              }
-            ]
-        }
-      ]
-
-    'underline':
-      'patterns':[
-         {
-           'begin': '(?<=^|[^\\w\\d_])(_)(?!$|_|\\s)'
-           'beginCaptures':
-             '1':
-               'name': 'punctuation.definition.character.org-mode'
-           'end': '(?<!^|\\s)(_)(?=$|[^\\w|\\d])'
-           'endCaptures':
-             '1':
-               'name': 'punctuation.definition.character.org-mode'
-           'name': 'markup.underline.link.org-mode'
-           'patterns': [
-             {
-               'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-               'name': 'constant.character.entity.org-mode'
-               'captures':
-                 '1':
-                   'name': 'punctuation.definition.entity.org-mode'
-                 '3':
-                   'name': 'punctuation.definition.entity.org-mode'
-             }
-            {
-               'include': '#bold'
-            }
-            {
-              'include': '#italic'
-            }
-            {
-              'include': '#strike-through'
-            }
-            {
-              'include': '#code'
-            }
-            {
-              'include': '#verbatim'
-            }
-           ]
-         }
-
-      ]
-    'italic':
-      'patterns':[
-        {
-            'begin': '(?<=^|[^\\w\\d\\/])(\\/)(?!$|\\/|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\/)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.italic.org-mode'
-            'patterns': [
-              {
-                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-                'name': 'constant.character.entity.org-mode'
-                'captures':
-                  '1':
-                    'name': 'punctuation.definition.entity.org-mode'
-                  '3':
-                    'name': 'punctuation.definition.entity.org-mode'
-              }
-              {
-                'include': '#bold'
-              }
-              {
-                'include': '#underline'
-              }
-              {
-                'include': '#strike-through'
-              }
-              {
-                'include': '#code'
-              }
-              {
-                'include': '#verbatim'
-              }
-            ]
-          }
-      ]
-
-    'strike-through':
-      'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d#\\+])(\\+)(?!$|\\+|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\+)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.strike.org-mode'
-            'patterns': [
-              {
-                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-                'name': 'constant.character.entity.org-mode'
-                'captures':
-                  '1':
-                    'name': 'punctuation.definition.entity.org-mode'
-                  '3':
-                    'name': 'punctuation.definition.entity.org-mode'
-              }
-              {
-                'include': '#bold'
-              }
-              {
-                'include': '#italic'
-              }
-              {
-                'include': '#underline'
-              }
-              {
-                'include': '#code'
-              }
-              {
-                'include': '#verbatim'
-              }
-            ]
-          }
-      ]
-
-    'code-block-shell':
-      'patterns':[
-          {
-            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sh|shell|bash)(\\s+(:\\w+)(\\s+.+)?)*$'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.string.org-mode'
-              '2':
-                'name': 'code-block.type.org-mode'
-              '3':
-                'name': 'code-block.code-block-headers.org-mode'
-            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'source.embedded.shell-org-mode'
-            'patterns':[
-              {
-                'include': 'source.shell-org-mode'
-              }
-            ]
-          }
-      ]
-
-    'code-block-ruby':
-      'patterns':[
-          {
-            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(ruby)(\\s+(:\\w+)(\\s+.+)?)*$'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.string.org-mode'
-              '2':
-                'name': 'code-block.type.org-mode'
-              '3':
-                'name': 'code-block.code-block-headers.org-mode'
-            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'source.embedded.ruby-org-mode'
-            'patterns':[
-              {
-                'include': 'source.ruby'
-              }
-            ]
-          }
-      ]
-
-    'code-block-python':
-      'patterns':[
-          {
-            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(python)(\\s+(:\\w+)(\\s+.+)?)*$'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.string.org-mode'
-              '2':
-                'name': 'code-block.type.org-mode'
-              '3':
-                'name': 'code-block.code-block-headers.org-mode'
-            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'source.embedded.python-org-mode'
-            'patterns':[
-              {
-                'include': 'source.python'
-              }
-            ]
-          }
-      ]
-
-    'code-block-sql':
-      'patterns':[
-          {
-            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sql)(\\s+(:\\w+)(\\s+.+)?)*$'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.string.org-mode'
-              '2':
-                'name': 'code-block.type.org-mode'
-              '3':
-                'name': 'code-block.code-block-headers.org-mode'
-            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'source.embedded.sql-org-mode'
-            'patterns':[
-              {
-                'include': 'source.sql'
-              }
-            ]
-          }
-      ]
-    'code-block-css':
-      'patterns':[
-          {
-            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(css)(\\s+(:\\w+)(\\s+.+)?)*$'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.string.org-mode'
-              '2':
-                'name': 'code-block.type.org-mode'
-              '3':
-                'name': 'code-block.code-block-headers.org-mode'
-            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'source.embedded.css-org-mode'
-            'patterns':[
-              {
-                'include': 'source.css'
-              }
-            ]
-          }
-      ]
-
-    'options-line':
-      'patterns': [
-        {
-          'begin': '^(\\s*#[+])(OPTIONS|TITLE|DATE|AUTHOR|EMAIL|LANGUAGE|CREATOR|SELECT_TAGS|EXCLUDE_TAGS|SETUP|PROPERTY|MACRO)(:)((\\s+)(.+))?'
-          'end': '$'
-          'captures':
-            '1':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '2':
-              'name': 'markup.function.keyword.key-name.org-mode'
-            '3':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '5':
-              'name': 'punctuation.definition.keyword.space.org-mode'
-            '6':
-              'name': 'punctuation.definition.keyword.key-value.org-mode'
-          'name': 'markup.keyword.org-mode'
-        }
-      ]
-
-    'keywords-line':
-      'patterns': [
-        {
-          'begin': '^(\\s*#[+])(HEADER|NAME|PLOT|CAPTION|RESULTS[\\\[\\\]a-f0-9]*)(:)((\\s+)(.+))?'
-          'end': '$'
-          'captures':
-            '1':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '2':
-              'name': 'markup.function.keyword.key-name.org-mode'
-            '3':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '5':
-              'name': 'punctuation.definition.keyword.space.org-mode'
-            '6':
-              'name': 'punctuation.definition.keyword.key-value.org-mode'
-          'name': 'markup.keyword.org-mode'
-        }
-      ]
-
-    'babel-call':
-      'patterns': [
-        {
-          'begin': '^(\\s*#[+])(CALL[\\\[\\\]a-zA-Z0-9,]*)(:)((\\s+)(.+))?'
-          'end': '$'
-          'captures':
-            '1':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '2':
-              'name': 'markup.function.keyword.key-name.org-mode'
-            '3':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '5':
-              'name': 'punctuation.definition.keyword.space.org-mode'
-            '6':
-              'name': 'punctuation.definition.keyword.key-value.org-mode'
-          'name': 'markup.keyword.org-mode'
-        }
-      ]
-
-#+END_SRC
-
-** coffeelint.json                                                :noexport:
-:PROPERTIES:
-:ID:       05A40356-D779-4E4B-9DDB-14D86B00ED74
-:END:
-
-# Tangle file with C-u C-c C-v t
-
-#+BEGIN_SRC javascript :eval never :tangle ../coffeelint.json 
-  {
-    "max_line_length": {
-      "level": "ignore"
-    },
-    "no_empty_param_list": {
-      "level": "error"
-    },
-    "arrow_spacing": {
-      "level": "error"
-    },
-    "no_interpolation_in_single_quotes": {
-      "level": "error"
-    },
-    "no_debugger": {
-      "level": "error"
-    },
-    "prefer_english_operator": {
-      "level": "error"
-    },
-    "colon_assignment_spacing": {
-      "spacing": {
-        "left": 0,
-        "right": 1
-      },
-      "level": "error"
-    },
-    "braces_spacing": {
-      "spaces": 0,
-      "level": "error"
-    },
-    "spacing_after_comma": {
-      "level": "error"
-    },
-    "no_stand_alone_at": {
-      "level": "error"
-    }
-  }
-#+END_SRC
-
 ** package.json                                                   :noexport:
 
 #+NAME: atom-org-mode-package-package-specs
@@ -2688,12 +2326,12 @@ Let us begin our journey into a better future.
 
 **** Files List
 
-- [[file:package.json][package.json]]
 - [[file:coffeelint.json][coffeelint.json]]
-- [[file:grammars/org-mode.cson][org-mode.cson]]
-- [[file:grammars/shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson]]
-- [[file:styles/org-mode.less][org-mode.less]]
 - [[file:spec/org-mode-spec.coffee][org-mode-spec.coffee]]
+- [[file:grammars/org-mode.cson][org-mode.cson]]
+- [[file:styles/org-mode.less][org-mode.less]]
+- [[file:package.json][package.json]]
+- [[file:grammars/shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson]]
 
 *** Footnotes
 
@@ -2708,6 +2346,368 @@ Let us begin our journey into a better future.
 [fn:5] [[https://github.com/fniessen/org-html-themes]]
 
 [fn:6] [[http://howardism.org/Technical/Emacs/literate-devops.html]]
+
+** spec
+
+*** org-mode-spec.coffee
+:PROPERTIES:
+:ID:       3373486E-50FB-4A83-9E04-4630A5A3DD58
+:END:
+
+#+BEGIN_SRC javascript :eval never :tangle ../spec/org-mode-spec.coffee :mkdirp yes 
+  describe "org-mode package grammar", ->
+    grammar = null
+
+    beforeEach ->
+      waitsForPromise ->
+        atom.packages.activatePackage("org-mode")
+
+      runs ->
+        grammar = atom.grammars.grammarForScopeName("source.org-mode")
+
+    it "parses the grammar", ->
+      expect(grammar).toBeDefined()
+      expect(grammar.scopeName).toBe "source.org-mode"
+
+    it "tokenizes spaces", ->
+      {tokens} = grammar.tokenizeLine(" ")
+      expect(tokens[0]).toEqual value: " ", scopes: ["source.org-mode"]
+
+    it "tokenizes single line comments", ->
+      {tokens} = grammar.tokenizeLine(" # this is a comment")
+      expect(tokens[0]).toEqual value: " # ", scopes: ["source.org-mode", "comment.line.org-mode","punctuation.definition.comment.org-mode"]
+      expect(tokens[1]).toEqual value: "this is a comment", scopes: ["source.org-mode", "comment.line.org-mode"]
+
+    it "tokenizes multi line comments", ->
+      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
+      ,#+BEGIN_COMMENT
+      This is a
+      multi line comment.
+      ,#+END_COMMENT
+      """
+      expect(firstLineTokens[0]).toEqual value: "#+BEGIN_COMMENT", scopes: ["source.org-mode", "comment.block.org-mode", "punctuation.definition.comment.org-mode"]
+      expect(secondLineTokens[0]).toEqual value: "This is a", scopes: ["source.org-mode", "comment.block.org-mode"]
+      expect(thirdLineTokens[0]).toEqual value: "multi line comment.", scopes: ["source.org-mode", "comment.block.org-mode"]
+      expect(forthLineTokens[0]).toEqual value: "#+END_COMMENT", scopes: ["source.org-mode", "comment.block.org-mode", "punctuation.definition.comment.org-mode"]
+
+    it "tokenizes single line literal examples", ->
+      {tokens} = grammar.tokenizeLine(" : This is a literal example on single line.")
+      expect(tokens[0]).toEqual value: " : ", scopes: ["source.org-mode", "string.unquoted.org-mode", "punctuation.definition.string.org-mode"]
+      expect(tokens[1]).toEqual value: "This is a literal example on single line.", scopes: ["source.org-mode", "string.unquoted.org-mode"]
+
+    it "tokenizes multi line literal examples", ->
+      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
+      ,#+BEGIN_EXAMPLE
+      This is a
+      multiple line literal example.
+      ,#+END_EXAMPLE
+      """
+      expect(firstLineTokens[0]).toEqual value: "#+BEGIN_EXAMPLE", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
+      expect(secondLineTokens[0]).toEqual value: "This is a", scopes: ["source.org-mode", "string.unquoted.org-mode"]
+      expect(thirdLineTokens[0]).toEqual value: "multiple line literal example.", scopes: ["source.org-mode", "string.unquoted.org-mode"]
+      expect(forthLineTokens[0]).toEqual value: "#+END_EXAMPLE", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
+
+    it "tokenizes multi line quote blocks", ->
+      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
+      ,#+BEGIN_QUOTE
+      This is a
+      multiple line quote.
+      ,#+END_QUOTE
+      """
+      expect(firstLineTokens[0]).toEqual value: "#+BEGIN_QUOTE", scopes: ["source.org-mode", "punctuation.definition.quote.org-mode"]
+      expect(secondLineTokens[0]).toEqual value: "This is a", scopes: ["source.org-mode", "markup.quote.org-mode"]
+      expect(thirdLineTokens[0]).toEqual value: "multiple line quote.", scopes: ["source.org-mode", "markup.quote.org-mode"]
+      expect(forthLineTokens[0]).toEqual value: "#+END_QUOTE", scopes: ["source.org-mode", "punctuation.definition.quote.org-mode"]
+
+
+    it "tokenizes shell code blocks", ->
+      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens, fifthLineTokens, sixthLineTokens] = grammar.tokenizeLines """
+      ,#+NAME: shell-code
+      ,#+BEGIN_SRC shell :eval never :noweb yes
+      VARIABLE_NAME=`hostname`
+      echo ${VARIABLE_NAME}
+      ,#+END_SRC
+      # Comment below shell-code
+      """
+      # Disabled # expect(firstLineTokens[0]).toEqual value: "#+NAME: shell-code", scopes: ["source.org-mode"]
+      expect(secondLineTokens[0]).toEqual value: "#+BEGIN_SRC ", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
+      expect(secondLineTokens[1]).toEqual value: "shell", scopes: ["source.org-mode", "code-block.type.org-mode"]
+      expect(secondLineTokens[2]).toEqual value: " :eval never :noweb yes", scopes: ["source.org-mode", "code-block.code-block-headers.org-mode"]
+      # Disabled # expect(secondLineTokens[3]).toEqual value: "This is a", scopes: ["source.org-mode", "bc4"]
+      # Disabled # expect(secondLineTokens[4]).toEqual value: "This is a", scopes: ["source.org-mode", "bc5"]
+      expect(thirdLineTokens[0]).toEqual value: "VARIABLE_NAME=", scopes: ["source.org-mode", "source.embedded.shell-org-mode"]
+      expect(thirdLineTokens[1]).toEqual value: "`", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "string.interpolated.backtick.shell-org-mode", "punctuation.definition.string.begin.shell-org-mode"]
+      expect(thirdLineTokens[2]).toEqual value: "hostname", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "string.interpolated.backtick.shell-org-mode"]
+      expect(thirdLineTokens[3]).toEqual value: "`", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "string.interpolated.backtick.shell-org-mode", "punctuation.definition.string.end.shell-org-mode"]
+      expect(forthLineTokens[0]).toEqual value: "echo", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "support.function.builtin.shell-org-mode"]
+      expect(forthLineTokens[1]).toEqual value: " ", scopes: ["source.org-mode", "source.embedded.shell-org-mode"]
+      expect(forthLineTokens[2]).toEqual value: "${", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "variable.other.bracket.shell-org-mode", "punctuation.definition.variable.shell-org-mode"]
+      expect(forthLineTokens[3]).toEqual value: "VARIABLE_NAME", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "variable.other.bracket.shell-org-mode"]
+      expect(forthLineTokens[4]).toEqual value: "}", scopes: ["source.org-mode", "source.embedded.shell-org-mode", "variable.other.bracket.shell-org-mode", "punctuation.definition.variable.shell-org-mode"]
+      expect(fifthLineTokens[0]).toEqual value: "#+END_SRC", scopes: ["source.org-mode", "punctuation.definition.string.org-mode"]
+      expect(sixthLineTokens[0]).toEqual value: "# ", scopes: ["source.org-mode", "comment.line.org-mode", "punctuation.definition.comment.org-mode"]
+      expect(sixthLineTokens[1]).toEqual value: "Comment below shell-code", scopes: ["source.org-mode", "comment.line.org-mode"]
+
+
+
+    it "tokenizes heading 9", ->
+      [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens] = grammar.tokenizeLines """
+      ,********* Heading 9
+      Body of Heading - Line 1
+      ,* Another Heading
+      """
+      expect(firstLineTokens[0]).toEqual value: "********", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode", "leading-star.org-mode"]
+      expect(firstLineTokens[1]).toEqual value: "*", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode", "markup.heading.marker.org-mode"]
+      expect(firstLineTokens[2]).toEqual value: " ", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode", "markup.heading.space.org-mode"]
+      expect(firstLineTokens[3]).toEqual value: "Heading 9", scopes: ["source.org-mode", "markup.heading.heading-9.org-mode"]
+      expect(secondLineTokens[0]).toEqual value: "Body of Heading - Line 1", scopes: ["source.org-mode"]
+      expect(thirdLineTokens[0]).toEqual value: "*", scopes: ["source.org-mode", "markup.heading.heading-1.org-mode", "markup.heading.marker.org-mode"]
+
+  #
+  #   it "tokenizes heading 8", ->
+  #     [firstLineTokens, secondLineTokens, thirdLineTokens, forthLineTokens, fifthLineTokens] = grammar.tokenizeLines """
+  #     ******** Heading 8
+  #     Body of Heading - Line 1
+  #     ********* Heading 9
+  #     Body of Heading - Line 1
+  #     * Another Heading
+  #     """
+  #     expect(firstLineTokens[0]).toEqual value: "********", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "punctuation.definition.markup.heading.heading-8.begin.org-mode"]
+  #     expect(firstLineTokens[1]).toEqual value: " ", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "punctuation.definition.markup.heading.spaces.org-mode"]
+  #     expect(firstLineTokens[2]).toEqual value: "Heading 8", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "markup.heading.org-mode"]
+  #     expect(secondLineTokens[0]).toEqual value: "Body of Heading - Line 1", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", 'meta.section.block']
+  #     expect(thirdLineTokens[0]).toEqual value: "#+END_QUOTE", scopes: ["source.org-mode", "text.plain.embedded.org-mode", "punctuation.definition.string.org-mode"]
+  #     expect(forthLineTokens[0]).toEqual value: "* ", scopes: ["source.org-mode", "markup.heading.heading-8.org-mode", "punctuation.definition.markup.heading.heading-8.end.org-mode"]
+
+#+END_SRC
+
+** styles
+
+*** org-mode.less
+:PROPERTIES:
+:ID:       845DF488-2DEB-4F11-911C-D036DDDF66DC
+:END:
+
+# Tangle file with C-u C-c C-v t
+
+#+BEGIN_SRC css  :eval never :tangle ../styles/org-mode.less :mkdirp yes 
+  // The ui-variables file is provided by base themes provided by Atom.
+  //
+  // See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+  // for a full listing of what's available.
+  @import "ui-variables";
+
+  @default-very-light-gray: #c5c8c6;
+  @default-light-gray: #969896;
+  @default-gray: #373b41;
+  @default-dark-gray: #282a2e;
+  @default-very-dark-gray: #1d1f21;
+
+  @default-cyan: cyan;
+  @default-blue: blue;
+  @default-purple: purple;
+  @default-green: green;
+  @default-red: red;
+  @default-orange: orange;
+  @default-light-orange: #ffd280;
+
+
+  .grammar-tests {
+  }
+
+
+  .syntax--bold.syntax--org-mode  {
+    color: lighten(@syntax-text-color, 15%);
+    font-weight: bold;
+  }
+
+  .syntax--italic.syntax--org-mode  {
+    // color: lighten(@syntax-text-color, 15%);
+    font-style: italic;
+  }
+
+  .syntax--underline.syntax--org-mode  {
+    // color: lighten(@syntax-text-color, 15%);
+    text-decoration: underline;
+  }
+
+  .syntax--strike.syntax--org-mode  {
+    // color: lighten(@default-red, 25%);
+    text-decoration: line-through;
+    font-weight: 100;
+  }
+
+  .syntax--leading-star.syntax--org-mode  {
+    color: @syntax-invisible-character-color;
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  .syntax--heading-1.syntax--org-mode  {
+     font-weight: bolder;
+  }
+
+   .syntax--heading-2.syntax--org-mode  {
+     font-weight: bolder;
+  }
+
+  .syntax--heading-3.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-4.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-5.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-6.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-7.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-8.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-9.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--variable.syntax--checkbox.syntax--list.syntax--org-mode {
+    font-weight: bolder;
+  }
+
+  .syntax--variable.syntax--ordered.syntax--list.syntax--org-mode {
+    // color: darken(@syntax-text-color, 11%);
+    font-weight: 500;
+    &:hover {
+      font-weight: bolder;
+    }
+  }
+
+  .syntax--variable.syntax--unordered.syntax--list.syntax--org-mode {
+    // color: darken(@syntax-text-color, 11%);
+    font-weight: 500;
+    &:hover {
+      font-weight: bolder;
+    }
+  }
+
+  .syntax--constant.syntax--task.syntax--status.syntax--todo.syntax--org-mode {
+    //color: darken(@syntax-background-color, 15%);
+    background-color: darken(@syntax-background-color, 5%);
+    font-family: monospace;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+  }
+
+  .syntax--constant.syntax--task.syntax--status.syntax--done.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    background-color: darken(@syntax-background-color, 1%);
+    font-family: monospace;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+  }
+
+  .syntax--punctuation.syntax--definition.syntax--quote.syntax--org-mode {
+
+    color: @syntax-invisible-character-color;
+
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  .syntax--markup.syntax--quote.syntax--org-mode {
+     font-weight: 100;
+     color: darken(@syntax-text-color, 20%);
+     &::before {
+       content: "  ";
+     }
+  }
+
+  .syntax--string.syntax--unquoted.syntax--org-mode {
+    font-weight: 100;
+    color: @syntax-text-color;
+  }
+
+  .syntax--punctuation.syntax--definition.syntax--string.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  // punctuation.definition.entity
+  .syntax--punctuation.syntax--definition.syntax--character.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    font-style: normal;
+    font-weight: 100;
+
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  .syntax--markup.syntax--code.syntax--line.syntax--org-mode {
+    font-family: serif;
+    // font-weight: lighter;
+  }
+
+  .syntax--markup.syntax--verbatim.syntax--org-mode {
+    // color: lighten(blue, 20%);
+    font-family: monospace;
+  }
+  .syntax--border.syntax--pipe.syntax--outer {
+    color: multiply(@syntax-invisible-character-color, gray);
+    font-weight: bold;
+  }
+  .syntax--border.syntax--header {
+    color: multiply(@syntax-invisible-character-color, gray);
+    font-weight: bold;
+    text-decoration: line-through;
+  }
+
+  .syntax--border.syntax--pipe.syntax--inner {
+    color: multiply(@syntax-invisible-character-color, gray);
+    font-weight: bold;
+  }
+
+  .syntax--table {
+      // background-color: lighten(@syntax-background-color, 2%);
+  }
+
+  .syntax--code-block.syntax--type.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    font-style: italic;
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+      font-style: normal;
+      font-weight: bold;
+    }
+
+  }
+
+  .syntax--code-block.syntax--code-block-headers.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    font-style: italic;
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+      font-style: normal;
+    }
+
+  }
+#+END_SRC
 
 * Export Settings                                                  :noexport:
 
