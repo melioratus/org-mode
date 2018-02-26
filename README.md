@@ -68,7 +68,7 @@ Specifications
 
 <tr>
 <td class="org-left">repository</td>
-<td class="org-left"><https://github.com/melioratus/org-mode></td>
+<td class="org-left">https://github.com/melioratus/org-mode</td>
 </tr>
 
 
