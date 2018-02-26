@@ -149,7 +149,7 @@ The [[http://org-mode.org][org-mode]] application provides an astounding set of 
 
 Below is just a very small subset of things you can do using a text file + org-mode + emacs:
 
-- Literate Programming[fn:2][fn:3] with over 30 languages. 
+- Literate Programming[fn:2][fn:3] in over 30 languages. 
 - Project, Task and Time Management.
 - Data Science 
 - Reproducible Research 
