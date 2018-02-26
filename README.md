@@ -12,7 +12,7 @@ Below is just a very small subset of things you can do using a text file + org-m
 -   Reproducible Research
 -   Create and maintain documentation<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup> in multiple popular formats including PDF, HTML<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup> and Markdown.
 -   Track and synchronize data across heterogeneous paradigms, technologies and formats including source code, network diagrams, Infrastructure as Code, DevOps<sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup>, databases, servers and services.
--   Learn new skills and share complex ideas in a consistent repeatible way.
+-   Learn new skills and share complex ideas in a consistent repeatable way.
 
 Let us begin our journey into a better future.
 
@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="org358bcae" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org329df60" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>

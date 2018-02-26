@@ -155,7 +155,7 @@ Below is just a very small subset of things you can do using a text file + org-m
 - Reproducible Research 
 - Create and maintain documentation[fn:4] in multiple popular formats including PDF, HTML[fn:5] and Markdown.
 - Track and synchronize data across heterogeneous paradigms, technologies and formats including source code, network diagrams, Infrastructure as Code, DevOps[fn:6], databases, servers and services.
-- Learn new skills and share complex ideas in a consistent repeatible way.
+- Learn new skills and share complex ideas in a consistent repeatable way.
 
 
 Let us begin our journey into a better future.
