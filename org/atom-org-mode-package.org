@@ -25,7 +25,239 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
   # Link to [[file:atom-org-mode-package.org::shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson Section]]
 
+- [[file:../styles/org-mode.less][org-mode.less]]
+
+  # Link to [[file:atom-org-mode-package.org::org-mode.less][shell-unix-bash-org-mode.less Section]]
+
 * Exported Files                                                   :noexport:
+
+** styles
+
+*** org-mode.less
+:PROPERTIES:
+:ID:       845DF488-2DEB-4F11-911C-D036DDDF66DC
+:END:
+
+# Tangle file with C-u C-c C-v t
+
+#+BEGIN_SRC css  :eval never :tangle ../styles/org-mode.less :mkdirp yes 
+  // The ui-variables file is provided by base themes provided by Atom.
+  //
+  // See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+  // for a full listing of what's available.
+  @import "ui-variables";
+
+  @default-very-light-gray: #c5c8c6;
+  @default-light-gray: #969896;
+  @default-gray: #373b41;
+  @default-dark-gray: #282a2e;
+  @default-very-dark-gray: #1d1f21;
+
+  @default-cyan: cyan;
+  @default-blue: blue;
+  @default-purple: purple;
+  @default-green: green;
+  @default-red: red;
+  @default-orange: orange;
+  @default-light-orange: #ffd280;
+
+
+  .grammar-tests {
+  }
+
+
+  .syntax--bold.syntax--org-mode  {
+    color: lighten(@syntax-text-color, 15%);
+    font-weight: bold;
+  }
+
+  .syntax--italic.syntax--org-mode  {
+    // color: lighten(@syntax-text-color, 15%);
+    font-style: italic;
+  }
+
+  .syntax--underline.syntax--org-mode  {
+    // color: lighten(@syntax-text-color, 15%);
+    text-decoration: underline;
+  }
+
+  .syntax--strike.syntax--org-mode  {
+    // color: lighten(@default-red, 25%);
+    text-decoration: line-through;
+    font-weight: 100;
+  }
+
+  .syntax--leading-star.syntax--org-mode  {
+    color: @syntax-invisible-character-color;
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  .syntax--heading-1.syntax--org-mode  {
+     font-weight: bolder;
+  }
+
+   .syntax--heading-2.syntax--org-mode  {
+     font-weight: bolder;
+  }
+
+  .syntax--heading-3.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-4.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-5.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-6.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-7.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-8.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--heading-9.syntax--org-mode  {
+    font-weight: bolder;
+  }
+
+  .syntax--variable.syntax--checkbox.syntax--list.syntax--org-mode {
+    font-weight: bolder;
+  }
+
+  .syntax--variable.syntax--ordered.syntax--list.syntax--org-mode {
+    // color: darken(@syntax-text-color, 11%);
+    font-weight: 500;
+    &:hover {
+      font-weight: bolder;
+    }
+  }
+
+  .syntax--variable.syntax--unordered.syntax--list.syntax--org-mode {
+    // color: darken(@syntax-text-color, 11%);
+    font-weight: 500;
+    &:hover {
+      font-weight: bolder;
+    }
+  }
+
+  .syntax--constant.syntax--task.syntax--status.syntax--todo.syntax--org-mode {
+    //color: darken(@syntax-background-color, 15%);
+    background-color: darken(@syntax-background-color, 5%);
+    font-family: monospace;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+  }
+
+  .syntax--constant.syntax--task.syntax--status.syntax--done.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    background-color: darken(@syntax-background-color, 1%);
+    font-family: monospace;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+  }
+
+  .syntax--punctuation.syntax--definition.syntax--quote.syntax--org-mode {
+
+    color: @syntax-invisible-character-color;
+
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  .syntax--markup.syntax--quote.syntax--org-mode {
+     font-weight: 100;
+     color: darken(@syntax-text-color, 20%);
+     &::before {
+       content: "  ";
+     }
+  }
+
+  .syntax--string.syntax--unquoted.syntax--org-mode {
+    font-weight: 100;
+    color: @syntax-text-color;
+  }
+
+  .syntax--punctuation.syntax--definition.syntax--string.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  // punctuation.definition.entity
+  .syntax--punctuation.syntax--definition.syntax--character.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    font-style: normal;
+    font-weight: 100;
+
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+    }
+  }
+
+  .syntax--markup.syntax--code.syntax--line.syntax--org-mode {
+    font-family: serif;
+    // font-weight: lighter;
+  }
+
+  .syntax--markup.syntax--verbatim.syntax--org-mode {
+    // color: lighten(blue, 20%);
+    font-family: monospace;
+  }
+  .syntax--border.syntax--pipe.syntax--outer {
+    color: multiply(@syntax-invisible-character-color, gray);
+    font-weight: bold;
+  }
+  .syntax--border.syntax--header {
+    color: multiply(@syntax-invisible-character-color, gray);
+    font-weight: bold;
+    text-decoration: line-through;
+  }
+
+  .syntax--border.syntax--pipe.syntax--inner {
+    color: multiply(@syntax-invisible-character-color, gray);
+    font-weight: bold;
+  }
+
+  .syntax--table {
+      // background-color: lighten(@syntax-background-color, 2%);
+  }
+
+  .syntax--code-block.syntax--type.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    font-style: italic;
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+      font-style: normal;
+      font-weight: bold;
+    }
+
+  }
+
+  .syntax--code-block.syntax--code-block-headers.syntax--org-mode {
+    color: @syntax-invisible-character-color;
+    font-style: italic;
+    &:hover {
+      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+      font-style: normal;
+    }
+
+  }
+#+END_SRC
 
 ** grammars
 
@@ -2322,6 +2554,7 @@ Let us begin our journey into a better future.
 - [[file:coffeelint.json][coffeelint.json]]
 - [[file:grammars/org-mode.cson][org-mode.cson]]
 - [[file:grammars/shell-unix-bash-org-mode.cson][shell-unix-bash-org-mode.cson]]
+- [[file:styles/org-mode.less][org-mode.less]]
 
 *** Footnotes
 

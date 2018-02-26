@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="orgf402a5f" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgab82f74" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -99,6 +99,7 @@ Files List
 -   [coffeelint.json](coffeelint.json)
 -   [org-mode.cson](grammars/org-mode.cson)
 -   [shell-unix-bash-org-mode.cson](grammars/shell-unix-bash-org-mode.cson)
+-   [org-mode.less](styles/org-mode.less)
 
 
 Footnotes
