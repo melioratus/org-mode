@@ -6,7 +6,7 @@ The [org-mode](http://org-mode.org) application provides an astounding set of fe
 
 Below is just a very small subset of things you can do using a text file + org-mode + emacs:
 
--   Literate Programming<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup><sup>, </sup><sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup> with over 30 languages.
+-   Literate Programming<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup><sup>, </sup><sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup> in over 30 languages.
 -   Project, Task and Time Management.
 -   Data Science
 -   Reproducible Research
@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="org99cd0a8" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgd73723c" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
