@@ -3,7 +3,7 @@
 
 In order to maintain compatibility, the Atom =org-mode= package will follow the syntax specification[fn:1][fn:2] provided on [[http://orgmode.org][orgmode.org]].
 
-* Project Files
+* Package Files
 
 - [[file:../README.md][README.md]]
 
@@ -12,6 +12,8 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 - [[file:../package.json][package.json]]
 
   # Link to [[file:atom-org-mode-package.org::package.json][package.json Section]]
+
+* Exported Files                                                   :noexport:
 
 ** package.json                                                   :noexport:
 
@@ -158,9 +160,17 @@ Below is just a very small subset of things you can do using a text file + org-m
 
 Let us begin our journey into a better future.
 
-**** The Atom =org-mode= Package Road Map  
+**** Road Map  
 
  - Provide org-mode syntax highlighting to allow Atom users to easily create and maintain documentation. 
+
+**** Specifications
+
+#+INCLUDE: "atom-org-mode-package.org::atom-org-mode-package-package-specs"
+
+**** Files List
+
+- [[file:package.json][package.json]]
 
 *** Footnotes
 

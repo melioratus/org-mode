@@ -17,10 +17,85 @@ Below is just a very small subset of things you can do using a text file + org-m
 Let us begin our journey into a better future.
 
 
-The Atom `org-mode` Package Road Map
-------------------------------------
+Road Map
+--------
 
 -   Provide org-mode syntax highlighting to allow Atom users to easily create and maintain documentation.
+
+
+Specifications
+--------------
+
+<table id="org99cd0a8" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Property-Name</th>
+<th scope="col" class="org-left">Property-Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">name</td>
+<td class="org-left">org-mode</td>
+</tr>
+
+
+<tr>
+<td class="org-left">version</td>
+<td class="org-left">0.3.8</td>
+</tr>
+
+
+<tr>
+<td class="org-left">description</td>
+<td class="org-left">Atom grammar for org-mode syntax</td>
+</tr>
+
+
+<tr>
+<td class="org-left">keywords</td>
+<td class="org-left">org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation</td>
+</tr>
+
+
+<tr>
+<td class="org-left">repository</td>
+<td class="org-left"><https://github.com/melioratus/org-mode></td>
+</tr>
+
+
+<tr>
+<td class="org-left">license</td>
+<td class="org-left">MIT</td>
+</tr>
+
+
+<tr>
+<td class="org-left">engines</td>
+<td class="org-left">"atom": ">=1.0.0 <2.0.0"</td>
+</tr>
+
+
+<tr>
+<td class="org-left">dependencies</td>
+<td class="org-left">"coffee-script": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2", "underscorn-plus": "^1.0.6"</td>
+</tr>
+</tbody>
+</table>
+
+
+Files List
+----------
+
+-   [package.json](package.json)
 
 
 Footnotes
