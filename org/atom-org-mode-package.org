@@ -9,6 +9,130 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
   # Link to [[file:atom-org-mode-package.org::README.md][README.md Section]]
 
+- [[file:../package.json][package.json]]
+
+  # Link to [[file:atom-org-mode-package.org::package.json][package.json Section]]
+
+** package.json                                                   :noexport:
+
+#+NAME: atom-org-mode-package-package-specs
+| Property-Name | Property-Value                                                                                                               |
+|---------------+------------------------------------------------------------------------------------------------------------------------------|
+| name          | org-mode                                                                                                                     |
+| version       | 0.3.8                                                                                                                        |
+| description   | Atom grammar for org-mode syntax                                                                                             |
+| keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
+| repository    | https://github.com/melioratus/org-mode                                                                                       |
+| license       | MIT                                                                                                                          |
+| engines       | "atom": ">=1.0.0 <2.0.0"                                                                                                     |
+| dependencies  | "coffee-script": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2", "underscorn-plus": "^1.0.6"     |
+#+TBLFM: @5$2='(org-sbe atom-org-mode-package-package-specs-keywords-tblfm-value)::@8$2='(org-sbe atom-org-mode-package-package-specs-engines-tblfm-value)::@9$2='(org-sbe atom-org-mode-package-package-specs-dependencies-tblfm-value)
+
+#+BEGIN_QUOTE
+  *Note:* Modify dependencies, engines, keywords, or version values by updating the tables below.
+#+END_QUOTE
+
+**** Dependencies
+
+#+NAME: atom-org-mode-package-package-specs-dependencies
+| Dependency-Name | Dependency-Versions |
+|-----------------+---------------------|
+| coffee-script   |               1.7.0 |
+| coffeelint      |             ^1.10.1 |
+| request         |             ^2.34.0 |
+| season          |              ^5.0.2 |
+| underscorn-plus |              ^1.0.6 |
+
+***** Code                                                     :noexport:
+
+#+NAME: atom-org-mode-package-package-specs-dependencies-tblfm-value
+#+BEGIN_SRC ruby :var data=atom-org-mode-package-package-specs-dependencies :results verbatim    
+  result = data.map{|d| %Q'"#{d[0]}": "#{d[1]}"'}
+  result.join(", ")
+#+END_SRC
+
+#+RESULTS: atom-org-mode-package-package-specs-dependencies-tblfm-value
+: "coffee-script": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2", "underscorn-plus": "^1.0.6"
+
+**** Engines
+
+#+NAME: atom-org-mode-package-package-specs-engines
+| Engine-Name | Engine-Versions |
+|-------------+-----------------|
+| atom        | >=1.0.0 <2.0.0  |
+
+***** Code                                                     :noexport:
+
+#+NAME: atom-org-mode-package-package-specs-engines-tblfm-value
+#+BEGIN_SRC ruby :var data=atom-org-mode-package-package-specs-engines :results verbatim    
+  result = data.map{|d| %Q'"#{d[0]}": "#{d[1]}"'}
+  result.join(", ")
+#+END_SRC
+
+#+RESULTS: atom-org-mode-package-package-specs-engines-tblfm-value
+: "atom": ">=1.0.0 <2.0.0"
+
+**** Keywords
+
+#+NAME: atom-org-mode-package-package-specs-keywords
+| Keywords              |
+|-----------------------|
+| org                   |
+| org-mode              |
+| org mode              |
+| orgmode               |
+| emacs                 |
+| literate programming  |
+| literate devops       |
+| devops                |
+| reproducible research |
+| documentation         |
+
+***** Code                                                     :noexport:
+
+#+NAME: atom-org-mode-package-package-specs-keywords-tblfm-value
+#+BEGIN_SRC ruby :var data=atom-org-mode-package-package-specs-keywords
+  data.flatten().join(', ')
+#+END_SRC
+
+#+RESULTS: atom-org-mode-package-package-specs-keywords-tblfm-value
+: org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research
+
+**** Version
+
+The version property is updated using =apm publish= command.
+
+#+NAME: atom-org-mode-package-package-specs-version
+| Property-Name | Property-Value |
+|---------------+----------------|
+| version       | 0.3.8          |
+
+*** =package.json= File
+
+#+NAME: gen-package.json
+#+BEGIN_SRC ruby :file ../package.json :exports results :results scalar replace  :var keywords_data=atom-org-mode-package-package-specs-keywords :var engines_data=atom-org-mode-package-package-specs-engines :var specs_data=atom-org-mode-package-package-specs :var dependencies_data=atom-org-mode-package-package-specs-dependencies
+  require 'json'
+
+  result = {}
+  engines_hash = {} 
+  dependencies_hash = {} 
+
+  specs_data.map{|s| result[s[0]]=s[1]}
+
+  result["keywords"] = keywords_data.flatten()
+ 
+  engines_data.map{|e| engines_hash[e[0]]= e[1]}
+  result["engines"] = engines_hash
+
+  dependencies_data.map{|e| dependencies_hash[e[0]]= e[1]}
+  result["dependencies"] = dependencies_hash
+
+  JSON.pretty_generate(result)
+#+END_SRC
+
+#+RESULTS: gen-package.json
+[[file:../package.json]]
+
 ** README.md                                                      :noexport:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ../README.md

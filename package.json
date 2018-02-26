@@ -11,7 +11,8 @@
     "literate programming",
     "literate devops",
     "devops",
-    "reproducible research"
+    "reproducible research",
+    "documentation"
   ],
   "repository": "https://github.com/melioratus/org-mode",
   "license": "MIT",
