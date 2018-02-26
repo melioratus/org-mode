@@ -2177,7 +2177,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.9                                                                                                                        |
+| version       | 0.3.10                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
