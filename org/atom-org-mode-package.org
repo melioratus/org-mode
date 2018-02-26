@@ -21,7 +21,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.8                                                                                                                        |
+| version       | 0.3.9                                                                                                                        |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
@@ -155,7 +155,7 @@ Below is just a very small subset of things you can do using a text file + org-m
 - Reproducible Research 
 - Create and maintain documentation[fn:4] in multiple popular formats including PDF, HTML[fn:5] and Markdown.
 - Track and synchronize data across heterogeneous paradigms, technologies and formats including source code, network diagrams, Infrastructure as Code, DevOps[fn:6], databases, servers and services.
-- Learn new skills and share complex ideas in a consistent repeatible way.
+- Learn new skills and share complex ideas in a consistent repeatable way.
 
 
 Let us begin our journey into a better future.
