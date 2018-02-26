@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="orgf226dbe" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org951288c" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -50,7 +50,7 @@ Specifications
 
 <tr>
 <td class="org-left">version</td>
-<td class="org-left">0.3.10</td>
+<td class="org-left">0.3.11</td>
 </tr>
 
 
@@ -68,7 +68,7 @@ Specifications
 
 <tr>
 <td class="org-left">repository</td>
-<td class="org-left">https://github.com/melioratus/org-mode</td>
+<td class="org-left"><https://github.com/melioratus/org-mode></td>
 </tr>
 
 
@@ -86,7 +86,7 @@ Specifications
 
 <tr>
 <td class="org-left">dependencies</td>
-<td class="org-left">"coffee-script": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2", "underscorn-plus": "^1.0.6"</td>
+<td class="org-left">"coffeescript": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2"</td>
 </tr>
 </tbody>
 </table>

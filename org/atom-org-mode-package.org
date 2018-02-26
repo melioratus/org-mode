@@ -2177,13 +2177,13 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.10                                                                                                                       |
+| version       | 0.3.11                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
 | license       | MIT                                                                                                                          |
 | engines       | "atom": ">=1.0.0 <2.0.0"                                                                                                     |
-| dependencies  | "coffee-script": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2", "underscorn-plus": "^1.0.6"     |
+| dependencies  | "coffeescript": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2"                                   |
 #+TBLFM: @5$2='(org-sbe atom-org-mode-package-package-specs-keywords-tblfm-value)::@8$2='(org-sbe atom-org-mode-package-package-specs-engines-tblfm-value)::@9$2='(org-sbe atom-org-mode-package-package-specs-dependencies-tblfm-value)
 
 #+BEGIN_QUOTE
@@ -2195,11 +2195,10 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 #+NAME: atom-org-mode-package-package-specs-dependencies
 | Dependency-Name | Dependency-Versions |
 |-----------------+---------------------|
-| coffee-script   |               1.7.0 |
+| coffeescript    |               1.7.0 |
 | coffeelint      |             ^1.10.1 |
 | request         |             ^2.34.0 |
 | season          |              ^5.0.2 |
-| underscorn-plus |              ^1.0.6 |
 
 ***** Code                                                     :noexport:
 
@@ -2263,7 +2262,7 @@ The version property is updated using =apm publish= command.
 #+NAME: atom-org-mode-package-package-specs-version
 | Property-Name | Property-Value |
 |---------------+----------------|
-| version       | 0.3.8          |
+| version       | 0.3.11         |
 
 *** =package.json= File
 
