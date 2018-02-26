@@ -17,7 +17,1002 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
   # Link to [[file:atom-org-mode-package.org::coffeelint.json][coffeelint.json Section]]
 
+- [[file:../grammars/org-mode.cson][org-mode.cson]]
+
+  # Link to [[file:atom-org-mode-package.org::org-mode.cson][org-mode.cson Section]]
+
 * Exported Files                                                   :noexport:
+
+** grammars
+
+*** org-mode.cson
+:PROPERTIES:
+:ID:       93C158C1-6209-4A22-9C45-0E46CD7DE030
+:END:
+
+# Tangle file with C-u C-c C-v t
+
+#+BEGIN_SRC javascript :eval never :tangle ../grammars/org-mode.cson :mkdirp yes 
+  'name': 'Org-Mode Syntax'
+  'scopeName': 'source.org-mode'
+  'limitLineLength': false
+  'fileTypes': [
+    'org-mode'
+    'org'
+  ]
+  'patterns': [
+    {
+      'include': '#comment-line'
+    }
+    {
+      'include': '#comment-block'
+    }
+    {
+      'include': '#example-line'
+    }
+    {
+      'include': '#example-block'
+    }
+    {
+      'include': '#quote-block'
+    }
+    {
+      'include': '#verbatim'
+    }
+    {
+      'include': '#code'
+    }
+    {
+      'include': '#emphasis'
+    }
+    {
+      'include': '#code-block-shell'
+    }
+    {
+      'include': '#code-block-ruby'
+    }
+    {
+      'include': '#code-block-python'
+    }
+    {
+      'include': '#code-block-sql'
+    }
+    {
+      'include': '#code-block-css'
+    }
+    {
+      'include': '#options-line'
+    }
+    {
+      'include': '#keywords-line'
+    }
+    {
+      'include': '#babel-call'
+    }
+
+    {
+      'begin': '^(\\*{3})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-4.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{4})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-5.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{5})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-6.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{6})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-7.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+    {
+      'begin': '^(-----BEGIN PGP MESSAGE-----)$'
+      'end': '^(-----END PGP MESSAGE-----)$'
+      'name': 'crypt.pgp.message.string.org-mode'
+      'beginCaptures':
+        '1':
+          'name': 'crypt.pgp.message.begin.string.org-mode'
+      'endCaptures':
+        '1':
+          'name': 'crypt.pgp.message.begin.string.org-mode'
+      'patterns': [
+      ]
+    }
+
+
+    {
+      'match': '^(\\s*\\d+\\.)(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
+      'captures':
+        '1':
+          'name': 'variable.ordered.list.org-mode'
+        '2':
+          'name': 'punctuation.definition.list.space.org-mode'
+        '3':
+          'name': 'variable.checkbox.list.org-mode'
+        '4':
+          'name': 'punctuation.definition.checkbox.begin.list.org-mode'
+        '5':
+          'name': 'checkbox.string.org-mode'
+        '6':
+          'name': 'punctuation.definition.checkbox.end.list.org-mode'
+    }
+
+    {
+      'match': '^(\\s+[*]|\\s*[+-])(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
+      'captures':
+        '1':
+          'name': 'variable.unordered.list.org-mode'
+        '2':
+          'name': 'punctuation.definition.list.space.org-mode'
+        '3':
+          'name': 'variable.checkbox.list.org-mode'
+        '4':
+          'name': 'punctuation.definition.checkbox.begin.list.org-mode'
+        '5':
+          'name': 'checkbox.string.org-mode'
+        '6':
+          'name': 'punctuation.definition.checkbox.end.list.org-mode'
+    }
+
+    {
+      'begin': '^(?:[ \\t]*)(\\|)'
+      'end': '(\\|)?(?:\\s*)$'
+      'beginCaptures':
+        '1':
+          'name': 'border.pipe.outer.org-mode'
+      'endCaptures':
+        '1':
+          'name': 'border.pipe.outer.org-mode'
+      'name': 'table.grmtsts'
+      'patterns': [
+        {
+          'match': '(-+(?=[-+|]))([+]?)'
+          'captures':
+            '1':
+              'name': 'border.header.org-mode'
+            '2':
+              'name': 'border.header.org-mode'
+        }
+        {
+          'match': '\\|'
+          'name': 'border.pipe.inner.org-mode'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-1.org-mode'
+      'captures':
+        '1':
+          'name': 'markup.heading.marker.org-mode'
+        '2':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{1})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-2.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.star-1.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{2})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-3.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{3})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-4.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+        {
+          'include': '#task-status'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+    }
+
+    {
+      'begin': '^(\\*{4})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-5.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{5})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-6.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+
+    {
+      'begin': '^(\\*{6})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-7.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+    {
+      'begin': '^(\\*{7})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-8.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+    {
+      'begin': '^(\\*{8})(\\*{1})(\\s+)'
+      'end': '$'
+      'name': 'markup.heading.heading-9.org-mode'
+      'captures':
+        '1':
+          'name': 'leading-star.org-mode'
+        '2':
+          'name': 'markup.heading.marker.org-mode'
+        '3':
+          'name': 'markup.heading.space.org-mode'
+      'patterns': [
+          {
+            'include': '#task-status'
+          }
+          {
+            'include': '#code'
+          }
+          {
+            'include': '#verbatim'
+          }
+          {
+            'include': '#emphasis'
+          }
+        ]
+    }
+  ]
+  'repository':
+
+    'comment-line':
+      'patterns': [
+        {
+          'begin': '^\\s*#\\s'
+          'end': '$'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.comment.org-mode'
+          'name': 'comment.line.org-mode'
+        }
+      ]
+
+    'comment-block':
+      'patterns': [
+        {
+          'begin': '^(?i:\\s*#\\+BEGIN_COMMENT\\s*)'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.comment.org-mode'
+          'end': '^(?i:\\s*#\\+END_COMMENT\\s*)'
+          'name': 'comment.block.org-mode'
+        }
+      ]
+
+    'example-line':
+      'patterns': [
+        {
+          'begin': '^\\s*:\\s'
+          'end': '$'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'name': 'string.unquoted.org-mode'
+        }
+      ]
+
+    'example-block':
+      'patterns':[
+          {
+            'begin': '^(?i:\\s*#\\+BEGIN_EXAMPLE\\s*)'
+            'beginCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'end': '^(?i:\\s*#\\+END_EXAMPLE\\s*)'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'string.unquoted.org-mode'
+          }
+      ]
+
+    'quote-block':
+      'patterns': [
+        {
+          'begin': '^(?i:\\s*#\\+BEGIN_QUOTE\\s*)'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.quote.org-mode'
+          'end': '^(?i:\\s*#\\+END_QUOTE\\s*)'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.quote.org-mode'
+          'contentName': 'markup.quote.org-mode'
+          'patterns': [
+            {
+              'include': '#emphasis'
+            }
+          ]
+        }
+      ]
+
+    'unordered-list':
+      'patterns': [
+          {
+            'match': '^\\s+([*+-])(\\s+)'
+            'captures':
+              '1':
+                'name': 'punctuation.definition.item.org-mode'
+              '2':
+                'name': 'punctuation.definition.item.space.org-mode'
+          }
+      ]
+
+    'emphasis':
+      'patterns':[
+        {
+          'include': '#bold'
+        }
+        {
+          'include': '#italic'
+        }
+        {
+          'include': '#underline'
+        }
+        {
+          'include': '#strike-through'
+        }
+      ]
+
+    'task-status-todo':
+        'patterns': [
+            {
+              'match': '(?<=[\\\*]\\s)(TODO)\\b'
+              'name': 'constant.task.status.todo.org-mode'
+            }
+        ]
+
+    'task-status-done':
+        'patterns': [
+            {
+              'match': '(?<=[\\\*]\\s)(DONE)\\b'
+              'name': 'constant.task.status.done.org-mode'
+            }
+        ]
+
+    'task-status':
+        'patterns': [
+            {
+              'include': '#task-status-todo'
+            }
+            {
+              'include': '#task-status-done'
+            }
+        ]
+
+    'code':
+        'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d\\~])(\\~)(?!$|\\~|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\~)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.raw.code.line.org-mode'
+
+          }
+      ]
+
+    'verbatim':
+        'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d\\=])(\\=)(?!$|\\=|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\=)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.raw.verbatim.org-mode'
+          }
+      ]
+
+    'bold':
+        'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d\\*])(\\*)(?!$|\\*|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\*)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.bold.org-mode'
+            'patterns': [
+              {
+                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+                'name': 'constant.character.entity.org-mode'
+                'captures':
+                  '1':
+                    'name': 'punctuation.definition.entity.org-mode'
+                  '3':
+                    'name': 'punctuation.definition.entity.org-mode'
+              }
+              {
+                'include': '#italic'
+              }
+              {
+                'include': '#underline'
+              }
+              {
+                'include': '#strike-through'
+              }
+              {
+                'include': '#code'
+              }
+              {
+                'include': '#verbatim'
+              }
+            ]
+        }
+      ]
+
+    'underline':
+      'patterns':[
+         {
+           'begin': '(?<=^|[^\\w\\d_])(_)(?!$|_|\\s)'
+           'beginCaptures':
+             '1':
+               'name': 'punctuation.definition.character.org-mode'
+           'end': '(?<!^|\\s)(_)(?=$|[^\\w|\\d])'
+           'endCaptures':
+             '1':
+               'name': 'punctuation.definition.character.org-mode'
+           'name': 'markup.underline.link.org-mode'
+           'patterns': [
+             {
+               'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+               'name': 'constant.character.entity.org-mode'
+               'captures':
+                 '1':
+                   'name': 'punctuation.definition.entity.org-mode'
+                 '3':
+                   'name': 'punctuation.definition.entity.org-mode'
+             }
+            {
+               'include': '#bold'
+            }
+            {
+              'include': '#italic'
+            }
+            {
+              'include': '#strike-through'
+            }
+            {
+              'include': '#code'
+            }
+            {
+              'include': '#verbatim'
+            }
+           ]
+         }
+
+      ]
+    'italic':
+      'patterns':[
+        {
+            'begin': '(?<=^|[^\\w\\d\\/])(\\/)(?!$|\\/|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\/)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.italic.org-mode'
+            'patterns': [
+              {
+                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+                'name': 'constant.character.entity.org-mode'
+                'captures':
+                  '1':
+                    'name': 'punctuation.definition.entity.org-mode'
+                  '3':
+                    'name': 'punctuation.definition.entity.org-mode'
+              }
+              {
+                'include': '#bold'
+              }
+              {
+                'include': '#underline'
+              }
+              {
+                'include': '#strike-through'
+              }
+              {
+                'include': '#code'
+              }
+              {
+                'include': '#verbatim'
+              }
+            ]
+          }
+      ]
+
+    'strike-through':
+      'patterns': [
+          {
+            'begin': '(?<=^|[^\\w\\d#\\+])(\\+)(?!$|\\+|\\s)'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'end': '(?<!^|\\s)(\\+)(?=$|[^\\w|\\d])'
+            'endCaptures':
+              '1':
+                'name': 'punctuation.definition.character.org-mode'
+            'name': 'markup.strike.org-mode'
+            'patterns': [
+              {
+                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
+                'name': 'constant.character.entity.org-mode'
+                'captures':
+                  '1':
+                    'name': 'punctuation.definition.entity.org-mode'
+                  '3':
+                    'name': 'punctuation.definition.entity.org-mode'
+              }
+              {
+                'include': '#bold'
+              }
+              {
+                'include': '#italic'
+              }
+              {
+                'include': '#underline'
+              }
+              {
+                'include': '#code'
+              }
+              {
+                'include': '#verbatim'
+              }
+            ]
+          }
+      ]
+
+    'code-block-shell':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sh|shell|bash)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.shell-org-mode'
+            'patterns':[
+              {
+                'include': 'source.shell-org-mode'
+              }
+            ]
+          }
+      ]
+
+    'code-block-ruby':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(ruby)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.ruby-org-mode'
+            'patterns':[
+              {
+                'include': 'source.ruby'
+              }
+            ]
+          }
+      ]
+
+    'code-block-python':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(python)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.python-org-mode'
+            'patterns':[
+              {
+                'include': 'source.python'
+              }
+            ]
+          }
+      ]
+
+    'code-block-sql':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sql)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.sql-org-mode'
+            'patterns':[
+              {
+                'include': 'source.sql'
+              }
+            ]
+          }
+      ]
+    'code-block-css':
+      'patterns':[
+          {
+            'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(css)(\\s+(:\\w+)(\\s+.+)?)*$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'code-block.type.org-mode'
+              '3':
+                'name': 'code-block.code-block-headers.org-mode'
+            'end': '^(?i)(\\s*#\\+END_SRC\\s*)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.css-org-mode'
+            'patterns':[
+              {
+                'include': 'source.css'
+              }
+            ]
+          }
+      ]
+
+    'options-line':
+      'patterns': [
+        {
+          'begin': '^(\\s*#[+])(OPTIONS|TITLE|DATE|AUTHOR|EMAIL|LANGUAGE|CREATOR|SELECT_TAGS|EXCLUDE_TAGS|SETUP|PROPERTY|MACRO)(:)((\\s+)(.+))?'
+          'end': '$'
+          'captures':
+            '1':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '2':
+              'name': 'markup.function.keyword.key-name.org-mode'
+            '3':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '5':
+              'name': 'punctuation.definition.keyword.space.org-mode'
+            '6':
+              'name': 'punctuation.definition.keyword.key-value.org-mode'
+          'name': 'markup.keyword.org-mode'
+        }
+      ]
+
+    'keywords-line':
+      'patterns': [
+        {
+          'begin': '^(\\s*#[+])(HEADER|NAME|PLOT|CAPTION|RESULTS[\\\[\\\]a-f0-9]*)(:)((\\s+)(.+))?'
+          'end': '$'
+          'captures':
+            '1':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '2':
+              'name': 'markup.function.keyword.key-name.org-mode'
+            '3':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '5':
+              'name': 'punctuation.definition.keyword.space.org-mode'
+            '6':
+              'name': 'punctuation.definition.keyword.key-value.org-mode'
+          'name': 'markup.keyword.org-mode'
+        }
+      ]
+
+    'babel-call':
+      'patterns': [
+        {
+          'begin': '^(\\s*#[+])(CALL[\\\[\\\]a-zA-Z0-9,]*)(:)((\\s+)(.+))?'
+          'end': '$'
+          'captures':
+            '1':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '2':
+              'name': 'markup.function.keyword.key-name.org-mode'
+            '3':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '5':
+              'name': 'punctuation.definition.keyword.space.org-mode'
+            '6':
+              'name': 'punctuation.definition.keyword.key-value.org-mode'
+          'name': 'markup.keyword.org-mode'
+        }
+      ]
+
+#+END_SRC
 
 ** coffeelint.json                                                :noexport:
 :PROPERTIES:
@@ -223,6 +1218,7 @@ Let us begin our journey into a better future.
 
 - [[file:package.json][package.json]]
 - [[file:coffeelint.json][coffeelint.json]]
+- [[file:grammars/org-mode.cson][org-mode.cson]]
 
 *** Footnotes
 
