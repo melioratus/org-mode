@@ -13,7 +13,58 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
   # Link to [[file:atom-org-mode-package.org::package.json][package.json Section]]
 
+- [[file:../coffeelint.json][coffeelint.json]]
+
+  # Link to [[file:atom-org-mode-package.org::coffeelint.json][coffeelint.json Section]]
+
 * Exported Files                                                   :noexport:
+
+** coffeelint.json                                                :noexport:
+:PROPERTIES:
+:ID:       05A40356-D779-4E4B-9DDB-14D86B00ED74
+:END:
+
+# Tangle file with C-u C-c C-v t
+
+#+BEGIN_SRC javascript :eval never :tangle ../coffeelint.json 
+  {
+    "max_line_length": {
+      "level": "ignore"
+    },
+    "no_empty_param_list": {
+      "level": "error"
+    },
+    "arrow_spacing": {
+      "level": "error"
+    },
+    "no_interpolation_in_single_quotes": {
+      "level": "error"
+    },
+    "no_debugger": {
+      "level": "error"
+    },
+    "prefer_english_operator": {
+      "level": "error"
+    },
+    "colon_assignment_spacing": {
+      "spacing": {
+        "left": 0,
+        "right": 1
+      },
+      "level": "error"
+    },
+    "braces_spacing": {
+      "spaces": 0,
+      "level": "error"
+    },
+    "spacing_after_comma": {
+      "level": "error"
+    },
+    "no_stand_alone_at": {
+      "level": "error"
+    }
+  }
+#+END_SRC
 
 ** package.json                                                   :noexport:
 
@@ -171,6 +222,7 @@ Let us begin our journey into a better future.
 **** Files List
 
 - [[file:package.json][package.json]]
+- [[file:coffeelint.json][coffeelint.json]]
 
 *** Footnotes
 

@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="org329df60" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org9524979" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -96,6 +96,7 @@ Files List
 ----------
 
 -   [package.json](package.json)
+-   [coffeelint.json](coffeelint.json)
 
 
 Footnotes
