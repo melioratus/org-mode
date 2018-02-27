@@ -2708,6 +2708,18 @@ Let us begin our journey into a better future.
   }
 #+END_SRC
 
+* Notes                                                            :noexport:
+
+** RegEx - In Progress
+
+*** Unordered Lists
+
+: ^( +[*]| *[+-])( +)(([\[])([ X-])([\]])( +))?((.*)\s(.*))?$
+
+*** Ordered Lists
+
+: ^( *\d+[.])( +)(([\[])([ X-])([\]])( )+)?((.*)\s(.*))?$
+
 * Export Settings                                                  :noexport:
 
 #+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
