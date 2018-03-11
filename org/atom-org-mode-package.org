@@ -3880,7 +3880,26 @@ Let us begin our journey into a better future.
 
 ***** Code  
 
-****** Regular Expressions
+****** Regular Expressions 
+
+*** Footnotes
+
+[fn:1] In particular, the parser requires stars at column 0 to be
+quoted by a comma when they do not define a headline.
+
+[fn:2] It also means that only headlines and sections can be
+recognized just by looking at the beginning of the line.  Planning
+lines and property drawers can be recognized by looking at one or two
+lines above.
+
+As a consequence, using ~org-element-at-point~ or
+~org-element-context~ will move up to the parent headline, and parse
+top-down from there until context around original location is found.
+
+
+# Local Variables:
+# sentence-end-double-space: t
+# End:
 
 * Export Settings                                                  :noexport:
 
