@@ -2710,6 +2710,21 @@ Let us begin our journey into a better future.
 
 * Notes                                                            :noexport:
 
+** Atom - In Progess
+
+*** Marker
+
+#+BEGIN_SRC javascript :eval never
+  var myMrk = myTE.buffer.markRange(myRange)
+  //undefined
+  myMrk.isValid()
+  //true
+  var myDecorator = myTE.decorateMarker(myMrk,{type: 'line', class:'icon icon-alert'})
+  //undefined
+  myMrk.destroy()
+  //Object {}
+#+END_SRC
+
 ** RegEx - In Progress
 
 *** Unordered Lists
