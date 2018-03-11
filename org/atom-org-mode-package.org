@@ -2812,7 +2812,11 @@ Let us begin our journey into a better future.
     (headline
      (headline))))
   #+END_EXAMPLE
-  
+
+**** Code  
+
+***** Regular Expressions
+
 *** Affiliated Keywords
   :PROPERTIES:
   :CUSTOM_ID: Affiliated_keywords
@@ -2843,6 +2847,10 @@ Let us begin our journey into a better future.
 
   "CAPTION", "AUTHOR", "DATE" and "TITLE" keywords can contain objects
   in their value and their optional value, if applicable.
+
+**** Code  
+
+***** Regular Expressions
 
 *** Greater Elements
   :PROPERTIES:
@@ -2884,6 +2892,10 @@ Let us begin our journey into a better future.
    its own.  Also lines beginning with STARS must be quoted by
    a comma.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Drawers and Property Drawers
    :PROPERTIES:
    :CUSTOM_ID: Drawers
@@ -2902,6 +2914,10 @@ Let us begin our journey into a better future.
 
    CONTENTS can contain any element but another drawer.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Dynamic Blocks
    :PROPERTIES:
    :CUSTOM_ID: Dynamic_Blocks
@@ -2918,6 +2934,10 @@ Let us begin our journey into a better future.
    NAME cannot contain any whitespace character.
 
    PARAMETERS can contain any character and can be omitted.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Footnote Definitions
    :PROPERTIES:
@@ -2940,6 +2960,10 @@ Let us begin our journey into a better future.
    definition.  It ends at the next footnote definition, the next
    headline, two consecutive empty lines or the end of buffer.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Inlinetasks
    :PROPERTIES:
    :CUSTOM_ID: Inlinetasks
@@ -2955,6 +2979,10 @@ Let us begin our journey into a better future.
 
    Inlinetasks are recognized only after =org-inlinetask= library is
    loaded.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Plain Lists and Items
    :PROPERTIES:
@@ -3010,6 +3038,17 @@ Let us begin our journey into a better future.
       (item))))
    #+END_EXAMPLE
 
+***** Code
+
+****** Regular Expressions
+
+******* Unordered Lists
+
+: ^( +[*]| *[+-])( +)(([\[])([ X-])([\]])( +))?((.*)\s(.*))?$
+
+******* Ordered Lists
+
+: ^( *\d+[.])( +)(([\[])([ X-])([\]])( )+)?((.*)\s(.*))?$
 **** Property Drawers
    :PROPERTIES:
    :CUSTOM_ID: Property_Drawers
@@ -3038,6 +3077,10 @@ Let us begin our journey into a better future.
 
    where CONTENTS consists of zero or more node properties.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Tables
    :PROPERTIES:
    :CUSTOM_ID: Tables
@@ -3060,6 +3103,10 @@ Let us begin our journey into a better future.
 
    One or more "#+TBLFM: FORMULAS" lines, where "FORMULAS" can contain
    any character, can follow an org table.
+
+***** Code  
+
+****** Regular Expressions
 
 *** Elements
   :PROPERTIES:
@@ -3084,6 +3131,10 @@ Let us begin our journey into a better future.
    #+END_EXAMPLE
 
    VALUE is optional.  It can contain any character but a new line.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Blocks
    :PROPERTIES:
@@ -3127,6 +3178,10 @@ Let us begin our journey into a better future.
    CONTENTS can contain any character, including new lines.  Though it
    will only contain Org objects if the block is a verse block.
    Otherwise, CONTENTS will not be parsed.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Clock, Diary Sexp and Planning
    :PROPERTIES:
@@ -3175,6 +3230,10 @@ Let us begin our journey into a better future.
    In particular, no blank line is allowed between PLANNING and
    HEADLINE.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Comments
    :PROPERTIES:
    :CUSTOM_ID: Comments
@@ -3184,6 +3243,10 @@ Let us begin our journey into a better future.
    character or an end of line.
 
    Comments can contain any number of consecutive comment lines.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Fixed Width Areas
    :PROPERTIES:
@@ -3196,6 +3259,10 @@ Let us begin our journey into a better future.
    Fixed width areas can contain any number of consecutive fixed-width
    lines.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Horizontal Rules
    :PROPERTIES:
    :CUSTOM_ID: Horizontal_Rules
@@ -3203,6 +3270,10 @@ Let us begin our journey into a better future.
 
    A horizontal rule is a line made of at least 5 consecutive hyphens.
    It can be indented.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Keywords
    :PROPERTIES:
@@ -3223,6 +3294,10 @@ Let us begin our journey into a better future.
    If KEY belongs to ~org-element-document-properties~, VALUE can
    contain objects.
 
+***** Code  
+
+****** Regular Expressions
+
 **** LaTeX Environments
    :PROPERTIES:
    :CUSTOM_ID: LaTeX_Environments
@@ -3237,6 +3312,10 @@ Let us begin our journey into a better future.
    NAME is constituted of alpha-numeric or asterisk characters.
 
    CONTENTS can contain anything but the "\end{NAME}" string.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Node Properties
    :PROPERTIES:
@@ -3261,6 +3340,10 @@ Let us begin our journey into a better future.
 
    VALUE can contain anything but a newline character.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Paragraphs
    :PROPERTIES:
    :CUSTOM_ID: Paragraphs
@@ -3272,6 +3355,10 @@ Let us begin our journey into a better future.
    Empty lines and other elements end paragraphs.
 
    Paragraphs can contain every type of object.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Table Rows
    :PROPERTIES:
@@ -3285,6 +3372,10 @@ Let us begin our journey into a better future.
    second case, it has the "rule" type.
 
    Table rows can only exist in tables.
+
+***** Code  
+
+****** Regular Expressions
 
 *** Objects
   :PROPERTIES:
@@ -3383,6 +3474,10 @@ Let us begin our journey into a better future.
    positives.  --- ngz
    #+END_QUOTE
 
+***** Code  
+
+****** Regular Expressions
+
 **** Export Snippets
    :PROPERTIES:
    :CUSTOM_ID: Export_Snippets
@@ -3397,6 +3492,10 @@ Let us begin our journey into a better future.
    NAME can contain any alpha-numeric character and hyphens.
 
    VALUE can contain anything but "@@" string.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Footnote References
    :PROPERTIES:
@@ -3421,6 +3520,10 @@ Let us begin our journey into a better future.
    If the reference follows the second pattern, it is called an
    "inline footnote".  If it follows the third one, i.e. if LABEL is
    omitted, it is an "anonymous footnote".
+
+***** Code  
+
+****** Regular Expressions
 
 **** Inline Babel Calls and Source Blocks
    :PROPERTIES:
@@ -3451,6 +3554,10 @@ Let us begin our journey into a better future.
 
    OPTIONS and BODY can contain any character but "\n".
 
+***** Code  
+
+****** Regular Expressions
+
 **** Line Breaks
    :PROPERTIES:
    :CUSTOM_ID: Line_Breaks
@@ -3460,6 +3567,10 @@ Let us begin our journey into a better future.
    otherwise non-empty line.
 
    SPACE can contain any number of tabs and spaces, including 0.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Links
    :PROPERTIES:
@@ -3520,6 +3631,10 @@ Let us begin our journey into a better future.
    PATH4, CUSTOM-ID, CODEREF and FUZZY can contain any character
    besides square brackets.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Macros
    :PROPERTIES:
    :CUSTOM_ID: Macros
@@ -3537,6 +3652,10 @@ Let us begin our journey into a better future.
    ARGUMENTS can contain anything but "}}}" string.  Values within
    ARGUMENTS are separated by commas.  Non-separating commas have to
    be escaped with a backslash character.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Targets and Radio Targets
    :PROPERTIES:
@@ -3564,6 +3683,10 @@ Let us begin our journey into a better future.
    cannot start or end with a whitespace character.  It cannot contain
    any object.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Statistics Cookies
    :PROPERTIES:
    :CUSTOM_ID: Statistics_Cookies
@@ -3577,6 +3700,10 @@ Let us begin our journey into a better future.
    #+END_EXAMPLE
 
    PERCENT, NUM1 and NUM2 are numbers or the empty string.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Subscript and Superscript
    :PROPERTIES:
@@ -3616,6 +3743,10 @@ Let us begin our journey into a better future.
 
    There is no white space between SIGN, CHARS and FINAL.
 
+***** Code  
+
+****** Regular Expressions
+
 **** Table Cells
    :PROPERTIES:
    :CUSTOM_ID: Table_Cells
@@ -3634,6 +3765,10 @@ Let us begin our journey into a better future.
 
    The final bar may be replaced with a newline character for the last
    cell in row.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Timestamps
    :PROPERTIES:
@@ -3685,6 +3820,10 @@ Let us begin our journey into a better future.
 
    There can be two REPEATER-OR-DELAY in the timestamp: one as
    a repeater and one as a warning delay.
+
+***** Code  
+
+****** Regular Expressions
 
 **** Text Markup
    :PROPERTIES:
@@ -3739,13 +3878,9 @@ Let us begin our journey into a better future.
    emphasis, by definition.  --- ngz
    #+END_QUOTE
 
-*** Unordered Lists
+***** Code  
 
-: ^( +[*]| *[+-])( +)(([\[])([ X-])([\]])( +))?((.*)\s(.*))?$
-
-*** Ordered Lists
-
-: ^( *\d+[.])( +)(([\[])([ X-])([\]])( )+)?((.*)\s(.*))?$
+****** Regular Expressions
 
 * Export Settings                                                  :noexport:
 
