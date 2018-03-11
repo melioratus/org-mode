@@ -2710,7 +2710,7 @@ Let us begin our journey into a better future.
 
 * Notes
 
-** Atom - In Progess
+** Atom Editor
 
 *** Marker
 
