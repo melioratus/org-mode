@@ -2710,6 +2710,8 @@ Let us begin our journey into a better future.
 
 * Notes
 
+** Node Setup
+
 ** Atom Editor
 
 *** Marker
@@ -2734,6 +2736,7 @@ Let us begin our journey into a better future.
 
   A headline is defined as:
 
+  #+NAME: org-syntax-headline-definition
   #+BEGIN_EXAMPLE
   STARS KEYWORD PRIORITY TITLE TAGS
   #+END_EXAMPLE
@@ -2816,6 +2819,23 @@ Let us begin our journey into a better future.
 **** Code  
 
 ***** Regular Expressions
+
+****** Headline Regular Expressions
+
+#+CALL: elisp/display-this-here(data=org-syntax-headline-definition)
+
+#+RESULTS:
+: STARS KEYWORD PRIORITY TITLE TAGS
+
+******* STARS
+
+#+BEGIN_SRC js :cmd "node" :var data="input goes here" :results replace 
+  data
+#+END_SRC
+
+#+RESULTS:
+: undefined
+
 
 *** Affiliated Keywords
   :PROPERTIES:
@@ -3924,4 +3944,63 @@ top-down from there until context around original location is found.
 [fn:1] [[https://orgmode.org/worg/dev/org-syntax.html]]
 
 [fn:2] [[file:orgmode.org/worg/dev/org-syntax.org]]
+
+* Code                                                             :noexport:
+
+** elisp/display-this-here
+
+#+NAME: elisp/display-this-here
+#+BEGIN_SRC elisp :var data="" 
+  data
+#+END_SRC
+
+#+NAME: elisp/display-this-here-ex1
+#+BEGIN_EXAMPLE
+  Example Block Data
+#+END_EXAMPLE
+
+#+NAME: elisp/display-this-here-ex2
+| R1C1  | R1C2  | R1C3  |
+|-------+-------+-------|
+| R2C1  | R2C2  | R2C3  |
+| R3C1  | R3C2  | R3C3  |
+| R4C1  | R4C2  | R4C3  |
+| R5C1  | R5C2  | R5C3  |
+| R6C1  | R6C2  | R6C3  |
+| R7C1  | R7C2  | R7C3  |
+| R8C1  | R8C2  | R8C3  |
+| R9C1  | R9C2  | R9C3  |
+#+TBLFM: @1='(format "R%sC%s" @# $#)::@1$1..@>$>='(format "R%sC%s" @# $#)
+
+
+#+CALL: elisp/display-this-here(data=elisp/display-this-here-ex1)
+
+#+RESULTS:
+: Example Block Data
+
+#+CALL: elisp/display-this-here(data=elisp/display-this-here-ex2)
+
+#+RESULTS:
+| R2C1 | R2C2 | R2C3 |
+| R3C1 | R3C2 | R3C3 |
+| R4C1 | R4C2 | R4C3 |
+| R5C1 | R5C2 | R5C3 |
+| R6C1 | R6C2 | R6C3 |
+| R7C1 | R7C2 | R7C3 |
+| R8C1 | R8C2 | R8C3 |
+| R9C1 | R9C2 | R9C3 |
+
+#+CALL: elisp/display-this-here(data=elisp/display-this-here-ex2) :colnames yes
+
+#+RESULTS:
+| R1C1 | R1C2 | R1C3 |
+|------+------+------|
+| R2C1 | R2C2 | R2C3 |
+| R3C1 | R3C2 | R3C3 |
+| R4C1 | R4C2 | R4C3 |
+| R5C1 | R5C2 | R5C3 |
+| R6C1 | R6C2 | R6C3 |
+| R7C1 | R7C2 | R7C3 |
+| R8C1 | R8C2 | R8C3 |
+| R9C1 | R9C2 | R9C3 |
 
