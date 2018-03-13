@@ -2768,7 +2768,8 @@ Let us begin our journey into a better future.
     
   Examples of valid headlines include:
 
-  #+BEGIN_EXAMPLE
+  #+NAME: examples-of-valid-headlines.org
+  #+BEGIN_SRC org :tangle ../samples/examples-of-valid-headlines.org :results org replace 
   ,*
 
   ,** DONE
@@ -2776,7 +2777,7 @@ Let us begin our journey into a better future.
   ,*** Some e-mail
 
   ,**** TODO [#A] COMMENT Title :tag:a2%:
-  #+END_EXAMPLE
+  #+END_SRC
   
   #+NAME: org-syntax-title-comment-definition  
   If the first word appearing in the title is "COMMENT", the headline
