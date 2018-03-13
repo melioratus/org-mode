@@ -2829,13 +2829,12 @@ Let us begin our journey into a better future.
 
 ******* STARS
 
-#+BEGIN_SRC js :cmd "node" :var data="input goes here" :results replace 
-  data
+#+BEGIN_SRC js :cmd "node" :var data="input goes here" :results replace output
+  console.log(data)
 #+END_SRC
 
 #+RESULTS:
-: undefined
-
+: input goes here
 
 *** Affiliated Keywords
   :PROPERTIES:
