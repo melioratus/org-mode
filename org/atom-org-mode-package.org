@@ -2895,7 +2895,7 @@ Let us begin our journey into a better future.
 :   index: 0,
 :   input: '**** DONE [#A] stuff goes here' ]
 
-******* TITLE 
+******* TITLE [0/2]
 
 #+CALL: elisp/display-this-here(data=org-syntax-title-definition)
 
