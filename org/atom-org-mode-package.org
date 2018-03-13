@@ -2800,7 +2800,8 @@ Let us begin our journey into a better future.
 
   As an example, consider the following document:
 
-  #+BEGIN_SRC org :tangle ../samples/org-syntax-example-document1.org
+  #+NAME: org-syntax-example-document1.org
+  #+BEGIN_SRC org :tangle ../samples/org-syntax-example-document1.org :results org replace
   An introduction.
   
   ,* A Headline 
