@@ -2838,6 +2838,35 @@ Let us begin our journey into a better future.
 #+RESULTS:
 : STARS KEYWORD PRIORITY TITLE TAGS
 
+: ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+))( (([:\\w@#%]+))+)?)?
+: ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+)?)( (([:\\w@#%]+))+)?)?
+: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
+: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
+
+: "**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:"
+
+#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:" :results replace output :var pattern="^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))"
+  var re = new RegExp(pattern);
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  '****',
+  ' DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  'DONE',
+  ' [#A]',
+  '[#A]',
+  ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  ' :tag1:@tag2:#tag3:%TAG4#:',
+  ':tag1:@tag2:#tag3:%TAG4#:',
+  ':tag1:@tag2:#tag3:%TAG4#:',
+  index: 0,
+  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
+#+end_example
+
 ******* STARS
 
 #+CALL: elisp/display-this-here(data=org-syntax-stars-definition)
