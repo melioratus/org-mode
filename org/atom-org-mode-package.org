@@ -2732,6 +2732,7 @@ Let us begin our journey into a better future.
 *** Headlines and Sections
   :PROPERTIES:
   :CUSTOM_ID: Headlines_and_Sections
+  :ID:       FD0F02FE-459C-4268-B4B8-AA82ECC75FFD
   :END:
 
   A headline is defined as:
@@ -2798,7 +2799,7 @@ Let us begin our journey into a better future.
 
   As an example, consider the following document:
 
-  #+BEGIN_SRC org
+  #+BEGIN_SRC org :tangle ../samples/org-syntax-example-document1.org
   An introduction.
   
   ,* A Headline 
