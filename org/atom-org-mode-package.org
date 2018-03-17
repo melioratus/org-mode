@@ -2198,7 +2198,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | version       | 0.3.11                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
-| repository    | https://github.com/melioratus/org-mode                                                                                       |
+| repository    | [[https://github.com/melioratus/org-mode][https://github.com/melioratus/org-mode]]                                           |
 | license       | MIT                                                                                                                          |
 | engines       | "atom": "&gt;=1.0.0 &lt;2.0.0"                                                                                               |
 | dependencies  | "coffeescript": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2"                                   |
@@ -2296,8 +2296,10 @@ The version property is updated using =apm publish= command.
 
   specs_data.map{|s| result[s[0]]=s[1]}
 
+  result["repository"] = result["repository"].gsub(/^([\[\]]+)([^\]]+)([\]].+)$/,'\\2')
+
   result["keywords"] = keywords_data.flatten()
- 
+
   engines_data.map{|e| engines_hash[e[0]]= e[1]}
   result["engines"] = engines_hash
 
@@ -2356,15 +2358,15 @@ Let us begin our journey into a better future.
 
 [fn:1] pun intended
 
-[fn:2] [[https://en.wikipedia.org/wiki/Literate_programming]]
+[fn:2] [[https://en.wikipedia.org/wiki/Literate_programming][https://en.wikipedia.org/wiki/Literate_programming]]
 
-[fn:3] [[http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/]]
+[fn:3] [[http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/][http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/]]
 
-[fn:4] [[https://github.com/fniessen/refcard-org-mode]]
+[fn:4] [[https://github.com/fniessen/refcard-org-mode][https://github.com/fniessen/refcard-org-mode]]
 
-[fn:5] [[https://github.com/fniessen/org-html-themes]]
+[fn:5] [[https://github.com/fniessen/org-html-themes][https://github.com/fniessen/org-html-themes]]
 
-[fn:6] [[http://howardism.org/Technical/Emacs/literate-devops.html]]
+[fn:6] [[http://howardism.org/Technical/Emacs/literate-devops.html][http://howardism.org/Technical/Emacs/literate-devops.html]]
 
 ** spec
 
