@@ -22,6 +22,9 @@
     'include': '#quote-block'
   }
   {
+    'include': '#user-defined-block'
+  }
+  {
     'include': '#verbatim'
   }
   {
@@ -975,4 +978,19 @@
             'name': 'punctuation.definition.keyword.key-value.org-mode'
         'name': 'markup.keyword.org-mode'
       }
+    ]
+
+  'user-defined-block':
+    'patterns':[
+        {
+          'begin': '^ *#\\+BEGIN_([\\w]+)$'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^ *#\\+END_\\1$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'string.unquoted.org-mode'
+        }
     ]
