@@ -2195,12 +2195,12 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.11                                                                                                                       |
+| version       | 0.3.12                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
-| repository    | https://github.com/melioratus/org-mode                                                                                       |
+| repository    | [[https://github.com/melioratus/org-mode]]                                                                                       |
 | license       | MIT                                                                                                                          |
-| engines       | "atom": ">=1.0.0 <2.0.0"                                                                                                     |
+| engines       | "atom": "&gt;=1.0.0 &lt;2.0.0"                                                                                               |
 | dependencies  | "coffeescript": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2"                                   |
 #+TBLFM: @5$2='(org-sbe atom-org-mode-package-package-specs-keywords-tblfm-value)::@8$2='(org-sbe atom-org-mode-package-package-specs-engines-tblfm-value)::@9$2='(org-sbe atom-org-mode-package-package-specs-dependencies-tblfm-value)
 
@@ -2222,12 +2222,13 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
 #+NAME: atom-org-mode-package-package-specs-dependencies-tblfm-value
 #+BEGIN_SRC ruby :var data=atom-org-mode-package-package-specs-dependencies :results verbatim    
-  result = data.map{|d| %Q'"#{d[0]}": "#{d[1]}"'}
+  require 'cgi'
+  result = data.map{|d| %Q'"#{CGI::escapeHTML(d[0])}": "#{CGI::escapeHTML(d[1])}"'}
   result.join(", ")
 #+END_SRC
 
 #+RESULTS: atom-org-mode-package-package-specs-dependencies-tblfm-value
-: "coffee-script": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2", "underscorn-plus": "^1.0.6"
+: "coffeescript": "1.7.0", "coffeelint": "%5E1.10.1", "request": "%5E2.34.0", "season": "%5E5.0.2"
 
 **** Engines
 
@@ -2240,12 +2241,13 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
 #+NAME: atom-org-mode-package-package-specs-engines-tblfm-value
 #+BEGIN_SRC ruby :var data=atom-org-mode-package-package-specs-engines :results verbatim    
-  result = data.map{|d| %Q'"#{d[0]}": "#{d[1]}"'}
+  require 'cgi'
+  result = data.map{|d| %Q'"#{CGI::escapeHTML(d[0])}": "#{CGI::escapeHTML(d[1])}"'}
   result.join(", ")
 #+END_SRC
 
 #+RESULTS: atom-org-mode-package-package-specs-engines-tblfm-value
-: "atom": ">=1.0.0 <2.0.0"
+: "atom": "%3E%3D1.0.0+%3C2.0.0"
 
 **** Keywords
 
@@ -2285,7 +2287,7 @@ The version property is updated using =apm publish= command.
 *** =package.json= File
 
 #+NAME: gen-package.json
-#+BEGIN_SRC ruby :file ../package.json :exports results :results scalar replace  :var keywords_data=atom-org-mode-package-package-specs-keywords :var engines_data=atom-org-mode-package-package-specs-engines :var specs_data=atom-org-mode-package-package-specs :var dependencies_data=atom-org-mode-package-package-specs-dependencies
+#+BEGIN_SRC ruby :file ../package.json :exports results :results scalar replace  :var keywords_data=atom-org-mode-package-package-specs-keywords :var engines_data=atom-org-mode-package-package-specs-engines :var specs_data=atom-org-mode-package-package-specs :var dependencies_data=atom-org-mode-package-package-specs-dependencies :var version_data=atom-org-mode-package-package-specs-version
   require 'json'
 
   result = {}
@@ -2294,8 +2296,16 @@ The version property is updated using =apm publish= command.
 
   specs_data.map{|s| result[s[0]]=s[1]}
 
+  version_data.map{|v|
+    if v[0] == "version"
+      result["version"] = v[1]
+    end
+  }
+
+  result["repository"] = result["repository"].gsub(/[\[\]]/,'')
+
   result["keywords"] = keywords_data.flatten()
- 
+
   engines_data.map{|e| engines_hash[e[0]]= e[1]}
   result["engines"] = engines_hash
 
@@ -2303,6 +2313,8 @@ The version property is updated using =apm publish= command.
   result["dependencies"] = dependencies_hash
 
   JSON.pretty_generate(result)
+
+
 #+END_SRC
 
 #+RESULTS: gen-package.json
