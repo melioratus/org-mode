@@ -2200,7 +2200,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
 | license       | MIT                                                                                                                          |
-| engines       | "atom": ">=1.0.0 <2.0.0"                                                                                                     |
+| engines       | "atom": "&gt;=1.0.0 &lt;2.0.0"                                                                                               |
 | dependencies  | "coffeescript": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2"                                   |
 #+TBLFM: @5$2='(org-sbe atom-org-mode-package-package-specs-keywords-tblfm-value)::@8$2='(org-sbe atom-org-mode-package-package-specs-engines-tblfm-value)::@9$2='(org-sbe atom-org-mode-package-package-specs-dependencies-tblfm-value)
 
@@ -2222,12 +2222,13 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
 #+NAME: atom-org-mode-package-package-specs-dependencies-tblfm-value
 #+BEGIN_SRC ruby :var data=atom-org-mode-package-package-specs-dependencies :results verbatim    
-  result = data.map{|d| %Q'"#{d[0]}": "#{d[1]}"'}
+  require 'cgi'
+  result = data.map{|d| %Q'"#{d[0]}": "#{CGI::escapeHTML(d[1])}"'}
   result.join(", ")
 #+END_SRC
 
 #+RESULTS: atom-org-mode-package-package-specs-dependencies-tblfm-value
-: "coffee-script": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2", "underscorn-plus": "^1.0.6"
+: "coffeescript": "1.7.0", "coffeelint": "^1.10.1", "request": "^2.34.0", "season": "^5.0.2"
 
 **** Engines
 
@@ -2240,12 +2241,13 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
 #+NAME: atom-org-mode-package-package-specs-engines-tblfm-value
 #+BEGIN_SRC ruby :var data=atom-org-mode-package-package-specs-engines :results verbatim    
-  result = data.map{|d| %Q'"#{d[0]}": "#{d[1]}"'}
+  require 'cgi'
+  result = data.map{|d| %Q'"#{d[0]}": "#{CGI::escapeHTML(d[1])}"'}
   result.join(", ")
 #+END_SRC
 
 #+RESULTS: atom-org-mode-package-package-specs-engines-tblfm-value
-: "atom": ">=1.0.0 <2.0.0"
+: "atom": "&gt;=1.0.0 &lt;2.0.0"
 
 **** Keywords
 
