@@ -2980,21 +2980,21 @@ Let us begin our journey into a better future.
 :   index: 0,
 :   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag' ]
 
-******** TODO Add TITLE begins with =COMMENT= to regular expression
+- [ ] Add TITLE begins with =COMMENT= to regular expression
 
-#+CALL: elisp/display-this-here(data=org-syntax-title-comment-definition)
+  #+CALL: elisp/display-this-here(data=org-syntax-title-comment-definition)
 
-#+RESULTS:
-:   If the first word appearing in the title is "COMMENT", the headline
-:   will be considered as "commented".  Case is significant.
+  #+RESULTS:
+  :   If the first word appearing in the title is "COMMENT", the headline
+  :   will be considered as "commented".  Case is significant.
 
-******** TODO Add TITLE is =Footnotes= to regular expression
+- [ ] Add TITLE is =Footnotes= to regular expression
 
-#+CALL: elisp/display-this-here(data=org-syntax-title-footnote-section-definition)
+  #+CALL: elisp/display-this-here(data=org-syntax-title-footnote-section-definition)
 
-#+RESULTS:
-:   If its title is ~org-footnote-section~, it will be considered as
-:   a "footnote section".  Case is significant.
+  #+RESULTS:
+  :   If its title is ~org-footnote-section~, it will be considered as
+  :   a "footnote section".  Case is significant.
 
 ******* TAGS [0/2]
 
@@ -3017,15 +3017,15 @@ Let us begin our journey into a better future.
 :   index: 0,
 :   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
 
-******** TODO Add =[:]ARCHIVE[:]= tag to regular expression 
+- [ ] Add =[:]ARCHIVE[:]= tag to regular expression 
+  
+  #+CALL: elisp/display-this-here(data=org-syntax-tags-archive-definition)
 
-#+CALL: elisp/display-this-here(data=org-syntax-tags-archive-definition)
+  #+RESULTS:
+  :   If "ARCHIVE" is one of its tags, it will be considered as
+  :   "archived".  Case is significant.
 
-#+RESULTS:
-:   If "ARCHIVE" is one of its tags, it will be considered as
-:   "archived".  Case is significant.
-
-******** TODO Fix empty tag match, i.e. =::=, in regular expression
+- [ ] Fix empty tag match, i.e. =::=, in regular expression
 
 *** Affiliated Keywords
   :PROPERTIES:
