@@ -2747,9 +2747,9 @@ Let us begin our journey into a better future.
 
 * Notes
 
-** Node Setup
+** Node Setup                                                     :noexport:
 
-** Atom Editor
+** Atom Editor                                                    :noexport:
 
 *** Marker
 
