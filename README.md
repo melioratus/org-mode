@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="org951288c" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgcc665de" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -50,7 +50,7 @@ Specifications
 
 <tr>
 <td class="org-left">version</td>
-<td class="org-left">0.3.11</td>
+<td class="org-left">0.3.12</td>
 </tr>
 
 
@@ -68,7 +68,7 @@ Specifications
 
 <tr>
 <td class="org-left">repository</td>
-<td class="org-left"><https://github.com/melioratus/org-mode></td>
+<td class="org-left">https://github.com/melioratus/org-mode</td>
 </tr>
 
 
@@ -80,7 +80,7 @@ Specifications
 
 <tr>
 <td class="org-left">engines</td>
-<td class="org-left">"atom": ">=1.0.0 <2.0.0"</td>
+<td class="org-left">"atom": "&gt;=1.0.0 &lt;2.0.0"</td>
 </tr>
 
 
@@ -108,12 +108,12 @@ Footnotes
 
 <sup><a id="fn.1" href="#fnr.1">1</a></sup> pun intended
 
-<sup><a id="fn.2" href="#fnr.2">2</a></sup> <https://en.wikipedia.org/wiki/Literate_programming>
+<sup><a id="fn.2" href="#fnr.2">2</a></sup> [https://en.wikipedia.org/wiki/Literate\_programming](https://en.wikipedia.org/wiki/Literate_programming)
 
-<sup><a id="fn.3" href="#fnr.3">3</a></sup> <http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/>
+<sup><a id="fn.3" href="#fnr.3">3</a></sup> [http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/](http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/)
 
-<sup><a id="fn.4" href="#fnr.4">4</a></sup> <https://github.com/fniessen/refcard-org-mode>
+<sup><a id="fn.4" href="#fnr.4">4</a></sup> [https://github.com/fniessen/refcard-org-mode](https://github.com/fniessen/refcard-org-mode)
 
-<sup><a id="fn.5" href="#fnr.5">5</a></sup> <https://github.com/fniessen/org-html-themes>
+<sup><a id="fn.5" href="#fnr.5">5</a></sup> [https://github.com/fniessen/org-html-themes](https://github.com/fniessen/org-html-themes)
 
-<sup><a id="fn.6" href="#fnr.6">6</a></sup> <http://howardism.org/Technical/Emacs/literate-devops.html>
+<sup><a id="fn.6" href="#fnr.6">6</a></sup> [http://howardism.org/Technical/Emacs/literate-devops.html](http://howardism.org/Technical/Emacs/literate-devops.html)
