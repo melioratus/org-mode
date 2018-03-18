@@ -2284,10 +2284,10 @@ The version property is updated using =apm publish= command.
 |---------------+----------------|
 | version       | 0.3.12         |
 
-***** Publish Package
+***** Generate Publish Package
 
 #+BEGIN_SRC shell :var PROPERTIES=atom-org-mode-package-package-specs-version
-  apm publish ${PROPERTIES['version']}
+  echo "apm publish ${PROPERTIES['version']}"
 #+END_SRC
 
 #+RESULTS:
