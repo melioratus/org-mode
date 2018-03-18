@@ -2195,7 +2195,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.11                                                                                                                       |
+| version       | 0.3.12                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
@@ -2287,7 +2287,7 @@ The version property is updated using =apm publish= command.
 *** =package.json= File
 
 #+NAME: gen-package.json
-#+BEGIN_SRC ruby :file ../package.json :exports results :results scalar replace  :var keywords_data=atom-org-mode-package-package-specs-keywords :var engines_data=atom-org-mode-package-package-specs-engines :var specs_data=atom-org-mode-package-package-specs :var dependencies_data=atom-org-mode-package-package-specs-dependencies
+#+BEGIN_SRC ruby :file ../package.json :exports results :results scalar replace  :var keywords_data=atom-org-mode-package-package-specs-keywords :var engines_data=atom-org-mode-package-package-specs-engines :var specs_data=atom-org-mode-package-package-specs :var dependencies_data=atom-org-mode-package-package-specs-dependencies :var version_data=atom-org-mode-package-package-specs-version
   require 'json'
 
   result = {}
@@ -2295,6 +2295,12 @@ The version property is updated using =apm publish= command.
   dependencies_hash = {} 
 
   specs_data.map{|s| result[s[0]]=s[1]}
+
+  version_data.map{|v|
+    if v[0] == 'version'
+      result["version"] = v[1]
+    end
+  }
 
   result["repository"] = result["repository"].gsub(/^([\[\]]+)([^\]]+)([\]].+)$/,'\\2')
 
