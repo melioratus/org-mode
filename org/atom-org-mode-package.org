@@ -2907,6 +2907,11 @@ Let us begin our journey into a better future.
 
 ******* STARS
 
+#+NAME: STARS
+#+BEGIN_SRC css
+  ^([*]+)\s
+#+END_SRC
+
 #+CALL: elisp/display-this-here(data=org-syntax-stars-definition)
 
 #+RESULTS:
@@ -2916,13 +2921,15 @@ Let us begin our journey into a better future.
 :   asterisks is used to define the level of the headline.  It's the
 :   sole compulsory part of a headline.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** other stuff goes here" :results replace output :var pattern="^([*]+) "
+#+BEGIN_SRC js :cmd "node" :var data="**** other stuff goes here" :results replace output :var pattern=STARS() :wrap "SRC js :eval never"
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
-: [ '**** ', '****', index: 0, input: '**** other stuff goes here' ]
+#+BEGIN_SRC js :eval never
+[ '**** ', '****', index: 0, input: '**** other stuff goes here' ]
+#+END_SRC
 
 ******* KEYWORD
 
