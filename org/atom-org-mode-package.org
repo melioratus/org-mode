@@ -2961,22 +2961,33 @@ Let us begin our journey into a better future.
 
 ******* PRIORITY
 
-#+CALL: elisp/display-this-here(data=org-syntax-priority-definition)
+#+NAME: PRIORITY
+#+BEGIN_SRC css
+  ( +(\[#[a-zA-Z]\]))
+#+END_SRC
+
+#+CALL: elisp/display-this-here(data=org-syntax-priority-definition) :results drawer :exports results
 
 #+RESULTS:
 :   PRIORITY is a priority cookie, i.e. a single letter preceded by
 :   a hash sign # and enclosed within square brackets.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] stuff goes here" :results replace output :var pattern="^(?:[*]+) (?:TODO|DONE)? (\\[#[a-zA-Z]\\])"
+#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] stuff goes here" :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY)) :wrap "SRC js :eval never"
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
-: [ '**** DONE [#A]',
-:   '[#A]',
-:   index: 0,
-:   input: '**** DONE [#A] stuff goes here' ]
+#+BEGIN_SRC js :eval never
+[ '**** DONE [#A]',
+  '****',
+  'DONE',
+  'DONE',
+  ' [#A]',
+  '[#A]',
+  index: 0,
+  input: '**** DONE [#A] stuff goes here' ]
+#+END_SRC
 
 ******* TITLE [0/2]
 
