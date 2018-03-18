@@ -2764,7 +2764,7 @@ Let us begin our journey into a better future.
   //Object {}
 #+END_SRC
 
-** Org-Syntax
+** Org-Syntax[fn:1][fn:2]
 
 *** Headlines and Sections
   :PROPERTIES:
