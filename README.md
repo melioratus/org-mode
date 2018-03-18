@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="orgc3533aa" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgcb6aafd" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -68,7 +68,7 @@ Specifications
 
 <tr>
 <td class="org-left">repository</td>
-<td class="org-left"><https://github.com/melioratus/org-mode></td>
+<td class="org-left">https://github.com/melioratus/org-mode</td>
 </tr>
 
 
