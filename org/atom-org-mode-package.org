@@ -2933,22 +2933,31 @@ Let us begin our journey into a better future.
 
 ******* KEYWORD
 
+#+NAME: KEYWORD
+#+BEGIN_SRC css
+  ( ?(TODO|DONE))
+#+END_SRC
+
 #+CALL: elisp/display-this-here(data=org-syntax-keyword-definition)
 
 #+RESULTS:
 :   KEYWORD is a TODO keyword, which has to belong to the list defined
 :   in ~org-todo-keywords-1~.  Case is significant.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** DONE stuff goes here" :results replace output :var pattern="^(?:[*]+) (TODO|DONE)"
+#+BEGIN_SRC js :cmd "node" :var data="**** DONE stuff goes here" :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD)) :wrap "SRC js :eval never"
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
-: [ '**** DONE',
-:   'DONE',
-:   index: 0,
-:   input: '**** DONE stuff goes here' ]
+#+BEGIN_SRC js :eval never
+[ '**** DONE',
+  '****',
+  'DONE',
+  'DONE',
+  index: 0,
+  input: '**** DONE stuff goes here' ]
+#+END_SRC
 
 ******* PRIORITY
 
