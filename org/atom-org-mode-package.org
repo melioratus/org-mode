@@ -2991,22 +2991,35 @@ Let us begin our journey into a better future.
 
 ******* TITLE [0/2]
 
+#+NAME: TITLE
+#+BEGIN_SRC css
+  ( +(.+))
+#+END_SRC
+
 #+CALL: elisp/display-this-here(data=org-syntax-title-definition)
 
 #+RESULTS:
 :   TITLE can be made of any character but a new line.  Though, it will
 :   match after every other part have been matched.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:" :results replace output :var pattern="^(?:[*]+) (?:TODO|DONE)? (?:\\[#[a-zA-Z]\\])? (.+)"
+#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:" :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE)) :wrap "SRC js :eval never"
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
-: [ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag',
-:   '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag',
-:   index: 0,
-:   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag' ]
+#+BEGIN_SRC js :eval never
+[ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  '****',
+  'DONE',
+  'DONE',
+  ' [#A]',
+  '[#A]',
+  ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  index: 0,
+  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:' ]
+#+END_SRC
 
 - [ ] Add TITLE begins with =COMMENT= to regular expression
 
