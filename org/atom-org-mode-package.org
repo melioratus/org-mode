@@ -2870,6 +2870,24 @@ Let us begin our journey into a better future.
 
 ****** Headline Regular Expressions
 
+#+NAME: headline-regex-js
+#+BEGIN_SRC org :noweb yes :results verbatim replace :exports both :wrap EXAMPLE :exports both
+  <<STARS>>(<<KEYWORD>>?<<PRIORITY>>?<<TITLE>>?<<TAGS>>?|\s)
+#+END_SRC
+
+#+RESULTS: headline-regex-js
+#+BEGIN_EXAMPLE
+^([*]+(?=\s))(( ?(TODO|DONE))?( +(\[#[a-zA-Z]\]))?( +(.+))?( +(([:\w@#%]+))+)?|\s)
+#+END_EXAMPLE
+
+#+NAME: headline-regex-js-elisp
+#+BEGIN_SRC elisp
+  (concat (org-sbe STARS) (org-sbe KEYWORD) "?" (org-sbe PRIORITY) "?" (org-sbe TITLE) "?" (org-sbe TAGS) "?")
+#+END_SRC
+
+#+RESULTS: headline-regex-js-elisp
+: ^([*]+(?=\s))(( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?
+
 #+CALL: elisp/display-this-here(data=org-syntax-headline-definition)
 
 #+RESULTS:
@@ -2879,29 +2897,39 @@ Let us begin our journey into a better future.
 : ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+)?)( (([:\\w@#%]+))+)?)?
 : ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
 : ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
+: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))?
+
 
 *Headline Test 1 String*
 #+NAME: headline-test1
 : **** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:
 
-#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern="^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))?" :wrap "SRC js :eval never"
-  var re = new RegExp(pattern);
+: (concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) (org-sbe TAGS))
+
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=headline-regex-js-elisp() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
+/^([*]+(?=\s))(( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?/
 [ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
   '****',
-  ' DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  ' DONE',
+  ' ',
   'DONE',
   ' [#A]',
+  ' ',
   '[#A]',
-  ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
-  '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
-  ' :tag1:@tag2:#tag3:%TAG4#:',
-  ':tag1:@tag2:#tag3:%TAG4#:',
-  ':tag1:@tag2:#tag3:%TAG4#:',
+  ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  ' ',
+  '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
   index: 0,
   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
 #+END_SRC
@@ -2910,7 +2938,7 @@ Let us begin our journey into a better future.
 
 #+NAME: STARS
 #+BEGIN_SRC css
-  ^([*]+)\s
+  ^([*]+(?=\s))
 #+END_SRC
 
 #+CALL: elisp/display-this-here(data=org-syntax-stars-definition)
@@ -2922,14 +2950,16 @@ Let us begin our journey into a better future.
 :   asterisks is used to define the level of the headline.  It's the
 :   sole compulsory part of a headline.
 
-#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=STARS() :wrap "SRC js :eval never" :exports results 
-  var re = new RegExp(pattern);
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(org-sbe STARS) :wrap "SRC js :eval never" :exports results 
+  let re = new RegExp(pattern);
+  console.log(re)
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-[ '**** ',
+/^([*]+(?=\s))/
+[ '****',
   '****',
   index: 0,
   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
@@ -2939,7 +2969,7 @@ Let us begin our journey into a better future.
 
 #+NAME: KEYWORD
 #+BEGIN_SRC css
-  ( ?(TODO|DONE))
+  (( +)(TODO|DONE))
 #+END_SRC
 
 #+CALL: elisp/display-this-here(data=org-syntax-keyword-definition)
@@ -2949,15 +2979,18 @@ Let us begin our journey into a better future.
 :   in ~org-todo-keywords-1~.  Case is significant.
 
 #+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD)) :wrap "SRC js :eval never" :exports results 
-  var re = new RegExp(pattern);
+  let re = new RegExp(pattern);
+  console.log(re)
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
+/^([*]+(?=\s))(( +)(TODO|DONE))/
 [ '**** DONE',
   '****',
-  'DONE',
+  ' DONE',
+  ' ',
   'DONE',
   index: 0,
   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
@@ -2967,7 +3000,7 @@ Let us begin our journey into a better future.
 
 #+NAME: PRIORITY
 #+BEGIN_SRC css
-  ( +(\[#[a-zA-Z]\]))
+  (( +)(\[#[a-zA-Z]\]))
 #+END_SRC
 
 #+CALL: elisp/display-this-here(data=org-syntax-priority-definition) :results drawer :exports results
@@ -2977,17 +3010,21 @@ Let us begin our journey into a better future.
 :   a hash sign # and enclosed within square brackets.
 
 #+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY)) :wrap "SRC js :eval never" :exports results 
-  var re = new RegExp(pattern);
+  let re = new RegExp(pattern);
+  console.log(re)
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
+/^([*]+(?=\s))(( +)(TODO|DONE))(( +)(\[#[a-zA-Z]\]))/
 [ '**** DONE [#A]',
   '****',
-  'DONE',
+  ' DONE',
+  ' ',
   'DONE',
   ' [#A]',
+  ' ',
   '[#A]',
   index: 0,
   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
@@ -2996,9 +3033,12 @@ Let us begin our journey into a better future.
 ******* TITLE [0/2]
 
 #+NAME: TITLE
-#+BEGIN_SRC css
-  ( +(.+))
+#+BEGIN_SRC css 
+  (( +)(.+))
 #+END_SRC
+
+#+RESULTS: TITLE
+: (( +)(.+))
 
 #+CALL: elisp/display-this-here(data=org-syntax-title-definition)
 
@@ -3006,20 +3046,25 @@ Let us begin our journey into a better future.
 :   TITLE can be made of any character but a new line.  Though, it will
 :   match after every other part have been matched.
 
-#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE)) :wrap "SRC js :eval never" :exports results 
-  var re = new RegExp(pattern);
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) ) :wrap "SRC js :eval never" :exports results 
+  let re = new RegExp(pattern);
+  console.log(re)
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
+/^([*]+(?=\s))(( +)(TODO|DONE))(( +)(\[#[a-zA-Z]\]))(( +)(.+))/
 [ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
   '****',
-  'DONE',
+  ' DONE',
+  ' ',
   'DONE',
   ' [#A]',
+  ' ',
   '[#A]',
   ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  ' ',
   '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
   index: 0,
   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
@@ -3043,6 +3088,11 @@ Let us begin our journey into a better future.
 
 ******* TAGS [0/2]
 
+#+NAME: TAGS
+#+BEGIN_SRC css
+  (( +)(([:\w@#%]+))+)
+#+END_SRC
+
 #+CALL: elisp/display-this-here(data=org-syntax-tags-definition)
 
 #+RESULTS:
@@ -3050,17 +3100,37 @@ Let us begin our journey into a better future.
 :   underscore, at sign, hash sign or percent sign, and separated with
 :   colons.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:" :results replace output :var pattern="^(?:[*]+) (?:TODO|DONE)? (?:\\[#[a-zA-Z]\\])? (?:.+)? (([:\\w@#%]+))+"
-  var re = new RegExp(pattern);
+: ( +(([:\\w@#%]+))+))?
+: orig "^(?:[*]+) (?:TODO|DONE)? (?:\\[#[a-zA-Z]\\])? (?:.+)? (([:\\w@#%]+))+"
+: (concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) (org-sbe TAGS))
+
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) (org-sbe TAGS)) :wrap "SRC js :eval never" :exports results 
+  let re = new RegExp(pattern);
+  console.log(re)
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
-: [ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
-:   ':tag1:@tag2:#tag3:%TAG4#:',
-:   ':tag1:@tag2:#tag3:%TAG4#:',
-:   index: 0,
-:   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
+#+BEGIN_SRC js :eval never
+/^([*]+(?=\s))(( +)(TODO|DONE))(( +)(\[#[a-zA-Z]\]))(( +)(.+))(( +)(([:\w@#%]+))+)/
+[ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  '****',
+  ' DONE',
+  ' ',
+  'DONE',
+  ' [#A]',
+  ' ',
+  '[#A]',
+  ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  ' ',
+  '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  ' :tag1:@tag2:#tag3:%TAG4#:',
+  ' ',
+  ':tag1:@tag2:#tag3:%TAG4#:',
+  ':tag1:@tag2:#tag3:%TAG4#:',
+  index: 0,
+  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
+#+END_SRC
 
 - [ ] Add =[:]ARCHIVE[:]= tag to regular expression 
   
