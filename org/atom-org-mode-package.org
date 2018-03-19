@@ -2880,6 +2880,7 @@ Let us begin our journey into a better future.
 : ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
 : ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
 
+*Headline Test 1 String*
 #+NAME: headline-test1
 : **** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:
 
