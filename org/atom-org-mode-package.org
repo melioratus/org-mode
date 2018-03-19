@@ -2922,14 +2922,17 @@ Let us begin our journey into a better future.
 :   asterisks is used to define the level of the headline.  It's the
 :   sole compulsory part of a headline.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** other stuff goes here" :results replace output :var pattern=STARS() :wrap "SRC js :eval never" :exports results 
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=STARS() :wrap "SRC js :eval never" :exports results 
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-[ '**** ', '****', index: 0, input: '**** other stuff goes here' ]
+[ '**** ',
+  '****',
+  index: 0,
+  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
 #+END_SRC
 
 ******* KEYWORD
@@ -2945,7 +2948,7 @@ Let us begin our journey into a better future.
 :   KEYWORD is a TODO keyword, which has to belong to the list defined
 :   in ~org-todo-keywords-1~.  Case is significant.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** DONE stuff goes here" :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD)) :wrap "SRC js :eval never" :exports results 
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD)) :wrap "SRC js :eval never" :exports results 
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
@@ -2957,7 +2960,7 @@ Let us begin our journey into a better future.
   'DONE',
   'DONE',
   index: 0,
-  input: '**** DONE stuff goes here' ]
+  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
 #+END_SRC
 
 ******* PRIORITY
@@ -2973,7 +2976,7 @@ Let us begin our journey into a better future.
 :   PRIORITY is a priority cookie, i.e. a single letter preceded by
 :   a hash sign # and enclosed within square brackets.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] stuff goes here" :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY)) :wrap "SRC js :eval never" :exports results 
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY)) :wrap "SRC js :eval never" :exports results 
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
@@ -2987,7 +2990,7 @@ Let us begin our journey into a better future.
   ' [#A]',
   '[#A]',
   index: 0,
-  input: '**** DONE [#A] stuff goes here' ]
+  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
 #+END_SRC
 
 ******* TITLE [0/2]
@@ -3003,23 +3006,23 @@ Let us begin our journey into a better future.
 :   TITLE can be made of any character but a new line.  Though, it will
 :   match after every other part have been matched.
 
-#+BEGIN_SRC js :cmd "node" :var data="**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:" :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE)) :wrap "SRC js :eval never" :exports results 
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=(concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE)) :wrap "SRC js :eval never" :exports results 
   var re = new RegExp(pattern);
   console.log(data.match(re))
 #+END_SRC
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-[ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+[ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
   '****',
   'DONE',
   'DONE',
   ' [#A]',
   '[#A]',
-  ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
-  '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag:',
+  ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+  '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
   index: 0,
-  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag:' ]
+  input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
 #+END_SRC
 
 - [ ] Add TITLE begins with =COMMENT= to regular expression
