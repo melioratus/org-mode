@@ -3221,6 +3221,18 @@ Let us begin our journey into a better future.
 
 ****** Regular Expressions
 
+******* Greater Blocks
+
+#+NAME: greater-elements-greater-blocks-names
+| Greater-Element-Greater-Block-Name |
+|------------------------------------|
+| CENTER                             |
+| QUOTE                              |
+
+******* Dynamic Blocks
+
+******* Special Blocks
+
 **** Drawers and Property Drawers
    :PROPERTIES:
    :CUSTOM_ID: Drawers
@@ -3507,6 +3519,81 @@ Let us begin our journey into a better future.
 ***** Code  
 
 ****** Regular Expressions
+
+******* Blocks
+
+#+NAME: elements-blocks-names
+| Element-Block-Name | Default-Export-Backend | Atom-Scope-Name |
+|--------------------+------------------------+-----------------|
+| ASCII              | True                   | text.plain      |
+| BEAMER             | True                   | text.tex.latex  |
+| COMMENT            | False                  |                 |
+| EXAMPLE            | False                  |                 |
+| HTML               | True                   | text.html.basic |
+| LATEX              | True                   | text.tex.latex  |
+| MAN                | True                   | text.roff       |
+| MD                 | True                   | source.gfm      |
+| ODT                | True                   | text.xml        |
+| ORG                | True                   |                 |
+| TEXINFO            | True                   | source.texi     |
+| VERSE              | False                  |                 |
+
+******* Source Blocks
+
+******* Export Blocks
+
+******** Code
+
+#+BEGIN_SRC ruby :var export_block_type="HTML" :var atom_scope_name="TEXT.HTML.BASIC"
+  export_block_template = <<-EOT
+    'export-block-#{export_block_type.downcase}':
+      'patterns':[
+          {
+            'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(#{export_block_type.downcase})$'
+            'beginCaptures':
+              '1':
+                'name': 'punctuation.definition.string.org-mode'
+              '2':
+                'name': 'export-block.type.org-mode'
+            'end': '^(?i)( *#[+]END_EXPORT)$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
+            'patterns':[
+              {
+                'include': '#{atom_scope_name.downcase}'
+              }
+            ]
+          }
+      ]
+  EOT
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+  'export-block-html':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(html)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.html-org-mode'
+          'patterns':[
+            {
+              'include': 'text.html.basic'
+            }
+          ]
+        }
+    ]
+#+end_example
 
 **** Clock, Diary Sexp and Planning
    :PROPERTIES:
