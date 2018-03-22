@@ -2965,6 +2965,26 @@ Let us begin our journey into a better future.
   input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:' ]
 #+END_SRC
 
+******** Notes
+
+*Note:* ~${1:/length}.~ is *not* working
+
+#+BEGIN_EXAMPLE
+
+  'headlines':
+    'patterns': [
+      {
+        'begin': '^([*]+(?=\\s))'
+        'end': '$'
+        'captures':
+          '1':
+            'name': 'punctuation.definition.string.org-mode'
+        'name': 'markup.heading.heading-${1:/length}.org-mode'
+      }
+    ]
+
+#+END_EXAMPLE
+
 ******* KEYWORD
 
 #+NAME: KEYWORD
