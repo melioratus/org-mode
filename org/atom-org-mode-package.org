@@ -4102,17 +4102,123 @@ Let us begin our journey into a better future.
 
 ******** PROTOCOL
 
+#+NAME: describe-variable/org-link-types-re
+#+BEGIN_SRC elisp :exports none 
+ (describe-variable 'org-link-types-re)
+#+END_SRC
+
+#+RESULTS:
+: org-link-types-re is a variable defined in ‘org.el’.
+: Its value is
+: "\\`\\(b\\(?:bdb\\|ibtex\\)\\|do\\(?:cview\\|i\\)\\|e\\(?:lisp\\|shell\\|ww\\)\\|f\\(?:ile\\(?:\\+\\(?:\\(?:emac\\|sy\\)s\\)\\)?\\|tp\\)\\|gnus\\|h\\(?:elp\\|ttps?\\)\\|i\\(?:d\\|nfo\\|rc\\)\\|m\\(?:ailto\\|he\\)\\|news\\|rmail\\|shell\\|w3m\\):"
+: 
+: Documentation:
+: Matches a link that has a url-like prefix like "http:"
+
+# \b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):
+
+#+NAME: PROTOCOL
+#+BEGIN_SRC css
+  ((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)
+#+END_SRC
+
+********* External Link Patterns [fn:7]
+
+http://www.astro.uva.nl/~dominik             on the web
+doi:10.1000/182                              DOI for an electronic resource
+file:/home/dominik/images/jupiter.jpg        file, absolute path
+/home/dominik/images/jupiter.jpg             same as above
+file:papers/last.pdf                         file, relative path
+./papers/last.pdf                            same as above
+file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine
+/ssh:myself@some.where:papers/last.pdf       same as above
+file:sometextfile::NNN                       file, jump to line number
+file:projects.org                            another Org file
+file:projects.org::some words                text search in Org file(31)
+file:projects.org::*task title               heading search in Org file(32)
+docview:papers/last.pdf::NNN                 open in doc-view mode at page
+id:B7423F4D-2E8A-471B-8810-C40F074717E9      Link to heading by ID
+news:comp.emacs                              Usenet link
+mailto:adent@galaxy.net                      Mail link
+mhe:folder                                   MH-E folder link
+mhe:folder#id                                MH-E message link
+rmail:folder                                 RMAIL folder link
+rmail:folder#id                              RMAIL message link
+gnus:group                                   Gnus group link
+gnus:group#id                                Gnus article link
+bbdb:R.*Stallman                             BBDB link (with regexp)
+irc:/irc.com/#emacs/bob                      IRC link
+info:org#External links                      Info node or index link
+shell:ls *.org                               A shell command
+elisp:org-agenda                             Interactive Elisp command
+elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
+
 ******** Angle Links
+
+#+NAME: angle-links-js
+#+BEGIN_SRC css :noweb yes 
+  ([<]<<PROTOCOL>><<PATH>>[>])
+#+END_SRC
+
+#+RESULTS: angle-links-js
+: ([<]((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^\]<>\n]+)[>])
 
 ********* PATH
 
+: PATH can contain any character but ~]~, ~<~, ~>~ and ~\n~.
+
+#+NAME: PATH
+#+BEGIN_SRC css
+  ([^\]<>\n]+)
+#+END_SRC
+
 ******** Plain Links
+
+#+BEGIN_COMMENT
+   # Best # ([^\w\S]+)((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))(\W)
+
+   # PRE2 PROTOCOL:PATH2 POST2 ("plain" link)
+
+   PRE2 and POST2, when they exist, are non word constituent
+   characters.
+
+   PATH2 can contain any non-whitespace character excepted ~(~, ~)~,
+   ~<~ and ~>~.  It must end with a word-constituent character, or any
+   non-whitespace non-punctuation character followed by ~/~.
+#+END_COMMENT
+
+#+NAME: plain-links-js
+#+BEGIN_SRC css :noweb yes 
+  <<PRE2>><<PROTOCOL>><<PATH2>><<POST2>>
+#+END_SRC
+
+#+RESULTS: plain-links-js
+: ([^\w\S]+)((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))(\W)
+
+********* PRE2
+
+#+NAME: PRE2
+#+BEGIN_SRC css
+  ([^\w\S]+)
+#+END_SRC
 
 ********* PATH2
 
-******* Regular links
+#+NAME: PATH2
+#+BEGIN_SRC css
+  ([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))
+#+END_SRC
 
-******** PATH3
+********* POST2
+
+#+NAME: POST2
+#+BEGIN_SRC css
+  (\W)
+#+END_SRC
+
+******** Regular links
+
+********* PATH3
 
 - File Type
 - Protocol Type
