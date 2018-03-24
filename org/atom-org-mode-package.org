@@ -4069,13 +4069,36 @@ Let us begin our journey into a better future.
 
 ******* Radio Links
 
+#+NAME: radio-link-js
+#+BEGIN_SRC css :noweb yes
+  <<PRE1>><<RADIO>><<POST1>>
+#+END_SRC
+
+#+RESULTS: radio-link-js
+: (<<<)([\w \t :;'"|\\~`!@#$%^&*(){}\[\]=\-_+|.,?/]+)(>>>)
+
 ******** PRE1
+
+#+NAME: PRE1
+#+BEGIN_SRC css
+  (<<<)
+#+END_SRC
 
 ******** POST1
 
+#+NAME: POST1
+#+BEGIN_SRC css
+  (>>>)
+#+END_SRC
+
 ******** RADIO
 
-******* Angle and Plain Links
+#+NAME: RADIO
+#+BEGIN_SRC css
+  ([\w \t :;'"|\\~`!@#$%^&*(){}\[\]=\-_+|.,?/]+)
+#+END_SRC
+
+******* Angle, Plain and Regular Links
 
 ******** PROTOCOL
 
