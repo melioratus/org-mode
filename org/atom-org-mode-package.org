@@ -4067,6 +4067,38 @@ Let us begin our journey into a better future.
 
 ****** Regular Expressions
 
+******* Radio Links
+
+******** PRE1
+
+******** POST1
+
+******** RADIO
+
+******* Angle and Plain Links
+
+******** PROTOCOL
+
+******** Angle Links
+
+********* PATH
+
+******** Plain Links
+
+********* PATH2
+
+******* Regular links
+
+******** PATH3
+
+- File Type
+- Protocol Type
+- Id Type
+- Custom-Id Type
+- Coderef Type
+- Fuzzy Type
+
+******** DESCRIPTION
 **** Macros
    :PROPERTIES:
    :CUSTOM_ID: Macros
