@@ -4062,12 +4062,12 @@ Let us begin our journey into a better future.
 
 ******* Radio Links
 
-#+NAME: radio-link-js
+#+NAME: radio-links-js
 #+BEGIN_SRC css :noweb yes
   <<PRE1>><<RADIO>><<POST1>>
 #+END_SRC
 
-#+RESULTS: radio-link-js
+#+RESULTS: radio-links-js
 : (<<<)([\w \t :;'"|\\~`!@#$%^&*(){}\[\]=\-_+|.,?/]+)(>>>)
 
 ******** PRE1
@@ -4094,7 +4094,7 @@ Let us begin our journey into a better future.
 ******** Grammar
 
 #+NAME: gen-grammar-radio-links-cson
-#+BEGIN_SRC ruby :var object_link_type="radio-link" :var object_link_pattern=radio-link-js 
+#+BEGIN_SRC ruby :var object_link_type="radio-link" :var object_link_pattern=radio-links-js 
   object_link_template = <<-EOT
     'object-#{object_link_type.downcase}':
       'patterns':[
