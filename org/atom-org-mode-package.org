@@ -4152,7 +4152,19 @@ Let us begin our journey into a better future.
   ((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)
 #+END_SRC
 
-********* External Link Patterns [fn:11]
+********* Implementation notes about how ~PROTOCOL~ regex diverges from ~org-link-types-re~ default value.
+
+  - Added capture group around ~PROTOCOL~ regex.
+
+  - Updates to allow expression to match most[fn:11] the [[file:atom-org-mode-package.org::*External Link Patterns][External Link Patterns]].
+    - ~\\`~ \rightarrow ~\b~ 
+    - ~\\+~ \rightarrow ~[+]~
+    - ~\\(~ \rightarrow ~(~
+    - ~\\)~ \rightarrow ~)~
+    - ~\\|~ \rightarrow ~|~
+    - ~PROTOCOL~ \rightarrow ~(PROTOCOL|[.]?/)~ to allow matching plain links without ~PROTOCOL~ to imitate observed behavior in emacs.
+  
+********* External Link Patterns [fn:12]
 
 http://www.astro.uva.nl/~dominik             on the web
 doi:10.1000/182                              DOI for an electronic resource
@@ -4202,7 +4214,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
   ([^\]<>\n]+)
 #+END_SRC
 
-******** Plain Links
+******** <<<Plain Links>>>
 
 #+BEGIN_COMMENT
    # Best # ([^\w\S]+)((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))(\W)
@@ -4612,5 +4624,7 @@ As a consequence, using ~org-element-at-point~ or
 ~org-element-context~ will move up to the parent headline, and parse
 top-down from there until context around original location is found.
 
-[fn:11] [[https://orgmode.org/manual/External-links.html]]
+[fn:11] *Note:* The ~elisp:(find-file-other-frame "Elisp.org")~ pattern is not matched.
+
+[fn:12] [[https://orgmode.org/manual/External-links.html]]
 
