@@ -31,6 +31,9 @@
     'include': '#code'
   }
   {
+    'include': '#object-radio-link'
+  }
+  {
     'include': '#emphasis'
   }
   {
@@ -992,5 +995,19 @@
             '0':
               'name': 'punctuation.definition.string.org-mode'
           'contentName': 'string.unquoted.org-mode'
+        }
+    ]
+
+  'object-radio-link':
+    'patterns':[
+        {
+          'match': "(<<<)([\\w \\t :;'\"|\\\\~`!@\#$%^&*(){}\\[\\]=\\-_+|.,?/]+)(>>>)"
+          'captures':
+            '1':
+              'name': 'punctuation.definition.radio-link.begin.org-mode'
+            '2':
+              'name': 'markup.underline.link.radio-link.org-mode'
+            '3':
+              'name': 'punctuation.definition.radio-link.end.org-mode'
         }
     ]

@@ -91,7 +91,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
 # Tangle file with C-u C-c C-v t
 
-#+BEGIN_SRC javascript :eval never :tangle ../grammars/org-mode.cson :mkdirp yes 
+#+BEGIN_SRC javascript :eval never :tangle ../grammars/org-mode.cson :mkdirp yes :noweb yes 
   'name': 'Org-Mode Syntax'
   'scopeName': 'source.org-mode'
   'limitLineLength': false
@@ -123,6 +123,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     }
     {
       'include': '#code'
+    }
+    {
+      'include': '#object-radio-link'
     }
     {
       'include': '#emphasis'
@@ -1088,6 +1091,8 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'contentName': 'string.unquoted.org-mode'
           }
       ]
+
+    <<grammar-radio-links-cson()>>
 
 #+END_SRC
 
@@ -4083,6 +4088,45 @@ Let us begin our journey into a better future.
 #+BEGIN_SRC css
   ([\w \t :;'"|\\~`!@#$%^&*(){}\[\]=\-_+|.,?/]+)
 #+END_SRC
+
+******** Grammar
+
+#+NAME: gen-grammar-radio-links-cson
+#+BEGIN_SRC ruby :var object_link_type="radio-link" :var object_link_pattern=radio-link-js 
+  object_link_template = <<-EOT
+    'object-#{object_link_type.downcase}':
+      'patterns':[
+          {
+            'match': #{object_link_pattern.inspect()}
+            'captures':
+              '1':
+                'name': 'punctuation.definition.radio-link.begin.org-mode'
+              '2':
+                'name': 'markup.underline.link.radio-link.org-mode'
+              '3':
+                'name': 'punctuation.definition.radio-link.end.org-mode'
+          }
+      ]
+  EOT
+#+END_SRC
+
+#+NAME: grammar-radio-links-cson
+#+RESULTS: gen-grammar-radio-links-cson
+#+begin_example
+  'object-radio-link':
+    'patterns':[
+        {
+          'match': "(<<<)([\\w \\t :;'\"|\\\\~`!@\#$%^&*(){}\\[\\]=\\-_+|.,?/]+)(>>>)"
+          'captures':
+            '1':
+              'name': 'punctuation.definition.radio-link.begin.org-mode'
+            '2':
+              'name': 'markup.underline.link.radio-link.org-mode'
+            '3':
+              'name': 'punctuation.definition.radio-link.end.org-mode'
+        }
+    ]
+#+end_example
 
 ******* Angle, Plain and Regular Links
 
