@@ -2341,12 +2341,12 @@ The [[http://org-mode.org][org-mode]] application provides an astounding set of 
 
 Below is just a very small subset of things you can do using a text file + org-mode + emacs:
 
-- Literate Programming[fn:2][fn:4] in over 30 languages. 
+- Literate Programming[fn:4][fn:5] in over 30 languages. 
 - Project, Task and Time Management.
 - Data Science 
 - Reproducible Research 
-- Create and maintain documentation[fn:5] in multiple popular formats including PDF, HTML[fn:6] and Markdown.
-- Track and synchronize data across heterogeneous paradigms, technologies and formats including source code, network diagrams, Infrastructure as Code, DevOps[fn:7], databases, servers and services.
+- Create and maintain documentation[fn:6] in multiple popular formats including PDF, HTML[fn:7] and Markdown.
+- Track and synchronize data across heterogeneous paradigms, technologies and formats including source code, network diagrams, Infrastructure as Code, DevOps[fn:8], databases, servers and services.
 - Learn new skills and share complex ideas in a consistent repeatable way.
 
 
@@ -2750,7 +2750,7 @@ Let us begin our journey into a better future.
   //Object {}
 #+END_SRC
 
-** Org-Syntax[fn:8][fn:9]
+** Org-Syntax[fn:9][fn:10]
 
 *** Headlines and Sections
   :PROPERTIES:
@@ -4108,7 +4108,7 @@ Let us begin our journey into a better future.
   ((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)
 #+END_SRC
 
-********* External Link Patterns [fn:10]
+********* External Link Patterns [fn:11]
 
 http://www.astro.uva.nl/~dominik             on the web
 doi:10.1000/182                              DOI for an electronic resource
@@ -4540,24 +4540,26 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 * Footnotes
 
-[fn:1] [[https://orgmode.org/worg/dev/org-syntax.html]]
+[fn:1] [[https://orgmode.org/worg/dev/org-syntax.html][https://orgmode.org/worg/dev/org-syntax.html]]
 
-[fn:2] [[file:orgmode.org/worg/dev/org-syntax.org]]
+[fn:2] [[https://orgmode.org/worg/dev/org-syntax.org][https://orgmode.org/worg/dev/org-syntax.org]]
 
 [fn:3] pun intended
 
-[fn:4] [[http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/][http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/]]
+[fn:4] [[https://en.wikipedia.org/wiki/Literate_programming][https://en.wikipedia.org/wiki/Literate_programming]]
 
-[fn:5] [[https://github.com/fniessen/refcard-org-mode][https://github.com/fniessen/refcard-org-mode]]
+[fn:5] [[http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/][http://kitchingroup.cheme.cmu.edu/blog/2014/03/27/Literate-programming-in-python-with-org-mode-and-noweb/]]
 
-[fn:6] [[https://github.com/fniessen/org-html-themes][https://github.com/fniessen/org-html-themes]]
+[fn:6] [[https://github.com/fniessen/refcard-org-mode][https://github.com/fniessen/refcard-org-mode]]
 
-[fn:7] [[http://howardism.org/Technical/Emacs/literate-devops.html][http://howardism.org/Technical/Emacs/literate-devops.html]]
+[fn:7] [[https://github.com/fniessen/org-html-themes][https://github.com/fniessen/org-html-themes]]
 
-[fn:8] In particular, the parser requires stars at column 0 to be
+[fn:8] [[http://howardism.org/Technical/Emacs/literate-devops.html][http://howardism.org/Technical/Emacs/literate-devops.html]]
+
+[fn:9] In particular, the parser requires stars at column 0 to be
 quoted by a comma when they do not define a headline.
 
-[fn:9] It also means that only headlines and sections can be
+[fn:10] It also means that only headlines and sections can be
 recognized just by looking at the beginning of the line.  Planning
 lines and property drawers can be recognized by looking at one or two
 lines above.
@@ -4566,5 +4568,5 @@ As a consequence, using ~org-element-at-point~ or
 ~org-element-context~ will move up to the parent headline, and parse
 top-down from there until context around original location is found.
 
-[fn:10] [[https://orgmode.org/manual/External-links.html]]
+[fn:11] [[https://orgmode.org/manual/External-links.html]]
 
