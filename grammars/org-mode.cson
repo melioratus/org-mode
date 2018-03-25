@@ -25,13 +25,16 @@
     'include': '#user-defined-block'
   }
   {
+    'include': '#object-radio-link'
+  }
+  {
+    'include': '#object-plain-link'
+  }
+  {
     'include': '#verbatim'
   }
   {
     'include': '#code'
-  }
-  {
-    'include': '#object-radio-link'
   }
   {
     'include': '#emphasis'
@@ -1009,5 +1012,22 @@
               'name': 'markup.underline.link.radio-link.org-mode'
             '3':
               'name': 'punctuation.definition.radio-link.end.org-mode'
+        }
+    ]
+  
+
+  'object-plain-link':
+    'patterns':[
+        {
+          'match': "([^.\\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^<>\\(\\)\\s]+((\\w|\\W\\S)+|(?=[^\\s,.!?'\"\\-;&]/)))([^\\w]+?)?"
+          'captures':
+            '1':
+              'name': 'punctuation.definition.plain-link.begin.org-mode'
+            '2':
+              'name': 'markup.link.protocol.plain-link.org-mode'
+            '5':
+              'name': 'markup.link.path.plain-link.org-mode'
+            '8':
+              'name': 'punctuation.definition.plain-link.end.org-mode'
         }
     ]

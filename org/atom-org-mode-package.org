@@ -119,13 +119,16 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
       'include': '#user-defined-block'
     }
     {
+      'include': '#object-radio-link'
+    }
+    {
+      'include': '#object-plain-link'
+    }
+    {
       'include': '#verbatim'
     }
     {
       'include': '#code'
-    }
-    {
-      'include': '#object-radio-link'
     }
     {
       'include': '#emphasis'
@@ -1093,6 +1096,8 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
       ]
 
     <<grammar-radio-links-cson()>>
+
+    <<grammar-plain-links-cson()>>
 
 #+END_SRC
 
@@ -4151,20 +4156,20 @@ Let us begin our journey into a better future.
 
 #+NAME: PROTOCOL
 #+BEGIN_SRC css
-  ((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)
+  (((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)
 #+END_SRC
 
-********* Implementation notes about how ~PROTOCOL~ regex diverges from ~org-link-types-re~ default value.
+********* Implementation notes about ~PROTOCOL~
 
   - Added capture group around ~PROTOCOL~ regex.
 
   - Updates to allow expression to match most[fn:11] the [[file:atom-org-mode-package.org::*External Link Patterns][External Link Patterns]].
-    - ~\\`~ \rightarrow ~\b~ 
+    - ~\\`~ \rightarrow removed 
     - ~\\+~ \rightarrow ~[+]~
     - ~\\(~ \rightarrow ~(~
     - ~\\)~ \rightarrow ~)~
     - ~\\|~ \rightarrow ~|~
-    - ~PROTOCOL~ \rightarrow ~(PROTOCOL|[.]?/)~ to allow matching plain links without ~PROTOCOL~ to imitate observed behavior in emacs.
+    - ~PROTOCOL~ \rightarrow ~(PROTOCOL|[.]{0,2}/)~ to allow matching plain links without ~PROTOCOL~ to imitate observed behavior in emacs.
   
 ********* External Link Patterns [fn:12]
 
@@ -4199,13 +4204,20 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 ******** Angle Links
 
+# Are these angle links https://orgmode.org/manual/Internal-links.html ? probably.
+# - one item
+# - <<target>>another item
+# Here we refer to item [[target]].
+# 
+#
+
 #+NAME: angle-links-js
 #+BEGIN_SRC css :noweb yes 
-  ([<]<<PROTOCOL>><<PATH>>[>])
+  ([<]{2}<<PROTOCOL>><<PATH>>[>]{2})
 #+END_SRC
 
 #+RESULTS: angle-links-js
-: ([<]((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^\]<>\n]+)[>])
+: ([<]{2}(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^\]<>\n]+)[>]{2})
 
 ********* PATH
 
@@ -4237,28 +4249,786 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 #+END_SRC
 
 #+RESULTS: plain-links-js
-: ([^\w\S]+)((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))(\W)
+: ([^\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]/)))([^\w]+?)?
 
 ********* PRE2
 
 #+NAME: PRE2
 #+BEGIN_SRC css
-  ([^\w\S]+)
+  ([^.\w]+?)?
 #+END_SRC
+
+********** Implementation Notes about ~PRE2~
+
+- Added ~.~ to simplify relative file path matching.
 
 ********* PATH2
 
 #+NAME: PATH2
 #+BEGIN_SRC css
-  ([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))
+  ([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]/)))
 #+END_SRC
 
 ********* POST2
 
 #+NAME: POST2
 #+BEGIN_SRC css
-  (\W)
+  ([^\w]+?)?
 #+END_SRC
+
+********* Tests - Plain Link [96%]
+
+********** DONE Web
+
+#+BEGIN_SRC js :cmd "node" :var data="http://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'http://www.astro.uva.nl/~dominik ',
+  undefined,
+  'http:',
+  'http:',
+  'http',
+  '//www.astro.uva.nl/~dominik',
+  'k',
+  'k',
+  ' ',
+  index: 0,
+  input: 'http://www.astro.uva.nl/~dominik             on the web' ]
+#+END_SRC
+
+#+BEGIN_SRC js :cmd "node" :var data="put text before http://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ ' http://www.astro.uva.nl/~dominik ',
+  ' ',
+  'http:',
+  'http:',
+  'http',
+  '//www.astro.uva.nl/~dominik',
+  'k',
+  'k',
+  ' ',
+  index: 15,
+  input: 'put text before http://www.astro.uva.nl/~dominik             on the web' ]
+#+END_SRC
+
+
+#+BEGIN_SRC js :cmd "node" :var data="put text before \nhttp://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ ' \nhttp://www.astro.uva.nl/~dominik ',
+  ' \n',
+  'http:',
+  'http:',
+  'http',
+  '//www.astro.uva.nl/~dominik',
+  'k',
+  'k',
+  ' ',
+  index: 15,
+  input: 'put text before \nhttp://www.astro.uva.nl/~dominik             on the web' ]
+#+END_SRC
+
+********** DONE DOI for an electronic resource
+
+#+BEGIN_SRC js :cmd "node" :var data="doi:10.1000/182                              DOI for an electronic resource" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'doi:10.1000/182 ',
+  undefined,
+  'doi:',
+  'doi:',
+  'doi',
+  '10.1000/182',
+  '2',
+  '2',
+  ' ',
+  index: 0,
+  input: 'doi:10.1000/182                              DOI for an electronic resource' ]
+#+END_SRC
+
+********** DONE file, absolute path
+
+#+BEGIN_SRC js :cmd "node" :var data="file:/home/dominik/images/jupiter.jpg        file, absolute path" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'file:/home/dominik/images/jupiter.jpg ',
+  undefined,
+  'file:',
+  'file:',
+  'file',
+  '/home/dominik/images/jupiter.jpg',
+  'g',
+  'g',
+  ' ',
+  index: 0,
+  input: 'file:/home/dominik/images/jupiter.jpg        file, absolute path' ]
+#+END_SRC
+
+#+BEGIN_SRC js :cmd "node" :var data="/home/dominik/images/jupiter.jpg             same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ '/home/dominik/images/jupiter.jpg ',
+  undefined,
+  '/',
+  undefined,
+  undefined,
+  'home/dominik/images/jupiter.jpg',
+  'g',
+  'g',
+  ' ',
+  index: 0,
+  input: '/home/dominik/images/jupiter.jpg             same as above' ]
+#+END_SRC
+
+********** DONE file, relative path
+
+#+BEGIN_SRC js :cmd "node" :var data="file:papers/last.pdf                         file, relative path" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'file:papers/last.pdf ',
+  undefined,
+  'file:',
+  'file:',
+  'file',
+  'papers/last.pdf',
+  'f',
+  'f',
+  ' ',
+  index: 0,
+  input: 'file:papers/last.pdf                         file, relative path' ]
+#+END_SRC
+
+#+BEGIN_SRC js :cmd "node" :var data="./papers/last.pdf                            same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ './papers/last.pdf ',
+  undefined,
+  './',
+  undefined,
+  undefined,
+  'papers/last.pdf',
+  'f',
+  'f',
+  ' ',
+  index: 0,
+  input: './papers/last.pdf                            same as above' ]
+#+END_SRC
+
+********** DONE file, path on remote machine
+
+#+BEGIN_SRC js :cmd "node" :var data="file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'file:/ssh:myself@some.where:papers/last.pdf ',
+  undefined,
+  'file:',
+  'file:',
+  'file',
+  '/ssh:myself@some.where:papers/last.pdf',
+  'f',
+  'f',
+  ' ',
+  index: 0,
+  input: 'file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine' ]
+#+END_SRC
+
+#+BEGIN_SRC js :cmd "node" :var data="/ssh:myself@some.where:papers/last.pdf       same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ '/ssh:myself@some.where:papers/last.pdf ',
+  undefined,
+  '/',
+  undefined,
+  undefined,
+  'ssh:myself@some.where:papers/last.pdf',
+  'f',
+  'f',
+  ' ',
+  index: 0,
+  input: '/ssh:myself@some.where:papers/last.pdf       same as above' ]
+#+END_SRC
+
+********** DONE file, jump to line number
+
+#+BEGIN_SRC js :cmd "node" :var data="file:sometextfile::NNN                       file, jump to line number" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'file:sometextfile::NNN ',
+  undefined,
+  'file:',
+  'file:',
+  'file',
+  'sometextfile::NNN',
+  'N',
+  'N',
+  ' ',
+  index: 0,
+  input: 'file:sometextfile::NNN                       file, jump to line number' ]
+#+END_SRC
+
+********** DONE another Org file
+
+#+BEGIN_SRC js :cmd "node" :var data="file:projects.org                            another Org file" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'file:projects.org ',
+  undefined,
+  'file:',
+  'file:',
+  'file',
+  'projects.org',
+  'g',
+  'g',
+  ' ',
+  index: 0,
+  input: 'file:projects.org                            another Org file' ]
+#+END_SRC
+
+********** DONE text search in Org file
+
+#+BEGIN_SRC js :cmd "node" :var data="file:projects.org::some words                text search in Org file(31)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'file:projects.org::some words ',
+  undefined,
+  'file:',
+  'file:',
+  'file',
+  'projects.org::some words',
+  ' words',
+  's',
+  ' ',
+  index: 0,
+  input: 'file:projects.org::some words                text search in Org file(31)' ]
+#+END_SRC
+
+********** DONE heading search in Org file
+
+#+BEGIN_SRC js :cmd "node" :var data="file:projects.org::*task title               heading search in Org file(32)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'file:projects.org::*task title ',
+  undefined,
+  'file:',
+  'file:',
+  'file',
+  'projects.org::*task title',
+  ' title',
+  'e',
+  ' ',
+  index: 0,
+  input: 'file:projects.org::*task title               heading search in Org file(32)' ]
+#+END_SRC
+
+********** DONE open in doc-view mode at page
+
+#+BEGIN_SRC js :cmd "node" :var data="docview:papers/last.pdf::NNN                 open in doc-view mode at page" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'docview:papers/last.pdf::NNN ',
+  undefined,
+  'docview:',
+  'docview:',
+  'docview',
+  'papers/last.pdf::NNN',
+  'N',
+  'N',
+  ' ',
+  index: 0,
+  input: 'docview:papers/last.pdf::NNN                 open in doc-view mode at page' ]
+#+END_SRC
+
+********** DONE Link to heading by ID
+
+#+BEGIN_SRC js :cmd "node" :var data="id:B7423F4D-2E8A-471B-8810-C40F074717E9      Link to heading by ID" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'id:B7423F4D-2E8A-471B-8810-C40F074717E9 ',
+  undefined,
+  'id:',
+  'id:',
+  'id',
+  'B7423F4D-2E8A-471B-8810-C40F074717E9',
+  '9',
+  '9',
+  ' ',
+  index: 0,
+  input: 'id:B7423F4D-2E8A-471B-8810-C40F074717E9      Link to heading by ID' ]
+#+END_SRC
+
+********** DONE Usenet link
+
+#+BEGIN_SRC js :cmd "node" :var data="news:comp.emacs                              Usenet link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'news:comp.emacs ',
+  undefined,
+  'news:',
+  'news:',
+  'news',
+  'comp.emacs',
+  's',
+  's',
+  ' ',
+  index: 0,
+  input: 'news:comp.emacs                              Usenet link' ]
+#+END_SRC
+
+********** DONE Mail link
+
+#+BEGIN_SRC js :cmd "node" :var data="mailto:adent@galaxy.net                      Mail link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'mailto:adent@galaxy.net ',
+  undefined,
+  'mailto:',
+  'mailto:',
+  'mailto',
+  'adent@galaxy.net',
+  't',
+  't',
+  ' ',
+  index: 0,
+  input: 'mailto:adent@galaxy.net                      Mail link' ]
+#+END_SRC
+
+********** DONE MH-E folder link
+
+#+BEGIN_SRC js :cmd "node" :var data="mhe:folder                                   MH-E folder link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'mhe:folder ',
+  undefined,
+  'mhe:',
+  'mhe:',
+  'mhe',
+  'folder',
+  'r',
+  'r',
+  ' ',
+  index: 0,
+  input: 'mhe:folder                                   MH-E folder link' ]
+#+END_SRC
+
+********** DONE MH-E message link
+
+#+BEGIN_SRC js :cmd "node" :var data="mhe:folder#id                                MH-E message link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'mhe:folder#id ',
+  undefined,
+  'mhe:',
+  'mhe:',
+  'mhe',
+  'folder#id',
+  'd',
+  'd',
+  ' ',
+  index: 0,
+  input: 'mhe:folder#id                                MH-E message link' ]
+#+END_SRC
+
+********** DONE RMAIL folder link
+
+#+BEGIN_SRC js :cmd "node" :var data="rmail:folder                                 RMAIL folder link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'rmail:folder ',
+  undefined,
+  'rmail:',
+  'rmail:',
+  'rmail',
+  'folder',
+  'r',
+  'r',
+  ' ',
+  index: 0,
+  input: 'rmail:folder                                 RMAIL folder link' ]
+#+END_SRC
+
+********** DONE RMAIL message link
+
+#+BEGIN_SRC js :cmd "node" :var data="rmail:folder#id                              RMAIL message link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'rmail:folder#id ',
+  undefined,
+  'rmail:',
+  'rmail:',
+  'rmail',
+  'folder#id',
+  'd',
+  'd',
+  ' ',
+  index: 0,
+  input: 'rmail:folder#id                              RMAIL message link' ]
+#+END_SRC
+
+********** DONE Gnus group link
+
+#+BEGIN_SRC js :cmd "node" :var data="gnus:group                                   Gnus group link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'gnus:group ',
+  undefined,
+  'gnus:',
+  'gnus:',
+  'gnus',
+  'group',
+  'p',
+  'p',
+  ' ',
+  index: 0,
+  input: 'gnus:group                                   Gnus group link' ]
+#+END_SRC
+
+********** DONE Gnus article link
+
+#+BEGIN_SRC js :cmd "node" :var data="gnus:group#id                                Gnus article link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'gnus:group#id ',
+  undefined,
+  'gnus:',
+  'gnus:',
+  'gnus',
+  'group#id',
+  'd',
+  'd',
+  ' ',
+  index: 0,
+  input: 'gnus:group#id                                Gnus article link' ]
+#+END_SRC
+
+********** DONE BBDB link (with regexp)
+
+#+BEGIN_SRC js :cmd "node" :var data="bbdb:R.*Stallman                             BBDB link (with regexp)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'bbdb:R.*Stallman ',
+  undefined,
+  'bbdb:',
+  'bbdb:',
+  'bbdb',
+  'R.*Stallman',
+  'n',
+  'n',
+  ' ',
+  index: 0,
+  input: 'bbdb:R.*Stallman                             BBDB link (with regexp)' ]
+#+END_SRC
+
+********** DONE IRC link
+
+#+BEGIN_SRC js :cmd "node" :var data="irc:/irc.com/#emacs/bob                      IRC link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'irc:/irc.com/#emacs/bob ',
+  undefined,
+  'irc:',
+  'irc:',
+  'irc',
+  '/irc.com/#emacs/bob',
+  'b',
+  'b',
+  ' ',
+  index: 0,
+  input: 'irc:/irc.com/#emacs/bob                      IRC link' ]
+#+END_SRC
+
+********** DONE Info node or index link
+
+#+BEGIN_SRC js :cmd "node" :var data="info:org#External links                      Info node or index link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'info:org#External links ',
+  undefined,
+  'info:',
+  'info:',
+  'info',
+  'org#External links',
+  ' links',
+  's',
+  ' ',
+  index: 0,
+  input: 'info:org#External links                      Info node or index link' ]
+#+END_SRC
+
+********** DONE A shell command
+
+#+BEGIN_SRC js :cmd "node" :var data="shell:ls *.org                               A shell command" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'shell:ls *.org ',
+  undefined,
+  'shell:',
+  'shell:',
+  'shell',
+  'ls *.org',
+  ' *.org',
+  'g',
+  ' ',
+  index: 0,
+  input: 'shell:ls *.org                               A shell command' ]
+#+END_SRC
+
+********** DONE Interactive Elisp command
+
+#+BEGIN_SRC js :cmd "node" :var data="elisp:org-agenda                             Interactive Elisp command" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ 'elisp:org-agenda ',
+  undefined,
+  'elisp:',
+  'elisp:',
+  'elisp',
+  'org-agenda',
+  'a',
+  'a',
+  ' ',
+  index: 0,
+  input: 'elisp:org-agenda                             Interactive Elisp command' ]
+#+END_SRC
+
+********** TODO Elisp form to evaluate
+
+#+BEGIN_SRC js :cmd "node" :var data="elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+null
+#+END_SRC
+
+********** zzz Empty Test Plain Link
+
+#+BEGIN_SRC js :cmd "node" :var data="" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+********* Grammar
+
+#+NAME: gen-grammar-plain-links-cson
+#+BEGIN_SRC ruby :var object_link_type="plain-link" :var object_link_pattern=plain-links-js 
+  object_link_template = <<-EOT
+    'object-#{object_link_type.downcase}':
+      'patterns':[
+          {
+            'match': #{object_link_pattern.inspect()}
+            'captures':
+              '1':
+                'name': 'punctuation.definition.plain-link.begin.org-mode'
+              '2':
+                'name': 'markup.link.protocol.plain-link.org-mode'
+              '5':
+                'name': 'markup.link.path.plain-link.org-mode'
+              '8':
+                'name': 'punctuation.definition.plain-link.end.org-mode'
+          }
+      ]
+  EOT
+#+END_SRC
+
+#+NAME: grammar-plain-links-cson
+#+RESULTS: gen-grammar-plain-links-cson
+#+begin_example
+  'object-plain-link':
+    'patterns':[
+        {
+          'match': "([^.\\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^<>\\(\\)\\s]+((\\w|\\W\\S)+|(?=[^\\s,.!?'\"\\-;&]/)))([^\\w]+?)?"
+          'captures':
+            '1':
+              'name': 'punctuation.definition.plain-link.begin.org-mode'
+            '2':
+              'name': 'markup.link.protocol.plain-link.org-mode'
+            '5':
+              'name': 'markup.link.path.plain-link.org-mode'
+            '8':
+              'name': 'punctuation.definition.plain-link.end.org-mode'
+        }
+    ]
+#+end_example
 
 ******** Regular links
 
