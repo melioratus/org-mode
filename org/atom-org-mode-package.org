@@ -2898,6 +2898,7 @@ Let us begin our journey into a better future.
 : (concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) (org-sbe TAGS))
 
 #+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=headline-regex-js-elisp() :wrap "SRC js :eval never"
+  console.log(JSON.stringify(pattern))
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -2905,6 +2906,7 @@ Let us begin our journey into a better future.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
+"^([*]+(?=\\s))(( +)(TODO|DONE))?(( +)(\\[#[a-zA-Z]\\]))?(( +)(.+))?(( +)(([:\\w@#%]+))+)?"
 /^([*]+(?=\s))(( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?/
 [ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
   '****',
