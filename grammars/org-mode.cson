@@ -680,6 +680,12 @@
             {
               'include': '#verbatim'
             }
+            {
+              'include': '#object-radio-link'
+            }
+            {
+              'include': '#object-plain-link'
+            }
           ]
       }
     ]
@@ -706,21 +712,27 @@
                '3':
                  'name': 'punctuation.definition.entity.org-mode'
            }
-          {
+           {
              'include': '#bold'
-          }
-          {
-            'include': '#italic'
-          }
-          {
-            'include': '#strike-through'
-          }
-          {
-            'include': '#code'
-          }
-          {
-            'include': '#verbatim'
-          }
+           }
+           {
+             'include': '#italic'
+           }
+           {
+             'include': '#strike-through'
+           }
+           {
+             'include': '#code'
+           }
+           {
+             'include': '#verbatim'
+           }
+           {
+             'include': '#object-radio-link'
+           }
+           {
+             'include': '#object-plain-link'
+           }
          ]
        }
 
@@ -762,6 +774,12 @@
             {
               'include': '#verbatim'
             }
+            {
+              'include': '#object-radio-link'
+            }
+            {
+              'include': '#object-plain-link'
+            }
           ]
         }
     ]
@@ -802,6 +820,12 @@
             }
             {
               'include': '#verbatim'
+            }
+            {
+              'include': '#object-radio-link'
+            }
+            {
+              'include': '#object-plain-link'
             }
           ]
         }
@@ -1006,10 +1030,12 @@
         {
           'match': "(<<<)([\\w \\t :;'\"|\\\\~`!@\#$%^&*(){}\\[\\]=\\-_+|.,?/]+)(>>>)"
           'captures':
+            '0':
+              'name': 'markup.underline.link.org-mode'
             '1':
               'name': 'punctuation.definition.radio-link.begin.org-mode'
             '2':
-              'name': 'markup.underline.link.radio-link.org-mode'
+              'name': 'markup.radio-link.org-mode'
             '3':
               'name': 'punctuation.definition.radio-link.end.org-mode'
         }

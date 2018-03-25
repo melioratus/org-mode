@@ -774,6 +774,12 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
               {
                 'include': '#verbatim'
               }
+              {
+                'include': '#object-radio-link'
+              }
+              {
+                'include': '#object-plain-link'
+              }
             ]
         }
       ]
@@ -800,21 +806,27 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
                  '3':
                    'name': 'punctuation.definition.entity.org-mode'
              }
-            {
+             {
                'include': '#bold'
-            }
-            {
-              'include': '#italic'
-            }
-            {
-              'include': '#strike-through'
-            }
-            {
-              'include': '#code'
-            }
-            {
-              'include': '#verbatim'
-            }
+             }
+             {
+               'include': '#italic'
+             }
+             {
+               'include': '#strike-through'
+             }
+             {
+               'include': '#code'
+             }
+             {
+               'include': '#verbatim'
+             }
+             {
+               'include': '#object-radio-link'
+             }
+             {
+               'include': '#object-plain-link'
+             }
            ]
          }
 
@@ -856,6 +868,12 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
               {
                 'include': '#verbatim'
               }
+              {
+                'include': '#object-radio-link'
+              }
+              {
+                'include': '#object-plain-link'
+              }
             ]
           }
       ]
@@ -896,6 +914,12 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
               }
               {
                 'include': '#verbatim'
+              }
+              {
+                'include': '#object-radio-link'
+              }
+              {
+                'include': '#object-plain-link'
               }
             ]
           }
@@ -4106,10 +4130,12 @@ Let us begin our journey into a better future.
           {
             'match': #{object_link_pattern.inspect()}
             'captures':
+              '0':
+                'name': 'markup.underline.link.org-mode'
               '1':
                 'name': 'punctuation.definition.radio-link.begin.org-mode'
               '2':
-                'name': 'markup.underline.link.radio-link.org-mode'
+                'name': 'markup.radio-link.org-mode'
               '3':
                 'name': 'punctuation.definition.radio-link.end.org-mode'
           }
@@ -4125,10 +4151,12 @@ Let us begin our journey into a better future.
         {
           'match': "(<<<)([\\w \\t :;'\"|\\\\~`!@\#$%^&*(){}\\[\\]=\\-_+|.,?/]+)(>>>)"
           'captures':
+            '0':
+              'name': 'markup.underline.link.org-mode'
             '1':
               'name': 'punctuation.definition.radio-link.begin.org-mode'
             '2':
-              'name': 'markup.underline.link.radio-link.org-mode'
+              'name': 'markup.radio-link.org-mode'
             '3':
               'name': 'punctuation.definition.radio-link.end.org-mode'
         }
