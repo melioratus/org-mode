@@ -1057,3 +1057,21 @@
               'name': 'punctuation.definition.plain-link.end.org-mode'
         }
     ]
+  
+
+  'object-angle-link':
+    'patterns':[
+        {
+          'match': "([<]{2}(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^\\]<>\\n]+)[>]{2})"
+          'captures':
+            '0':
+              'name': 'markup.underline.link.org-mode'
+            '1':
+              'name': 'punctuation.definition.angle-link.begin.org-mode'
+            '2':
+              'name': 'markup.angle-link.org-mode'
+            '3':
+              'name': 'punctuation.definition.angle-link.end.org-mode'
+        }
+    ]
+  

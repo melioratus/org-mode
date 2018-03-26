@@ -1122,6 +1122,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     <<grammar-radio-links-cson()>>
 
     <<grammar-plain-links-cson()>>
+    
+    <<grammar-angle-links-cson()>>
+
 
 #+END_SRC
 
@@ -4255,6 +4258,50 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 #+BEGIN_SRC css
   ([^\]<>\n]+)
 #+END_SRC
+
+********* Grammar
+
+#+NAME: gen-grammar-angle-links-cson
+#+BEGIN_SRC ruby :var object_link_type="angle-link" :var object_link_pattern=angle-links-js 
+  object_link_template = <<-EOT
+    'object-#{object_link_type.downcase}':
+      'patterns':[
+          {
+            'match': #{object_link_pattern.inspect()}
+            'captures':
+              '0':
+                'name': 'markup.underline.link.org-mode'
+              '1':
+                'name': 'punctuation.definition.angle-link.begin.org-mode'
+              '2':
+                'name': 'markup.angle-link.org-mode'
+              '3':
+                'name': 'punctuation.definition.angle-link.end.org-mode'
+          }
+      ]
+  EOT
+#+END_SRC
+
+#+NAME: grammar-angle-links-cson
+#+RESULTS: gen-grammar-angle-links-cson
+#+begin_example
+  'object-angle-link':
+    'patterns':[
+        {
+          'match': "([<]{2}(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^\\]<>\\n]+)[>]{2})"
+          'captures':
+            '0':
+              'name': 'markup.underline.link.org-mode'
+            '1':
+              'name': 'punctuation.definition.angle-link.begin.org-mode'
+            '2':
+              'name': 'markup.angle-link.org-mode'
+            '3':
+              'name': 'punctuation.definition.angle-link.end.org-mode'
+        }
+    ]
+#+end_example
+
 
 ******** <<<Plain Links>>>
 
