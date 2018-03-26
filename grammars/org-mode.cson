@@ -25,10 +25,7 @@
     'include': '#user-defined-block'
   }
   {
-    'include': '#object-radio-link'
-  }
-  {
-    'include': '#object-plain-link'
+    'include': '#object-links'
   }
   {
     'include': '#verbatim'
@@ -88,6 +85,9 @@
       {
         'include': '#emphasis'
       }
+      {
+        'include': '#object-links'
+      }
     ]
   }
 
@@ -114,6 +114,9 @@
         }
         {
           'include': '#emphasis'
+        }
+        {
+          'include': '#object-links'
         }
       ]
   }
@@ -142,6 +145,9 @@
         {
           'include': '#emphasis'
         }
+        {
+          'include': '#object-links'
+        }
       ]
   }
 
@@ -168,6 +174,9 @@
         }
         {
           'include': '#emphasis'
+        }
+        {
+          'include': '#object-links'
         }
       ]
   }
@@ -268,6 +277,9 @@
       {
         'include': '#emphasis'
       }
+      {
+        'include': '#object-links'
+      }
     ]
   }
 
@@ -294,6 +306,9 @@
       }
       {
         'include': '#emphasis'
+      }
+      {
+        'include': '#object-links'
       }
     ]
   }
@@ -322,6 +337,9 @@
       {
         'include': '#emphasis'
       }
+      {
+        'include': '#object-links'
+      }
     ]
   }
 
@@ -348,6 +366,9 @@
       }
       {
         'include': '#emphasis'
+      }
+      {
+        'include': '#object-links'
       }
     ]
   }
@@ -376,6 +397,9 @@
         {
           'include': '#emphasis'
         }
+        {
+          'include': '#object-links'
+        }
       ]
   }
 
@@ -402,6 +426,9 @@
         }
         {
           'include': '#emphasis'
+        }
+        {
+          'include': '#object-links'
         }
       ]
   }
@@ -430,6 +457,9 @@
         {
           'include': '#emphasis'
         }
+        {
+          'include': '#object-links'
+        }
       ]
   }
   {
@@ -456,6 +486,9 @@
         {
           'include': '#emphasis'
         }
+        {
+          'include': '#object-links'
+        }
       ]
   }
   {
@@ -481,6 +514,9 @@
         }
         {
           'include': '#emphasis'
+        }
+        {
+          'include': '#object-links'
         }
       ]
   }
@@ -553,6 +589,9 @@
         'patterns': [
           {
             'include': '#emphasis'
+          }
+          {
+            'include': '#object-links'
           }
         ]
       }
@@ -681,10 +720,7 @@
               'include': '#verbatim'
             }
             {
-              'include': '#object-radio-link'
-            }
-            {
-              'include': '#object-plain-link'
+              'include': '#object-links'
             }
           ]
       }
@@ -728,10 +764,7 @@
              'include': '#verbatim'
            }
            {
-             'include': '#object-radio-link'
-           }
-           {
-             'include': '#object-plain-link'
+             'include': '#object-links'
            }
          ]
        }
@@ -775,10 +808,7 @@
               'include': '#verbatim'
             }
             {
-              'include': '#object-radio-link'
-            }
-            {
-              'include': '#object-plain-link'
+              'include': '#object-links'
             }
           ]
         }
@@ -822,10 +852,7 @@
               'include': '#verbatim'
             }
             {
-              'include': '#object-radio-link'
-            }
-            {
-              'include': '#object-plain-link'
+              'include': '#object-links'
             }
           ]
         }
@@ -1075,3 +1102,16 @@
         }
     ]
   
+
+  'object-links':
+      'patterns': [
+          {
+            'include': '#object-angle-link'
+          }
+          {
+            'include': '#object-plain-link'
+          }
+          {
+            'include': '#object-radio-link'
+          }
+      ]

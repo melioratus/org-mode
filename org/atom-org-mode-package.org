@@ -119,10 +119,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
       'include': '#user-defined-block'
     }
     {
-      'include': '#object-radio-link'
-    }
-    {
-      'include': '#object-plain-link'
+      'include': '#object-links'
     }
     {
       'include': '#verbatim'
@@ -182,6 +179,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         {
           'include': '#emphasis'
         }
+        {
+          'include': '#object-links'
+        }
       ]
     }
 
@@ -208,6 +208,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           }
           {
             'include': '#emphasis'
+          }
+          {
+            'include': '#object-links'
           }
         ]
     }
@@ -236,6 +239,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           {
             'include': '#emphasis'
           }
+          {
+            'include': '#object-links'
+          }
         ]
     }
 
@@ -262,6 +268,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           }
           {
             'include': '#emphasis'
+          }
+          {
+            'include': '#object-links'
           }
         ]
     }
@@ -362,6 +371,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         {
           'include': '#emphasis'
         }
+        {
+          'include': '#object-links'
+        }
       ]
     }
 
@@ -388,6 +400,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
         {
           'include': '#emphasis'
+        }
+        {
+          'include': '#object-links'
         }
       ]
     }
@@ -416,6 +431,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         {
           'include': '#emphasis'
         }
+        {
+          'include': '#object-links'
+        }
       ]
     }
 
@@ -442,6 +460,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
         {
           'include': '#emphasis'
+        }
+        {
+          'include': '#object-links'
         }
       ]
     }
@@ -470,6 +491,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           {
             'include': '#emphasis'
           }
+          {
+            'include': '#object-links'
+          }
         ]
     }
 
@@ -496,6 +520,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           }
           {
             'include': '#emphasis'
+          }
+          {
+            'include': '#object-links'
           }
         ]
     }
@@ -524,6 +551,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           {
             'include': '#emphasis'
           }
+          {
+            'include': '#object-links'
+          }
         ]
     }
     {
@@ -550,6 +580,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           {
             'include': '#emphasis'
           }
+          {
+            'include': '#object-links'
+          }
         ]
     }
     {
@@ -575,6 +608,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           }
           {
             'include': '#emphasis'
+          }
+          {
+            'include': '#object-links'
           }
         ]
     }
@@ -647,6 +683,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'patterns': [
             {
               'include': '#emphasis'
+            }
+            {
+              'include': '#object-links'
             }
           ]
         }
@@ -775,10 +814,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
                 'include': '#verbatim'
               }
               {
-                'include': '#object-radio-link'
-              }
-              {
-                'include': '#object-plain-link'
+                'include': '#object-links'
               }
             ]
         }
@@ -822,10 +858,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
                'include': '#verbatim'
              }
              {
-               'include': '#object-radio-link'
-             }
-             {
-               'include': '#object-plain-link'
+               'include': '#object-links'
              }
            ]
          }
@@ -869,10 +902,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
                 'include': '#verbatim'
               }
               {
-                'include': '#object-radio-link'
-              }
-              {
-                'include': '#object-plain-link'
+                'include': '#object-links'
               }
             ]
           }
@@ -916,10 +946,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
                 'include': '#verbatim'
               }
               {
-                'include': '#object-radio-link'
-              }
-              {
-                'include': '#object-plain-link'
+                'include': '#object-links'
               }
             ]
           }
@@ -1125,6 +1152,18 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     
     <<grammar-angle-links-cson()>>
 
+    'object-links':
+        'patterns': [
+            {
+              'include': '#object-angle-link'
+            }
+            {
+              'include': '#object-plain-link'
+            }
+            {
+              'include': '#object-radio-link'
+            }
+        ]
 
 #+END_SRC
 
