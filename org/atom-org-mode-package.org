@@ -4283,11 +4283,11 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 #+NAME: angle-links-js
 #+BEGIN_SRC css :noweb yes 
-  ([<]{2}<<PROTOCOL>><<PATH>>[>]{2})
+  ([<]{2})<<PROTOCOL>>?<<PATH>>([>]{2})
 #+END_SRC
 
 #+RESULTS: angle-links-js
-: ([<]{2}(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^\]<>\n]+)[>]{2})
+: ([<]{2})(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)?([^\]<>\n]+)([>]{2})
 
 ********* PATH
 
@@ -4312,9 +4312,9 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
                 'name': 'markup.underline.link.org-mode'
               '1':
                 'name': 'punctuation.definition.angle-link.begin.org-mode'
-              '2':
+              '5':
                 'name': 'markup.angle-link.org-mode'
-              '3':
+              '6':
                 'name': 'punctuation.definition.angle-link.end.org-mode'
           }
       ]
@@ -4327,20 +4327,47 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
   'object-angle-link':
     'patterns':[
         {
-          'match': "([<]{2}(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^\\]<>\\n]+)[>]{2})"
+          'match': "([<]{2})(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)?([^\\]<>\\n]+)([>]{2})"
           'captures':
             '0':
               'name': 'markup.underline.link.org-mode'
             '1':
               'name': 'punctuation.definition.angle-link.begin.org-mode'
-            '2':
+            '5':
               'name': 'markup.angle-link.org-mode'
-            '3':
+            '6':
               'name': 'punctuation.definition.angle-link.end.org-mode'
         }
     ]
 #+end_example
 
+********* Implementation Notes about Angle Link
+
+- ~PROTOCOL~ \rightarrow ~PROTOCOL?~
+
+********* Tests - Angle Link
+
+# - <<target>> another item
+
+#+BEGIN_SRC js :cmd "node" :var data="- <<target>>another item" :results replace output :var pattern=angle-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([<]{2})(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)?([^\]<>\n]+)([>]{2})/
+[ '<<target>>',
+  '<<',
+  undefined,
+  undefined,
+  undefined,
+  'target',
+  '>>',
+  index: 2,
+  input: '- <<target>>another item' ]
+#+END_SRC
 
 ******** <<<Plain Links>>>
 

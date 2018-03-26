@@ -16,6 +16,12 @@ quis nostrud exercitation
 - <<<ut>>> :: ullamco laboris
 
 * Angle Links
+
+- one item
+- <<target>>another item
+
+Here we refer to item [[target]].
+
 * Plain Links
 
 #+BEGIN_QUOTE
