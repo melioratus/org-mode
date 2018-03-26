@@ -57,6 +57,11 @@ shell:ls *.org                               A shell command
 elisp:org-agenda                             Interactive Elisp command
 elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
+** Other Examples
+
+http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web
+put text before http://www.astro.uva.nl/~dominik             on the web
+
 * Regular Links
 
 + [[https://www.google.com]]

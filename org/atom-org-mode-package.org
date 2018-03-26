@@ -4259,7 +4259,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 #+END_SRC
 
 #+RESULTS: plain-links-js
-: ([^\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]/)))([^\w]+?)?
+: ([^.=\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]/)))([^.=\w]+?)?
 
 ********* PRE2
 
@@ -4286,9 +4286,9 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
   ([^\w]+?)?
 #+END_SRC
 
-********* Tests - Plain Link [96%]
+********* Tests - Plain Link [92%]
 
-********** DONE Web
+********** DONE Web Case 1
 
 #+BEGIN_SRC js :cmd "node" :var data="http://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
@@ -4312,7 +4312,9 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
   input: 'http://www.astro.uva.nl/~dominik             on the web' ]
 #+END_SRC
 
-#+BEGIN_SRC js :cmd "node" :var data="put text before http://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+********** DONE Web Case 2
+
+#+BEGIN_SRC js :cmd "node" :var data="put text before http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4321,19 +4323,20 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 #+RESULTS:
 #+BEGIN_SRC js :eval never
 /([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ ' http://www.astro.uva.nl/~dominik ',
+[ ' http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World ',
   ' ',
   'http:',
   'http:',
   'http',
-  '//www.astro.uva.nl/~dominik',
-  'k',
-  'k',
+  '//www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World',
+  'd',
+  'd',
   ' ',
   index: 15,
-  input: 'put text before http://www.astro.uva.nl/~dominik             on the web' ]
+  input: 'put text before http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web' ]
 #+END_SRC
 
+********** DONE Web Case 3
 
 #+BEGIN_SRC js :cmd "node" :var data="put text before \nhttp://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
@@ -4343,7 +4346,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
 [ ' \nhttp://www.astro.uva.nl/~dominik ',
   ' \n',
   'http:',
