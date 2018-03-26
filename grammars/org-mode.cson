@@ -60,126 +60,6 @@
   {
     'include': '#babel-call'
   }
-
-  {
-    'begin': '^(\\*{3})(\\*{1})(\\s+)'
-    'end': '$'
-    'name': 'markup.heading.heading-4.org-mode'
-    'captures':
-      '1':
-        'name': 'leading-star.org-mode'
-      '2':
-        'name': 'markup.heading.marker.org-mode'
-      '3':
-        'name': 'markup.heading.space.org-mode'
-    'patterns': [
-      {
-        'include': '#task-status'
-      }
-      {
-        'include': '#code'
-      }
-      {
-        'include': '#verbatim'
-      }
-      {
-        'include': '#emphasis'
-      }
-      {
-        'include': '#object-links'
-      }
-    ]
-  }
-
-  {
-    'begin': '^(\\*{4})(\\*{1})(\\s+)'
-    'end': '$'
-    'name': 'markup.heading.heading-5.org-mode'
-    'captures':
-      '1':
-        'name': 'leading-star.org-mode'
-      '2':
-        'name': 'markup.heading.marker.org-mode'
-      '3':
-        'name': 'markup.heading.space.org-mode'
-    'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-        {
-          'include': '#object-links'
-        }
-      ]
-  }
-
-  {
-    'begin': '^(\\*{5})(\\*{1})(\\s+)'
-    'end': '$'
-    'name': 'markup.heading.heading-6.org-mode'
-    'captures':
-      '1':
-        'name': 'leading-star.org-mode'
-      '2':
-        'name': 'markup.heading.marker.org-mode'
-      '3':
-        'name': 'markup.heading.space.org-mode'
-    'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-        {
-          'include': '#object-links'
-        }
-      ]
-  }
-
-  {
-    'begin': '^(\\*{6})(\\*{1})(\\s+)'
-    'end': '$'
-    'name': 'markup.heading.heading-7.org-mode'
-    'captures':
-      '1':
-        'name': 'leading-star.org-mode'
-      '2':
-        'name': 'markup.heading.marker.org-mode'
-      '3':
-        'name': 'markup.heading.space.org-mode'
-    'patterns': [
-        {
-          'include': '#task-status'
-        }
-        {
-          'include': '#code'
-        }
-        {
-          'include': '#verbatim'
-        }
-        {
-          'include': '#emphasis'
-        }
-        {
-          'include': '#object-links'
-        }
-      ]
-  }
   {
     'begin': '^(-----BEGIN PGP MESSAGE-----)$'
     'end': '^(-----END PGP MESSAGE-----)$'
@@ -193,8 +73,6 @@
     'patterns': [
     ]
   }
-
-
   {
     'match': '^(\\s*\\d+\\.)(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
     'captures':
@@ -211,7 +89,6 @@
       '6':
         'name': 'punctuation.definition.checkbox.end.list.org-mode'
   }
-
   {
     'match': '^(\\s+[*]|\\s*[+-])(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
     'captures':
@@ -228,7 +105,6 @@
       '6':
         'name': 'punctuation.definition.checkbox.end.list.org-mode'
   }
-
   {
     'begin': '^(?:[ \\t]*)(\\|)'
     'end': '(\\|)?(?:\\s*)$'
@@ -254,7 +130,6 @@
       }
     ]
   }
-
   {
     'begin': '^(\\*{1})(\\s+)'
     'end': '$'
@@ -282,7 +157,6 @@
       }
     ]
   }
-
   {
     'begin': '^(\\*{1})(\\*{1})(\\s+)'
     'end': '$'
@@ -312,7 +186,6 @@
       }
     ]
   }
-
   {
     'begin': '^(\\*{2})(\\*{1})(\\s+)'
     'end': '$'
@@ -342,7 +215,6 @@
       }
     ]
   }
-
   {
     'begin': '^(\\*{3})(\\*{1})(\\s+)'
     'end': '$'
@@ -372,7 +244,6 @@
       }
     ]
   }
-
   {
     'begin': '^(\\*{4})(\\*{1})(\\s+)'
     'end': '$'
@@ -402,7 +273,6 @@
         }
       ]
   }
-
   {
     'begin': '^(\\*{5})(\\*{1})(\\s+)'
     'end': '$'
@@ -432,7 +302,6 @@
         }
       ]
   }
-
   {
     'begin': '^(\\*{6})(\\*{1})(\\s+)'
     'end': '$'

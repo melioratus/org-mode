@@ -167,8 +167,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
       'patterns': [
       ]
     }
-
-
     {
       'match': '^(\\s*\\d+\\.)(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
       'captures':
@@ -185,7 +183,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         '6':
           'name': 'punctuation.definition.checkbox.end.list.org-mode'
     }
-
     {
       'match': '^(\\s+[*]|\\s*[+-])(\\s+)(([\\\[])([ X-])([\\\]])(\\s))?'
       'captures':
@@ -202,7 +199,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         '6':
           'name': 'punctuation.definition.checkbox.end.list.org-mode'
     }
-
     {
       'begin': '^(?:[ \\t]*)(\\|)'
       'end': '(\\|)?(?:\\s*)$'
@@ -228,7 +224,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
     }
-
     {
       'begin': '^(\\*{1})(\\s+)'
       'end': '$'
@@ -256,7 +251,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
     }
-
     {
       'begin': '^(\\*{1})(\\*{1})(\\s+)'
       'end': '$'
@@ -286,7 +280,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
     }
-
     {
       'begin': '^(\\*{2})(\\*{1})(\\s+)'
       'end': '$'
@@ -316,7 +309,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
     }
-
     {
       'begin': '^(\\*{3})(\\*{1})(\\s+)'
       'end': '$'
@@ -346,7 +338,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
     }
-
     {
       'begin': '^(\\*{4})(\\*{1})(\\s+)'
       'end': '$'
@@ -376,7 +367,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           }
         ]
     }
-
     {
       'begin': '^(\\*{5})(\\*{1})(\\s+)'
       'end': '$'
@@ -406,7 +396,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           }
         ]
     }
-
     {
       'begin': '^(\\*{6})(\\*{1})(\\s+)'
       'end': '$'
