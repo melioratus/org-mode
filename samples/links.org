@@ -62,6 +62,9 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web
 put text before http://www.astro.uva.nl/~dominik             on the web
 
+In this example, the =full path= to the apache script is =/etc/init.d/httpd= and the service account is =apache=.
+
+
 * Regular Links
 
 + [[https://www.google.com]]

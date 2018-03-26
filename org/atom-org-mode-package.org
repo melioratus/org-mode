@@ -4992,6 +4992,54 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 null
 #+END_SRC
 
+********** Inside Verbatim Case 1
+
+#+BEGIN_SRC js :cmd "node" :var data="In all these simple examples, the common generic rc script will be deployed to =/etc/init.d/middleware=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ ' =/etc/init.d/middleware=.',
+  ' =',
+  '/',
+  undefined,
+  undefined,
+  'etc/init.d/middleware=.',
+  '=.',
+  '=.',
+  undefined,
+  index: 78,
+  input: 'In all these simple examples, the common generic rc script will be deployed to =/etc/init.d/middleware=.' ]
+#+END_SRC
+
+********** TODO Inside Verbatim Case 2
+
+#+BEGIN_SRC js :cmd "node" :var data="In this example, the path to the apache script is =/etc/init.d/httpd= and the service account is =apache=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+[ ' =/etc/init.d/httpd= and the service account is =apache=.',
+  ' =',
+  '/',
+  undefined,
+  undefined,
+  'etc/init.d/httpd= and the service account is =apache=.',
+  ' and the service account is =apache=.',
+  '=.',
+  undefined,
+  index: 49,
+  input: 'In this example, the path to the apache script is =/etc/init.d/httpd= and the service account is =apache=.' ]
+#+END_SRC
+
 ********** zzz Empty Test Plain Link
 
 #+BEGIN_SRC js :cmd "node" :var data="" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
