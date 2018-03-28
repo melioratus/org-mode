@@ -4241,6 +4241,16 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 ******** <<<Plain Links>>>
 
 #+BEGIN_COMMENT
+org-plain-link-re is a variable defined in ‘org.el’.
+Its value is
+"\\<\\(b\\(?:bdb\\|ibtex\\)\\|do\\(?:cview\\|i\\)\\|e\\(?:lisp\\|shell\\|ww\\)\\|f\\(?:ile\\(?:\\+\\(?:\\(?:emac\\|sy\\)s\\)\\)?\\|tp\\)\\|gnus\\|h\\(?:elp\\|ttps?\\)\\|i\\(?:d\\|nfo\\|rc\\)\\|m\\(?:ailto\\|he\\)\\|news\\|rmail\\|shell\\|w3m\\):\\([^][ 	\n()<>]+\\(?:([[:word:]0-9_]+)\\|\\([^[:punct:] 	\n]\\|/\\)\\)\\)"
+
+Documentation:
+Matches plain link, without spaces.
+
+#+END_COMMENT
+
+#+BEGIN_COMMENT
    # Best # ([^\w\S]+)((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))(\W)
 
    # PRE2 PROTOCOL:PATH2 POST2 ("plain" link)
