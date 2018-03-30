@@ -22,6 +22,8 @@ quis nostrud exercitation
 
 Here we refer to item [[target]].
 
+Here we refer to item [[target][The Target]].
+
 * Plain Links
 
 #+BEGIN_QUOTE

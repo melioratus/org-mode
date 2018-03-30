@@ -921,6 +921,37 @@
         }
     ]
 
+  'object-regular-link':
+    'patterns':[
+        {
+          'match': "([\\[])([\\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\\]]+)([\\]])(([\\[])([^\\]]+)([\\]]))?([\\]])"
+          'captures':
+            '0':
+              'name': 'markup.underline.link.org-mode'
+            '1':
+              'name': 'punctuation.definition.regular-link.begin.org-mode'
+            '2':
+              'name': 'punctuation.definition.regular-link.meta-path3.begin.org-mode'
+            '3':
+              'name': 'markup.link.protocol.regular-link.org-mode'
+            '5':
+              'name': 'markup.link.path.regular-link.org-mode'
+            '6':
+              'name': 'punctuation.definition.regular-link.meta-path3.end.org-mode'
+            '7':
+              'name': 'meta.regular-link.meta-description.org-mode'
+            '8':
+              'name': 'punctuation.definition.regular-link.meta-description.begin.org-mode'
+            '9':
+              'name': 'markup.link.description.regular-link.org-mode'
+            '10':
+              'name': 'punctuation.definition.regular-link.meta-description.end.org-mode'
+            '11':
+              'name': 'punctuation.definition.regular-link.end.org-mode'
+        }
+    ]
+  
+
   'object-radio-link':
     'patterns':[
         {
@@ -941,7 +972,7 @@
   'object-plain-link':
     'patterns':[
         {
-          'match': "([^\\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\\]\\[ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\w \\t\\n]|/)))([^\\w]+?)?"
+          'match': "([^\\[\\]\\w]+?)?(?![\\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\\]\\[ \\t\\n()<>]+(?![\\]\\[]+)(?:([\\w0-9_]+)|([^\\]\\[\\w \\t\\n]|/)))(?![\\]]{1,2})([^\\]\\[\\w]+?)?"
           'captures':
             '1':
               'name': 'punctuation.definition.plain-link.begin.org-mode'
@@ -974,6 +1005,9 @@
 
   'object-links':
       'patterns': [
+          {
+            'include': '#object-regular-link'
+          }
           {
             'include': '#object-angle-link'
           }

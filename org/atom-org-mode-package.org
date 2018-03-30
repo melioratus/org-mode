@@ -1016,6 +1016,8 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           }
       ]
 
+    <<grammar-regular-links-cson()>>
+
     <<grammar-radio-links-cson()>>
 
     <<grammar-plain-links-cson()>>
@@ -1024,6 +1026,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
     'object-links':
         'patterns': [
+            {
+              'include': '#object-regular-link'
+            }
             {
               'include': '#object-angle-link'
             }
@@ -4266,27 +4271,31 @@ Matches plain link, without spaces.
 #+END_SRC
 
 #+RESULTS: plain-links-js
-: ([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|/)))([^\w]+?)?
+: ([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|/)))(?![\]]{1,2})([^\]\[\w]+?)?
+
+********* Implementation Notes
+
+- Excluded square brackets to allow matching of regular links
 
 ********* PRE2
 
 #+NAME: PRE2
 #+BEGIN_SRC css
-  ([^\w]+?)?
+  ([^\[\]\w]+?)?(?![\[]{2})
 #+END_SRC
 
 ********* PATH2
 
 #+NAME: PATH2
 #+BEGIN_SRC css
-  ([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|/)))
+  ([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|/)))
 #+END_SRC
 
 ********* POST2
 
 #+NAME: POST2
 #+BEGIN_SRC css
-  ([^\w]+?)?
+  (?![\]]{1,2})([^\]\[\w]+?)?
 #+END_SRC
 
 ********* Tests - Plain Link [100%]
@@ -4964,6 +4973,98 @@ null
 null
 #+END_SRC
 
+********** DONE Inside Brackets 1
+
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))([^\w]+?)?/
+[ '[[https://www.google.com]',
+  '[[',
+  'https:',
+  'https',
+  '//www.google.com',
+  'm',
+  undefined,
+  ']',
+  index: 0,
+  input: '[[https://www.google.com]]' ]
+#+END_SRC
+
+********** DONE Inside Brackets 2
+
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com][Google Search]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))([^\w]+?)?/
+[ '[[https://www.google.com]',
+  '[[',
+  'https:',
+  'https',
+  '//www.google.com',
+  'm',
+  undefined,
+  ']',
+  index: 0,
+  input: '[[https://www.google.com][Google Search]]' ]
+#+END_SRC
+
+********** DONE Inside Brackets 3
+
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))([^\w]+?)?/
+[ '[[file:links.org]',
+  '[[',
+  'file:',
+  'file',
+  'links.org',
+  'g',
+  undefined,
+  ']',
+  index: 0,
+  input: '[[file:links.org]]' ]
+#+END_SRC
+
+********** DONE Inside Brackets 4
+
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org][This Code Example]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))([^\w]+?)?/
+[ '[[file:links.org]',
+  '[[',
+  'file:',
+  'file',
+  'links.org',
+  'g',
+  undefined,
+  ']',
+  index: 0,
+  input: '[[file:links.org][This Code Example]]' ]
+#+END_SRC
+
 ********** zzz Empty Test Plain Link
 
 #+BEGIN_SRC js :cmd "node" :var data="" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
@@ -5001,7 +5102,7 @@ null
   'object-plain-link':
     'patterns':[
         {
-          'match': "([^\\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\\]\\[ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\w \\t\\n]|/)))([^\\w]+?)?"
+          'match': "([^\\[\\]\\w]+?)?(?![\\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\\]\\[ \\t\\n()<>]+(?![\\]\\[]+)(?:([\\w0-9_]+)|([^\\]\\[\\w \\t\\n]|/)))(?![\\]]{1,2})([^\\]\\[\\w]+?)?"
           'captures':
             '1':
               'name': 'punctuation.definition.plain-link.begin.org-mode'
@@ -5018,6 +5119,53 @@ null
 ******** Regular links
 
 #+BEGIN_COMMENT
+org-bracket-link-analytic-regexp++ is a variable defined in ‘org.el’.
+Its value is
+"\\[\\[\\(\\(b\\(?:bdb\\|ibtex\\)\\|coderef\\|do\\(?:cview\\|i\\)\\|e\\(?:lisp\\|shell\\|ww\\)\\|f\\(?:ile\\(?:\\+\\(?:\\(?:emac\\|sy\\)s\\)\\)?\\|tp\\)\\|gnus\\|h\\(?:elp\\|ttps?\\)\\|i\\(?:d\\|nfo\\|rc\\)\\|m\\(?:ailto\\|he\\)\\|news\\|rmail\\|shell\\|w3m\\):\\)?\\([^]]+\\)\\]\\(\\[\\([^]]+\\)\\]\\)?\\]"
+
+Documentation:
+Like ‘org-bracket-link-analytic-regexp’, but include coderef internal type.
+
+[back]
+
+--------------------
+
+org-bracket-link-analytic-regexp is a variable defined in ‘org.el’.
+Its value is
+"\\[\\[\\(\\(b\\(?:bdb\\|ibtex\\)\\|do\\(?:cview\\|i\\)\\|e\\(?:lisp\\|shell\\|ww\\)\\|f\\(?:ile\\(?:\\+\\(?:\\(?:emac\\|sy\\)s\\)\\)?\\|tp\\)\\|gnus\\|h\\(?:elp\\|ttps?\\)\\|i\\(?:d\\|nfo\\|rc\\)\\|m\\(?:ailto\\|he\\)\\|news\\|rmail\\|shell\\|w3m\\):\\)?\\([^]]+\\)\\]\\(\\[\\([^]]+\\)\\]\\)?\\]"
+
+Documentation:
+Regular expression used to analyze links.
+Here is what the match groups contain after a match:
+1: http:
+2: http
+3: path
+4: [desc]
+5: desc
+
+[back]
+
+--------------------
+
+org-bracket-link-regexp is a variable defined in ‘org.el’.
+Its value is "\\[\\[\\([^][]+\\)\\]\\(\\[\\([^][]+\\)\\]\\)?\\]"
+
+Documentation:
+Matches a link in double brackets.
+
+[back]
+
+--------------------
+
+org-any-link-re is a variable defined in ‘org.el’.
+Its value is
+"\\(\\[\\[\\([^][]+\\)\\]\\(\\[\\([^][]+\\)\\]\\)?\\]\\)\\|\\(<\\(b\\(?:bdb\\|ibtex\\)\\|do\\(?:cview\\|i\\)\\|e\\(?:lisp\\|shell\\|ww\\)\\|f\\(?:ile\\(?:\\+\\(?:\\(?:emac\\|sy\\)s\\)\\)?\\|tp\\)\\|gnus\\|h\\(?:elp\\|ttps?\\)\\|i\\(?:d\\|nfo\\|rc\\)\\|m\\(?:ailto\\|he\\)\\|news\\|rmail\\|shell\\|w3m\\):\\([^>\n]*\\(?:\n[ 	]*[^> 	\n][^>\n]*\\)*\\)>\\)\\|\\(\\<\\(b\\(?:bdb\\|ibtex\\)\\|do\\(?:cview\\|i\\)\\|e\\(?:lisp\\|shell\\|ww\\)\\|f\\(?:ile\\(?:\\+\\(?:\\(?:emac\\|sy\\)s\\)\\)?\\|tp\\)\\|gnus\\|h\\(?:elp\\|ttps?\\)\\|i\\(?:d\\|nfo\\|rc\\)\\|m\\(?:ailto\\|he\\)\\|news\\|rmail\\|shell\\|w3m\\):\\([^][ 	\n()<>]+\\(?:([[:word:]0-9_]+)\\|\\([^[:punct:] 	\n]\\|/\\)\\)\\)\\)"
+
+Documentation:
+Regular expression matching any link.
+
+--------------------
+
 [[PATH3]DESCRIPTION]      ("regular" link)
 
 DESCRIPTION must be enclosed within square brackets.  It can
@@ -5051,13 +5199,19 @@ besides square brackets.
 #+END_COMMENT
 
 
+#+NAME: org-bracket-link-analytic-regexp++-js
+: ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
+
 #+NAME: regular-links-js
-#+BEGIN_SRC css :noweb yes 
-  ([\[]{2})(<<PATH3>>)([\]])(<<DESCRIPTION>>)?([\]])
+#+BEGIN_SRC css :noweb yes :noweb yes
+  <<org-bracket-link-analytic-regexp++-js()>>
 #+END_SRC
 
+#+RESULTS: regular-links-js
+: ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
 
-********* PATH3
+
+********* COMMENT PATH3
 
 #+NAME: PATH3
 #+BEGIN_SRC css
@@ -5106,12 +5260,203 @@ besides square brackets.
   
   #+END_SRC
 
-********* DESCRIPTION
+********* COMMENT DESCRIPTION
 
 #+NAME: DESCRIPTION
 #+BEGIN_SRC css
 
 #+END_SRC
+
+********* Tests - Regular Links 
+********** Web Case 1
+
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+[ '[[https://www.google.com]]',
+  '[',
+  '[',
+  'https:',
+  'https',
+  '//www.google.com',
+  ']',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  ']',
+  index: 0,
+  input: '[[https://www.google.com]]' ]
+#+END_SRC
+
+
+********** Web Case 2
+
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com][Google Search]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+[ '[[https://www.google.com][Google Search]]',
+  '[',
+  '[',
+  'https:',
+  'https',
+  '//www.google.com',
+  ']',
+  '[Google Search]',
+  '[',
+  'Google Search',
+  ']',
+  ']',
+  index: 0,
+  input: '[[https://www.google.com][Google Search]]' ]
+#+END_SRC
+
+
+********** File Case 1
+
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+[ '[[file:links.org]]',
+  '[',
+  '[',
+  'file:',
+  'file',
+  'links.org',
+  ']',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  ']',
+  index: 0,
+  input: '[[file:links.org]]' ]
+#+END_SRC
+
+
+********** File Case 2
+
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org][This Code Example]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js :eval never
+/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+[ '[[file:links.org][This Code Example]]',
+  '[',
+  '[',
+  'file:',
+  'file',
+  'links.org',
+  ']',
+  '[This Code Example]',
+  '[',
+  'This Code Example',
+  ']',
+  ']',
+  index: 0,
+  input: '[[file:links.org][This Code Example]]' ]
+#+END_SRC
+
+********** zzz Empty Test Regular Link
+
+#+BEGIN_SRC js :cmd "node" :var data="" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+  let re = new RegExp(pattern);
+  console.log(re)
+  console.log(data.match(re))
+#+END_SRC
+
+********* Grammar
+
+#+NAME: gen-grammar-regular-links-cson
+#+BEGIN_SRC ruby :var object_link_type="regular-link" :var object_link_pattern=regular-links-js 
+  object_link_template = <<-EOT
+    'object-#{object_link_type.downcase}':
+      'patterns':[
+          {
+            'match': #{object_link_pattern.inspect()}
+            'captures':
+              '0':
+                'name': 'markup.underline.link.org-mode'
+              '1':
+                'name': 'punctuation.definition.regular-link.begin.org-mode'
+              '2':
+                'name': 'punctuation.definition.regular-link.meta-path3.begin.org-mode'
+              '3':
+                'name': 'markup.link.protocol.regular-link.org-mode'
+              '5':
+                'name': 'markup.link.path.regular-link.org-mode'
+              '6':
+                'name': 'punctuation.definition.regular-link.meta-path3.end.org-mode'
+              '7':
+                'name': 'meta.regular-link.meta-description.org-mode'
+              '8':
+                'name': 'punctuation.definition.regular-link.meta-description.begin.org-mode'
+              '9':
+                'name': 'markup.link.description.regular-link.org-mode'
+              '10':
+                'name': 'punctuation.definition.regular-link.meta-description.end.org-mode'
+              '11':
+                'name': 'punctuation.definition.regular-link.end.org-mode'
+          }
+      ]
+  EOT
+#+END_SRC
+
+#+NAME: grammar-regular-links-cson
+#+RESULTS: gen-grammar-regular-links-cson
+#+begin_example
+  'object-regular-link':
+    'patterns':[
+        {
+          'match': "([\\[])([\\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\\]]+)([\\]])(([\\[])([^\\]]+)([\\]]))?([\\]])"
+          'captures':
+            '0':
+              'name': 'markup.underline.link.org-mode'
+            '1':
+              'name': 'punctuation.definition.regular-link.begin.org-mode'
+            '2':
+              'name': 'punctuation.definition.regular-link.meta-path3.begin.org-mode'
+            '3':
+              'name': 'markup.link.protocol.regular-link.org-mode'
+            '5':
+              'name': 'markup.link.path.regular-link.org-mode'
+            '6':
+              'name': 'punctuation.definition.regular-link.meta-path3.end.org-mode'
+            '7':
+              'name': 'meta.regular-link.meta-description.org-mode'
+            '8':
+              'name': 'punctuation.definition.regular-link.meta-description.begin.org-mode'
+            '9':
+              'name': 'markup.link.description.regular-link.org-mode'
+            '10':
+              'name': 'punctuation.definition.regular-link.meta-description.end.org-mode'
+            '11':
+              'name': 'punctuation.definition.regular-link.end.org-mode'
+        }
+    ]
+#+end_example
 
 **** Macros
    :PROPERTIES:
