@@ -2233,7 +2233,7 @@ The version property is updated using =apm publish= command.
 #+NAME: atom-org-mode-package-package-specs-version
 | Property-Name | Property-Value |
 |---------------+----------------|
-| version       | 0.3.12         |
+| version       | 0.3.13         |
 
 ***** Generate Publish Package
 
@@ -2242,7 +2242,7 @@ The version property is updated using =apm publish= command.
 #+END_SRC
 
 #+RESULTS:
-: apm publish 0.3.12
+: apm publish 0.3.13
 
 *** =package.json= File
 
