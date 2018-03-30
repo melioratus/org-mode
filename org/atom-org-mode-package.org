@@ -5017,16 +5017,102 @@ null
 
 ******** Regular links
 
+#+BEGIN_COMMENT
+[[PATH3]DESCRIPTION]      ("regular" link)
+
+DESCRIPTION must be enclosed within square brackets.  It can
+contain any character but square brackets.  It can contain any
+object found in a paragraph excepted a footnote reference, a radio
+target and a line break.  It cannot contain another link either,
+unless it is a plain or angular link.
+
+DESCRIPTION is optional.
+
+PATH3 is built according to the following patterns:
+
+#+BEGIN_EXAMPLE
+FILENAME           ("file" type)
+PROTOCOL:PATH4     ("PROTOCOL" type)
+PROTOCOL://PATH4   ("PROTOCOL" type)
+id:ID              ("id" type)
+#CUSTOM-ID         ("custom-id" type)
+(CODEREF)          ("coderef" type)
+FUZZY              ("fuzzy" type)
+#+END_EXAMPLE
+
+FILENAME is a file name, either absolute or relative.
+
+PATH4 can contain any character besides square brackets.
+
+ID is constituted of hexadecimal numbers separated with hyphens.
+
+PATH4, CUSTOM-ID, CODEREF and FUZZY can contain any character
+besides square brackets.
+#+END_COMMENT
+
+
+#+NAME: regular-links-js
+#+BEGIN_SRC css :noweb yes 
+  ([\[]{2})(<<PATH3>>)([\]])(<<DESCRIPTION>>)?([\]])
+#+END_SRC
+
+
 ********* PATH3
 
+#+NAME: PATH3
+#+BEGIN_SRC css
+
+#+END_SRC
+
 - File Type
+
+  #+NAME: FILE-TYPE
+  #+BEGIN_SRC css
+  
+  #+END_SRC
+
 - Protocol Type
+
+  #+NAME: PROTOCOL-TYPE
+  #+BEGIN_SRC css
+  
+  #+END_SRC
+
 - Id Type
+
+  #+NAME: ID-TYPE
+  #+BEGIN_SRC css
+  
+  #+END_SRC
+
 - Custom-Id Type
+
+  #+NAME: CUSTOM-ID-TYPE
+  #+BEGIN_SRC css
+  
+  #+END_SRC
+
 - Coderef Type
+
+  #+NAME: CODEREF-TYPE
+  #+BEGIN_SRC css
+  
+  #+END_SRC
+
 - Fuzzy Type
 
+  #+NAME: FUZZY-TYPE
+  #+BEGIN_SRC css
+  
+  #+END_SRC
+
 ********* DESCRIPTION
+
+#+NAME: DESCRIPTION
+#+BEGIN_SRC css
+
+#+END_SRC
+
 **** Macros
    :PROPERTIES:
    :CUSTOM_ID: Macros
