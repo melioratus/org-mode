@@ -2,15 +2,15 @@
 
 * Radio Links
 
-Lorem ipsum 
+Lorem ipsum
 est laborum
 reprehenderit in voluptate
 Duis aute
 quis nostrud exercitation
 
-- *<<<Lorem ipsum>>>* dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-- *Ut* enim ad minim veniam, <<<quis nostrud exercitation>>> ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-- <<<Duis aute>>> irure dolor in <<<reprehenderit in voluptate>>> velit esse cillum dolore eu fugiat nulla pariatur. 
+- *<<<Lorem ipsum>>>* dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- *Ut* enim ad minim veniam, <<<quis nostrud exercitation>>> ullamco laboris nisi ut aliquip ex ea commodo consequat.
+- <<<Duis aute>>> irure dolor in <<<reprehenderit in voluptate>>> velit esse cillum dolore eu fugiat nulla pariatur.
 - Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id <<<est laborum>>>.
 
 - <<<ut>>> :: ullamco laboris
@@ -31,11 +31,11 @@ Here we refer to item [[target]].
 http://www.astro.uva.nl/~dominik             on the web
 doi:10.1000/182                              DOI for an electronic resource
 file:/home/dominik/images/jupiter.jpg        file, absolute path
-/home/dominik/images/jupiter.jpg             same as above
+=/home/dominik/images/jupiter.jpg=             same as above
 file:papers/last.pdf                         file, relative path
-./papers/last.pdf                            same as above
+=./papers/last.pdf=                            same as above
 file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine
-/ssh:myself@some.where:papers/last.pdf       same as above
+=/ssh:myself@some.where:papers/last.pdf=       same as above
 file:sometextfile::NNN                       file, jump to line number
 file:projects.org                            another Org file
 file:projects.org::some words                text search in Org file(31)
@@ -53,7 +53,7 @@ gnus:group#id                                Gnus article link
 bbdb:R.*Stallman                             BBDB link (with regexp)
 irc:/irc.com/#emacs/bob                      IRC link
 info:org#External links                      Info node or index link
-shell:ls *.org                               A shell command
+shell:ls =*.org=                               A shell command
 elisp:org-agenda                             Interactive Elisp command
 elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
@@ -63,7 +63,6 @@ http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on 
 put text before http://www.astro.uva.nl/~dominik             on the web
 
 In this example, the =full path= to the apache script is =/etc/init.d/httpd= and the service account is =apache=.
-
 
 * Regular Links
 

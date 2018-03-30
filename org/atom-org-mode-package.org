@@ -1,3 +1,4 @@
+# -*- mode: org; org-confirm-babel-evaluate: nil; -*-
 
 * Atom org-mode Package
 
@@ -4095,7 +4096,7 @@ Let us begin our journey into a better future.
 
 #+NAME: PROTOCOL
 #+BEGIN_SRC css
-  (((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)
+  ((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)
 #+END_SRC
 
 ********* Implementation notes about ~PROTOCOL~
@@ -4108,8 +4109,7 @@ Let us begin our journey into a better future.
     - ~\\(~ \rightarrow ~(~
     - ~\\)~ \rightarrow ~)~
     - ~\\|~ \rightarrow ~|~
-    - ~PROTOCOL~ \rightarrow ~(PROTOCOL|[.]{0,2}/)~ to allow matching plain links without ~PROTOCOL~ to imitate observed behavior in emacs.
-  
+
 ********* External Link Patterns [fn:12]
 
 http://www.astro.uva.nl/~dominik             on the web
@@ -4156,7 +4156,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 #+END_SRC
 
 #+RESULTS: angle-links-js
-: ([<]{2})(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)?([^\]<>\n]+)([>]{2})
+: ([<]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]<>\n]+)([>]{2})
 
 ********* PATH
 
@@ -4181,9 +4181,9 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
                 'name': 'markup.underline.link.org-mode'
               '1':
                 'name': 'punctuation.definition.angle-link.begin.org-mode'
-              '5':
+              '4':
                 'name': 'markup.angle-link.org-mode'
-              '6':
+              '5':
                 'name': 'punctuation.definition.angle-link.end.org-mode'
           }
       ]
@@ -4196,15 +4196,15 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
   'object-angle-link':
     'patterns':[
         {
-          'match': "([<]{2})(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)?([^\\]<>\\n]+)([>]{2})"
+          'match': "([<]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\\]<>\\n]+)([>]{2})"
           'captures':
             '0':
               'name': 'markup.underline.link.org-mode'
             '1':
               'name': 'punctuation.definition.angle-link.begin.org-mode'
-            '5':
+            '4':
               'name': 'markup.angle-link.org-mode'
-            '6':
+            '5':
               'name': 'punctuation.definition.angle-link.end.org-mode'
         }
     ]
@@ -4226,10 +4226,9 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([<]{2})(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)?([^\]<>\n]+)([>]{2})/
+/([<]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]<>\n]+)([>]{2})/
 [ '<<target>>',
   '<<',
-  undefined,
   undefined,
   undefined,
   'target',
@@ -4251,8 +4250,6 @@ Matches plain link, without spaces.
 #+END_COMMENT
 
 #+BEGIN_COMMENT
-   # Best # ([^\w\S]+)((\b(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]?/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&/]/)))(\W)
-
    # PRE2 PROTOCOL:PATH2 POST2 ("plain" link)
 
    PRE2 and POST2, when they exist, are non word constituent
@@ -4269,24 +4266,20 @@ Matches plain link, without spaces.
 #+END_SRC
 
 #+RESULTS: plain-links-js
-: ([^.=\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]/)))([^.=\w]+?)?
+: ([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|/)))([^\w]+?)?
 
 ********* PRE2
 
 #+NAME: PRE2
 #+BEGIN_SRC css
-  ([^.\w]+?)?
+  ([^\w]+?)?
 #+END_SRC
-
-********** Implementation Notes about ~PRE2~
-
-- Added ~.~ to simplify relative file path matching.
 
 ********* PATH2
 
 #+NAME: PATH2
 #+BEGIN_SRC css
-  ([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]/)))
+  ([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|/)))
 #+END_SRC
 
 ********* POST2
@@ -4296,7 +4289,7 @@ Matches plain link, without spaces.
   ([^\w]+?)?
 #+END_SRC
 
-********* Tests - Plain Link [92%]
+********* Tests - Plain Link [100%]
 
 ********** DONE Web Case 1
 
@@ -4308,15 +4301,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'http://www.astro.uva.nl/~dominik ',
   undefined,
-  'http:',
   'http:',
   'http',
   '//www.astro.uva.nl/~dominik',
   'k',
-  'k',
+  undefined,
   ' ',
   index: 0,
   input: 'http://www.astro.uva.nl/~dominik             on the web' ]
@@ -4332,15 +4324,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ ' http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World ',
   ' ',
-  'http:',
   'http:',
   'http',
   '//www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World',
   'd',
-  'd',
+  undefined,
   ' ',
   index: 15,
   input: 'put text before http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web' ]
@@ -4356,15 +4347,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ ' \nhttp://www.astro.uva.nl/~dominik ',
   ' \n',
-  'http:',
   'http:',
   'http',
   '//www.astro.uva.nl/~dominik',
   'k',
-  'k',
+  undefined,
   ' ',
   index: 15,
   input: 'put text before \nhttp://www.astro.uva.nl/~dominik             on the web' ]
@@ -4380,15 +4370,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'doi:10.1000/182 ',
   undefined,
-  'doi:',
   'doi:',
   'doi',
   '10.1000/182',
   '2',
-  '2',
+  undefined,
   ' ',
   index: 0,
   input: 'doi:10.1000/182                              DOI for an electronic resource' ]
@@ -4404,15 +4393,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'file:/home/dominik/images/jupiter.jpg ',
   undefined,
-  'file:',
   'file:',
   'file',
   '/home/dominik/images/jupiter.jpg',
   'g',
-  'g',
+  undefined,
   ' ',
   index: 0,
   input: 'file:/home/dominik/images/jupiter.jpg        file, absolute path' ]
@@ -4426,18 +4414,8 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ '/home/dominik/images/jupiter.jpg ',
-  undefined,
-  '/',
-  undefined,
-  undefined,
-  'home/dominik/images/jupiter.jpg',
-  'g',
-  'g',
-  ' ',
-  index: 0,
-  input: '/home/dominik/images/jupiter.jpg             same as above' ]
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+null
 #+END_SRC
 
 ********** DONE file, relative path
@@ -4450,15 +4428,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'file:papers/last.pdf ',
   undefined,
-  'file:',
   'file:',
   'file',
   'papers/last.pdf',
   'f',
-  'f',
+  undefined,
   ' ',
   index: 0,
   input: 'file:papers/last.pdf                         file, relative path' ]
@@ -4472,18 +4449,8 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ './papers/last.pdf ',
-  undefined,
-  './',
-  undefined,
-  undefined,
-  'papers/last.pdf',
-  'f',
-  'f',
-  ' ',
-  index: 0,
-  input: './papers/last.pdf                            same as above' ]
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+null
 #+END_SRC
 
 ********** DONE file, path on remote machine
@@ -4496,15 +4463,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'file:/ssh:myself@some.where:papers/last.pdf ',
   undefined,
-  'file:',
   'file:',
   'file',
   '/ssh:myself@some.where:papers/last.pdf',
   'f',
-  'f',
+  undefined,
   ' ',
   index: 0,
   input: 'file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine' ]
@@ -4518,18 +4484,8 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ '/ssh:myself@some.where:papers/last.pdf ',
-  undefined,
-  '/',
-  undefined,
-  undefined,
-  'ssh:myself@some.where:papers/last.pdf',
-  'f',
-  'f',
-  ' ',
-  index: 0,
-  input: '/ssh:myself@some.where:papers/last.pdf       same as above' ]
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+null
 #+END_SRC
 
 ********** DONE file, jump to line number
@@ -4542,15 +4498,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'file:sometextfile::NNN ',
   undefined,
-  'file:',
   'file:',
   'file',
   'sometextfile::NNN',
   'N',
-  'N',
+  undefined,
   ' ',
   index: 0,
   input: 'file:sometextfile::NNN                       file, jump to line number' ]
@@ -4566,15 +4521,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'file:projects.org ',
   undefined,
-  'file:',
   'file:',
   'file',
   'projects.org',
   'g',
-  'g',
+  undefined,
   ' ',
   index: 0,
   input: 'file:projects.org                            another Org file' ]
@@ -4590,15 +4544,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ 'file:projects.org::some words ',
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+[ 'file:projects.org::some ',
   undefined,
   'file:',
-  'file:',
   'file',
-  'projects.org::some words',
-  ' words',
-  's',
+  'projects.org::some',
+  'e',
+  undefined,
   ' ',
   index: 0,
   input: 'file:projects.org::some words                text search in Org file(31)' ]
@@ -4614,15 +4567,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ 'file:projects.org::*task title ',
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+[ 'file:projects.org::*task ',
   undefined,
   'file:',
-  'file:',
   'file',
-  'projects.org::*task title',
-  ' title',
-  'e',
+  'projects.org::*task',
+  'k',
+  undefined,
   ' ',
   index: 0,
   input: 'file:projects.org::*task title               heading search in Org file(32)' ]
@@ -4638,15 +4590,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'docview:papers/last.pdf::NNN ',
   undefined,
-  'docview:',
   'docview:',
   'docview',
   'papers/last.pdf::NNN',
   'N',
-  'N',
+  undefined,
   ' ',
   index: 0,
   input: 'docview:papers/last.pdf::NNN                 open in doc-view mode at page' ]
@@ -4662,15 +4613,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'id:B7423F4D-2E8A-471B-8810-C40F074717E9 ',
   undefined,
-  'id:',
   'id:',
   'id',
   'B7423F4D-2E8A-471B-8810-C40F074717E9',
   '9',
-  '9',
+  undefined,
   ' ',
   index: 0,
   input: 'id:B7423F4D-2E8A-471B-8810-C40F074717E9      Link to heading by ID' ]
@@ -4686,15 +4636,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'news:comp.emacs ',
   undefined,
-  'news:',
   'news:',
   'news',
   'comp.emacs',
   's',
-  's',
+  undefined,
   ' ',
   index: 0,
   input: 'news:comp.emacs                              Usenet link' ]
@@ -4710,15 +4659,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'mailto:adent@galaxy.net ',
   undefined,
-  'mailto:',
   'mailto:',
   'mailto',
   'adent@galaxy.net',
   't',
-  't',
+  undefined,
   ' ',
   index: 0,
   input: 'mailto:adent@galaxy.net                      Mail link' ]
@@ -4734,15 +4682,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'mhe:folder ',
   undefined,
-  'mhe:',
   'mhe:',
   'mhe',
   'folder',
   'r',
-  'r',
+  undefined,
   ' ',
   index: 0,
   input: 'mhe:folder                                   MH-E folder link' ]
@@ -4758,15 +4705,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'mhe:folder#id ',
   undefined,
-  'mhe:',
   'mhe:',
   'mhe',
   'folder#id',
   'd',
-  'd',
+  undefined,
   ' ',
   index: 0,
   input: 'mhe:folder#id                                MH-E message link' ]
@@ -4782,15 +4728,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'rmail:folder ',
   undefined,
-  'rmail:',
   'rmail:',
   'rmail',
   'folder',
   'r',
-  'r',
+  undefined,
   ' ',
   index: 0,
   input: 'rmail:folder                                 RMAIL folder link' ]
@@ -4806,15 +4751,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'rmail:folder#id ',
   undefined,
-  'rmail:',
   'rmail:',
   'rmail',
   'folder#id',
   'd',
-  'd',
+  undefined,
   ' ',
   index: 0,
   input: 'rmail:folder#id                              RMAIL message link' ]
@@ -4830,15 +4774,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'gnus:group ',
   undefined,
-  'gnus:',
   'gnus:',
   'gnus',
   'group',
   'p',
-  'p',
+  undefined,
   ' ',
   index: 0,
   input: 'gnus:group                                   Gnus group link' ]
@@ -4854,15 +4797,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'gnus:group#id ',
   undefined,
-  'gnus:',
   'gnus:',
   'gnus',
   'group#id',
   'd',
-  'd',
+  undefined,
   ' ',
   index: 0,
   input: 'gnus:group#id                                Gnus article link' ]
@@ -4878,15 +4820,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'bbdb:R.*Stallman ',
   undefined,
-  'bbdb:',
   'bbdb:',
   'bbdb',
   'R.*Stallman',
   'n',
-  'n',
+  undefined,
   ' ',
   index: 0,
   input: 'bbdb:R.*Stallman                             BBDB link (with regexp)' ]
@@ -4902,15 +4843,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
 [ 'irc:/irc.com/#emacs/bob ',
   undefined,
-  'irc:',
   'irc:',
   'irc',
   '/irc.com/#emacs/bob',
   'b',
-  'b',
+  undefined,
   ' ',
   index: 0,
   input: 'irc:/irc.com/#emacs/bob                      IRC link' ]
@@ -4926,15 +4866,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ 'info:org#External links ',
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+[ 'info:org#External ',
   undefined,
   'info:',
-  'info:',
   'info',
-  'org#External links',
-  ' links',
-  's',
+  'org#External',
+  'l',
+  undefined,
   ' ',
   index: 0,
   input: 'info:org#External links                      Info node or index link' ]
@@ -4950,15 +4889,14 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ 'shell:ls *.org ',
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+[ 'shell:ls ',
   undefined,
   'shell:',
-  'shell:',
   'shell',
-  'ls *.org',
-  ' *.org',
-  'g',
+  'ls',
+  's',
+  undefined,
   ' ',
   index: 0,
   input: 'shell:ls *.org                               A shell command' ]
@@ -4974,21 +4912,17 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ 'elisp:org-agenda ',
-  undefined,
-  'elisp:',
-  'elisp:',
+/<?(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))/
+[ 'elisp:org-agenda',
   'elisp',
   'org-agenda',
   'a',
-  'a',
-  ' ',
+  undefined,
   index: 0,
   input: 'elisp:org-agenda                             Interactive Elisp command' ]
 #+END_SRC
 
-********** TODO Elisp form to evaluate
+********** DONE Elisp form to evaluate
 
 #+BEGIN_SRC js :cmd "node" :var data="elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
@@ -4998,11 +4932,11 @@ Matches plain link, without spaces.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
+/<?(b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))/
 null
 #+END_SRC
 
-********** Inside Verbatim Case 1
+********** DONE Inside Verbatim Case 1
 
 #+BEGIN_SRC js :cmd "node" :var data="In all these simple examples, the common generic rc script will be deployed to =/etc/init.d/middleware=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
@@ -5012,21 +4946,11 @@ null
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ ' =/etc/init.d/middleware=.',
-  ' =',
-  '/',
-  undefined,
-  undefined,
-  'etc/init.d/middleware=.',
-  '=.',
-  '=.',
-  undefined,
-  index: 78,
-  input: 'In all these simple examples, the common generic rc script will be deployed to =/etc/init.d/middleware=.' ]
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+null
 #+END_SRC
 
-********** TODO Inside Verbatim Case 2
+********** DONE Inside Verbatim Case 2
 
 #+BEGIN_SRC js :cmd "node" :var data="In this example, the path to the apache script is =/etc/init.d/httpd= and the service account is =apache=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
@@ -5036,18 +4960,8 @@ null
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([^.\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}\/)([^<>\(\)\s]+((\w|\W\S)+|(?=[^\s,.!?'"\-;&]\/)))([^\w]+?)?/
-[ ' =/etc/init.d/httpd= and the service account is =apache=.',
-  ' =',
-  '/',
-  undefined,
-  undefined,
-  'etc/init.d/httpd= and the service account is =apache=.',
-  ' and the service account is =apache=.',
-  '=.',
-  undefined,
-  index: 49,
-  input: 'In this example, the path to the apache script is =/etc/init.d/httpd= and the service account is =apache=.' ]
+/([^\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?:([\w0-9_]+)|([^\w \t\n]|\/)))([^\w]+?)?/
+null
 #+END_SRC
 
 ********** zzz Empty Test Plain Link
@@ -5072,9 +4986,9 @@ null
                 'name': 'punctuation.definition.plain-link.begin.org-mode'
               '2':
                 'name': 'markup.link.protocol.plain-link.org-mode'
-              '5':
+              '4':
                 'name': 'markup.link.path.plain-link.org-mode'
-              '8':
+              '7':
                 'name': 'punctuation.definition.plain-link.end.org-mode'
           }
       ]
@@ -5087,15 +5001,15 @@ null
   'object-plain-link':
     'patterns':[
         {
-          'match': "([^.\\w]+?)?(((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)|[.]{0,2}/)([^<>\\(\\)\\s]+((\\w|\\W\\S)+|(?=[^\\s,.!?'\"\\-;&]/)))([^\\w]+?)?"
+          'match': "([^\\w]+?)?((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\\]\\[ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\w \\t\\n]|/)))([^\\w]+?)?"
           'captures':
             '1':
               'name': 'punctuation.definition.plain-link.begin.org-mode'
             '2':
               'name': 'markup.link.protocol.plain-link.org-mode'
-            '5':
+            '4':
               'name': 'markup.link.path.plain-link.org-mode'
-            '8':
+            '7':
               'name': 'punctuation.definition.plain-link.end.org-mode'
         }
     ]
