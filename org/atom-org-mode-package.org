@@ -5206,14 +5206,18 @@ besides square brackets.
 #+NAME: org-bracket-link-analytic-regexp++-js
 : ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
 
-#+NAME: regular-links-js
-#+BEGIN_SRC css :noweb yes :noweb yes
+#+BEGIN_SRC css :noweb yes
   <<org-bracket-link-analytic-regexp++-js()>>
 #+END_SRC
 
-#+RESULTS: regular-links-js
-: ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
 
+#+NAME: regular-links-js
+#+BEGIN_SRC css :noweb yes
+  ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
+#+END_SRC
+
+#+RESULTS: regular-links-js
+: ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
 
 ********* COMMENT PATH3
 
@@ -5282,18 +5286,24 @@ besides square brackets.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+/([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
 [ '[[https://www.google.com]]',
   '[',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
   '[',
-  'https:',
   'https',
+  ':',
   '//www.google.com',
   ']',
-  undefined,
-  undefined,
-  undefined,
-  undefined,
   ']',
   index: 0,
   input: '[[https://www.google.com]]' ]
@@ -5310,18 +5320,24 @@ besides square brackets.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+/([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
 [ '[[https://www.google.com][Google Search]]',
   '[',
+  '[https://www.google.com]',
   '[',
-  'https:',
   'https',
+  ':',
   '//www.google.com',
   ']',
   '[Google Search]',
   '[',
   'Google Search',
   ']',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
   ']',
   index: 0,
   input: '[[https://www.google.com][Google Search]]' ]
@@ -5338,18 +5354,24 @@ besides square brackets.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+/([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
 [ '[[file:links.org]]',
   '[',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
   '[',
-  'file:',
   'file',
+  ':',
   'links.org',
   ']',
-  undefined,
-  undefined,
-  undefined,
-  undefined,
   ']',
   index: 0,
   input: '[[file:links.org]]' ]
@@ -5366,18 +5388,24 @@ besides square brackets.
 
 #+RESULTS:
 #+BEGIN_SRC js :eval never
-/([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])/
+/([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
 [ '[[file:links.org][This Code Example]]',
   '[',
+  '[file:links.org]',
   '[',
-  'file:',
   'file',
+  ':',
   'links.org',
   ']',
   '[This Code Example]',
   '[',
   'This Code Example',
   ']',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
   ']',
   index: 0,
   input: '[[file:links.org][This Code Example]]' ]
@@ -5392,6 +5420,9 @@ besides square brackets.
 #+END_SRC
 
 ********* Grammar
+:PROPERTIES:
+:ID:       EB44D741-7438-4BA5-9503-AAB8EEBAA7B5
+:END:
 
 #+NAME: gen-grammar-regular-links-cson
 #+BEGIN_SRC ruby :var object_link_type="regular-link" :var object_link_pattern=regular-links-js 
@@ -5404,25 +5435,37 @@ besides square brackets.
               '0':
                 'name': 'markup.underline.link.org-mode'
               '1':
-                'name': 'punctuation.definition.regular-link.begin.org-mode'
+                'name': 'punctuation.definition.regular-link.begin.display-none.org-mode'
               '2':
-                'name': 'punctuation.definition.regular-link.meta-path3.begin.org-mode'
+                'name': 'meta.regular-link.meta-path3.display-none.org-mode'
               '3':
+                'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+              '4':
                 'name': 'markup.link.protocol.regular-link.org-mode'
-              '5':
-                'name': 'markup.link.path.regular-link.org-mode'
               '6':
-                'name': 'punctuation.definition.regular-link.meta-path3.end.org-mode'
+                'name': 'markup.link.path.regular-link.org-mode'
               '7':
-                'name': 'meta.regular-link.meta-description.org-mode'
+                'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
               '8':
-                'name': 'punctuation.definition.regular-link.meta-description.begin.org-mode'
+                'name': 'meta.regular-link.meta-description.org-mode'
               '9':
-                'name': 'markup.link.description.regular-link.org-mode'
+                'name': 'punctuation.definition.regular-link.begin.meta-description.display-none.org-mode'
               '10':
-                'name': 'punctuation.definition.regular-link.meta-description.end.org-mode'
+                'name': 'markup.link.description.regular-link.org-mode'
               '11':
-                'name': 'punctuation.definition.regular-link.end.org-mode'
+                'name': 'punctuation.definition.regular-link.end.meta-description.display-none.org-mode'
+              '12':
+                'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+              '13':
+                'name': 'markup.link.protocol.regular-link.org-mode'
+              '14':
+                'name': 'punctuation.definition.regular-link.meta-path3.org-mode'
+              '15':
+                'name': 'markup.link.path.regular-link.org-mode'
+              '16':
+                'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
+              '17':
+                'name': 'punctuation.definition.regular-link.end.display-none.org-mode'
           }
       ]
   EOT
@@ -5434,30 +5477,42 @@ besides square brackets.
   'object-regular-link':
     'patterns':[
         {
-          'match': "([\\[])([\\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\\]]+)([\\]])(([\\[])([^\\]]+)([\\]]))?([\\]])"
+          'match': "([\\[])(?:(([\\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\\]]+)([\\]]))(([\\[])([^\\]]+)([\\]]))|(?:([\\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\\]]+)([\\]])))([\\]])"
           'captures':
             '0':
               'name': 'markup.underline.link.org-mode'
             '1':
-              'name': 'punctuation.definition.regular-link.begin.org-mode'
+              'name': 'punctuation.definition.regular-link.begin.display-none.org-mode'
             '2':
-              'name': 'punctuation.definition.regular-link.meta-path3.begin.org-mode'
+              'name': 'meta.regular-link.meta-path3.display-none.org-mode'
             '3':
+              'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+            '4':
               'name': 'markup.link.protocol.regular-link.org-mode'
-            '5':
-              'name': 'markup.link.path.regular-link.org-mode'
             '6':
-              'name': 'punctuation.definition.regular-link.meta-path3.end.org-mode'
+              'name': 'markup.link.path.regular-link.org-mode'
             '7':
-              'name': 'meta.regular-link.meta-description.org-mode'
+              'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
             '8':
-              'name': 'punctuation.definition.regular-link.meta-description.begin.org-mode'
+              'name': 'meta.regular-link.meta-description.org-mode'
             '9':
-              'name': 'markup.link.description.regular-link.org-mode'
+              'name': 'punctuation.definition.regular-link.begin.meta-description.display-none.org-mode'
             '10':
-              'name': 'punctuation.definition.regular-link.meta-description.end.org-mode'
+              'name': 'markup.link.description.regular-link.org-mode'
             '11':
-              'name': 'punctuation.definition.regular-link.end.org-mode'
+              'name': 'punctuation.definition.regular-link.end.meta-description.display-none.org-mode'
+            '12':
+              'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+            '13':
+              'name': 'markup.link.protocol.regular-link.org-mode'
+            '14':
+              'name': 'punctuation.definition.regular-link.meta-path3.org-mode'
+            '15':
+              'name': 'markup.link.path.regular-link.org-mode'
+            '16':
+              'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
+            '17':
+              'name': 'punctuation.definition.regular-link.end.display-none.org-mode'
         }
     ]
 #+end_example

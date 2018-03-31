@@ -924,30 +924,42 @@
   'object-regular-link':
     'patterns':[
         {
-          'match': "([\\[])([\\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\\]]+)([\\]])(([\\[])([^\\]]+)([\\]]))?([\\]])"
+          'match': "([\\[])(?:(([\\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\\]]+)([\\]]))(([\\[])([^\\]]+)([\\]]))|(?:([\\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\\]]+)([\\]])))([\\]])"
           'captures':
             '0':
               'name': 'markup.underline.link.org-mode'
             '1':
-              'name': 'punctuation.definition.regular-link.begin.org-mode'
+              'name': 'punctuation.definition.regular-link.begin.display-none.org-mode'
             '2':
-              'name': 'punctuation.definition.regular-link.meta-path3.begin.org-mode'
+              'name': 'meta.regular-link.meta-path3.display-none.org-mode'
             '3':
+              'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+            '4':
               'name': 'markup.link.protocol.regular-link.org-mode'
-            '5':
-              'name': 'markup.link.path.regular-link.org-mode'
             '6':
-              'name': 'punctuation.definition.regular-link.meta-path3.end.org-mode'
+              'name': 'markup.link.path.regular-link.org-mode'
             '7':
-              'name': 'meta.regular-link.meta-description.org-mode'
+              'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
             '8':
-              'name': 'punctuation.definition.regular-link.meta-description.begin.org-mode'
+              'name': 'meta.regular-link.meta-description.org-mode'
             '9':
-              'name': 'markup.link.description.regular-link.org-mode'
+              'name': 'punctuation.definition.regular-link.begin.meta-description.display-none.org-mode'
             '10':
-              'name': 'punctuation.definition.regular-link.meta-description.end.org-mode'
+              'name': 'markup.link.description.regular-link.org-mode'
             '11':
-              'name': 'punctuation.definition.regular-link.end.org-mode'
+              'name': 'punctuation.definition.regular-link.end.meta-description.display-none.org-mode'
+            '12':
+              'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+            '13':
+              'name': 'markup.link.protocol.regular-link.org-mode'
+            '14':
+              'name': 'punctuation.definition.regular-link.meta-path3.org-mode'
+            '15':
+              'name': 'markup.link.path.regular-link.org-mode'
+            '16':
+              'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
+            '17':
+              'name': 'punctuation.definition.regular-link.end.display-none.org-mode'
         }
     ]
   
