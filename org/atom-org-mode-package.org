@@ -2680,6 +2680,10 @@ Let us begin our journey into a better future.
     }
 
   }
+
+  .syntax--display-none {
+    display: none;
+  }
 #+END_SRC
 
 * Notes
