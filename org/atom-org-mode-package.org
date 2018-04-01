@@ -5764,6 +5764,135 @@ besides square brackets.
 
 ****** Regular Expressions 
 
+#+BEGIN_COMMENT
+org-emphasis-regexp-components is a variable defined in ‘org.el’.
+Its value is ("- 	('\"{" "- 	.,:!?;'\")}\\[" " 	" "." 1)
+
+Documentation:
+Components used to build the regular expression for emphasis.
+This is a list with five entries.  Terminology:  In an emphasis string
+like " *strong word* ", we call the initial space PREMATCH, the final
+space POSTMATCH, the stars MARKERS, "s" and "d" are BORDER characters
+and "trong wor" is the body.  The different components in this variable
+specify what is allowed/forbidden in each part:
+
+pre          Chars allowed as prematch.  Beginning of line will be allowed too.
+post         Chars allowed as postmatch.  End of line will be allowed too.
+border       The chars *forbidden* as border characters.
+body-regexp  A regexp like "." to match a body character.  Don’t use
+             non-shy groups here, and don’t allow newline here.
+newline      The maximum number of newlines allowed in an emphasis exp.
+
+You need to reload Org or to restart Emacs after customizing this.
+
+[back]
+------------------------
+org-emphasis-alist is a variable defined in ‘org.el’.
+Its value is (("*" bold)
+ ("/" italic)
+ ("_" underline)
+ ("=" org-verbatim verbatim)
+ ("~" org-code verbatim)
+ ("+"
+  (:strike-through t)))
+
+
+Documentation:
+Alist of characters and faces to emphasize text.
+Text starting and ending with a special character will be emphasized,
+for example *bold*, _underlined_ and /italic/.  This variable sets the
+marker characters and the face to be used by font-lock for highlighting
+in Org buffers.
+
+You need to reload Org or to restart Emacs after customizing this.
+
+You can customize this variable.
+
+This variable was introduced, or its default value was changed, in
+version 24.4 of Emacs.
+
+[back]
+
+#+END_COMMENT
+
+#+NAME: org-emphasis-alist
+| Marker | Emphasis       |
+|--------+----------------|
+| "*"    | bold           |
+| "/"    | italic         |
+| "_"    | underline      |
+| "="    | verbatim       |
+| "~"    | code           |
+| "+"    | strike-through |
+
+
+#+BEGIN_SRC css :noweb yes 
+  <<PRE-EM>><<MARKER>><<CONTENTS>><<MARKER>><<POST-EM>>
+#+END_SRC
+
+#+BEGIN_SRC elisp :results verbatim replace 
+  (fifth '("- 	('\"{" "- 	.,:!?;'\")}\\[" " 	" "." 1))
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC elisp
+  ( 'org-emphasis-regexp-components)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+org-emphasis-regexp-components is a variable defined in ‘org.el’.
+Its value is ("- 	('\"{" "- 	.,:!?;'\")}\\[" " 	
+" "." 1)
+
+Documentation:
+Components used to build the regular expression for emphasis.
+This is a list with five entries.  Terminology:  In an emphasis string
+like " *strong word* ", we call the initial space PREMATCH, the final
+space POSTMATCH, the stars MARKERS, "s" and "d" are BORDER characters
+and "trong wor" is the body.  The different components in this variable
+specify what is allowed/forbidden in each part:
+
+pre          Chars allowed as prematch.  Beginning of line will be allowed too.
+post         Chars allowed as postmatch.  End of line will be allowed too.
+border       The chars *forbidden* as border characters.
+body-regexp  A regexp like "." to match a body character.  Don’t use
+             non-shy groups here, and don’t allow newline here.
+newline      The maximum number of newlines allowed in an emphasis exp.
+
+You need to reload Org or to restart Emacs after customizing this.
+#+end_example
+
+
+
+******* PRE-EM
+
+Allowed characters. Beginning of line also allowed.
+
+: "- 	('\"{"
+
+******* POST-EM
+
+Allowed characters. End of line also allowed.
+
+: "- 	.,:!?;'\")}\\["
+
+******* BORDER-EM
+
+Forbidden characters
+
+: " 	"
+
+******* BODY-REGEXP
+
+: "."
+
+******* NEWLINE-EM-MAX-COUNT
+
+: 1
+
 * Export Settings                                                  :noexport:
 
 #+OPTIONS: ':nil *:t -:t ::t <:t H:7 \n:nil ^:{} arch:headline
