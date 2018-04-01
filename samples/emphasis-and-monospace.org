@@ -1,16 +1,19 @@
 # -*- mode: org; -*-
 
-# Standard Usage
+* Standard Usage
+
 *bold*, /italic/, _underlined_, =verbatim=, ~code~, and +strike-through+
 
-# Including Spaces - Yes
+* Including Spaces
+
 *Am I Bold?*  
 /Am I Italic?/  
 _Am I Underlined?_  
 =Am I Verbatim?=  
 ~Am I Code?~  
 
-# Multiple Lines - Yes
+* Multiple Lines
+
 *Start Bold on Line 1  
 End Bold on Line 2*  
 
@@ -26,7 +29,8 @@ End Verbatim on Line 2=
 ~Start Code on Line 1    
 End Code on Line 2~  
 
-# Embedded
+* Embedded
+
 *bold*bold*  
 *bold *still bold*  
 *bold* not bold*  
@@ -51,7 +55,8 @@ _underlined_ not underlined_
 ~code ~still code~  
 ~code~ not code~  
 
-# Nested
+* Nested
+
 *bold /italic/ bold*  
 *bold _underline_ bold*  
 *bold +strike-through+ bold*  
@@ -87,3 +92,19 @@ _underline ~code~ underline_
 ~code _underline_ code~  
 ~code +strike-through+ code~  
 ~code =verbatim= code~  
+
+* Other
+
+** Issue 12 
+
+*** Test Case 1
+
+**** Lorem Ipsum
+- "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+- "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+***** Lorem Ipsuem Secon
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elit leo, laoreet id elit quis, molestie gravida libero. Etiam non lacus at nibh iaculis tristique. Cras sagittis aliquam nisi eget ultricies. Nam pellentesque nunc et mi pharetra, a interdum ~sapien congue. Quisque feugiat pharetra sem sit amet commodo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus maximus posuere erat, in suscipit urna semper et. Aliquam erat volutpat. Praesent lobortis ~ ante ut leo~ pretium, nec luctus erat ultricies. Aliquam congue sollicitudin augue, nec vehicula nisi cursus et. Aliquam a purus egestas leo imperdiet blandit nec eget diam.
+
+Donec finibus luctus lobortis. Aenean ~fermentum magna vitae felis mattis, sed laoreet velit commodo. Aenean tristique mi a sapien euismod aliquam. Morbi eleifend aliquam lectus fermentum vestibulum. Cras vestibulum semper nibh, quis pharetra nisl luctus et. Nullam convallis turpis nisi, at maximus augue tempor sit amet. Sed volutpat finibus finibus. Integer sit amet eros nunc. Proin molestie auctor libero eu iaculis.
+
+Vivamus dignissim~ feugiat quam nec pharetra. Maecenas rutrum malesuada eros, sit amet volutpat arcu faucibus sit amet. Aenean commodo purus sit amet elit consectetur, a efficitur sapien euismod. Morbi eu dolor quam. Cras non turpis accumsan, sagittis enim nec, dapibus quam. Vivamus a tempus dolor, pulvinar bibendum leo. Nulla facilisi.
