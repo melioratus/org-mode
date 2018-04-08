@@ -28,13 +28,7 @@
     'include': '#object-links'
   }
   {
-    'include': '#verbatim'
-  }
-  {
-    'include': '#code'
-  }
-  {
-    'include': '#emphasis'
+    'include': '#text-markup'
   }
   {
     'include': '#code-block-shell'
@@ -150,7 +144,7 @@
         'include': '#verbatim'
       }
       {
-        'include': '#emphasis'
+        'include': '#text-markup'
       }
       {
         'include': '#object-links'
@@ -179,7 +173,7 @@
         'include': '#verbatim'
       }
       {
-        'include': '#emphasis'
+        'include': '#text-markup'
       }
       {
         'include': '#object-links'
@@ -208,7 +202,7 @@
         'include': '#verbatim'
       }
       {
-        'include': '#emphasis'
+        'include': '#text-markup'
       }
       {
         'include': '#object-links'
@@ -237,7 +231,7 @@
         'include': '#verbatim'
       }
       {
-        'include': '#emphasis'
+        'include': '#text-markup'
       }
       {
         'include': '#object-links'
@@ -266,7 +260,7 @@
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -295,7 +289,7 @@
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -324,7 +318,7 @@
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -353,7 +347,7 @@
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -382,7 +376,7 @@
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -457,7 +451,7 @@
         'contentName': 'markup.quote.org-mode'
         'patterns': [
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -491,6 +485,19 @@
       }
       {
         'include': '#strike-through'
+      }
+    ]
+
+  'text-markup':
+    'patterns':[
+      {
+        'include': '#verbatim'
+      }
+      {
+        'include': '#code'
+      }
+      {
+        'include': '#emphasis'
       }
     ]
 

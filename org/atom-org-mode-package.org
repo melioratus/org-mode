@@ -123,13 +123,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
       'include': '#object-links'
     }
     {
-      'include': '#verbatim'
-    }
-    {
-      'include': '#code'
-    }
-    {
-      'include': '#emphasis'
+      'include': '#text-markup'
     }
     {
       'include': '#code-block-shell'
@@ -245,7 +239,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -274,7 +268,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -303,7 +297,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -332,7 +326,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -361,7 +355,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -390,7 +384,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -419,7 +413,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -448,7 +442,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -477,7 +471,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -552,7 +546,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'contentName': 'markup.quote.org-mode'
           'patterns': [
             {
-              'include': '#emphasis'
+              'include': '#text-markup'
             }
             {
               'include': '#object-links'
@@ -586,6 +580,19 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
         {
           'include': '#strike-through'
+        }
+      ]
+
+    'text-markup':
+      'patterns':[
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#emphasis'
         }
       ]
 
