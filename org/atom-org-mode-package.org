@@ -5819,11 +5819,17 @@ version 24.4 of Emacs.
 | "+"    | strike-through |
 
 
+#+NAME: text-markup-js
 #+BEGIN_SRC css :noweb yes 
-  <<PRE-EM>><<MARKER>><<CONTENTS>><<MARKER>><<POST-EM>>
+  <<PRE-EM>><<MARKER-EM>><<CONTENTS-EM>><<MARKER-EM>><<POST-EM>>
 #+END_SRC
 
-#+BEGIN_SRC elisp :results verbatim replace 
+#+RESULTS: text-markup-js
+: (?:^|[ \t('"{-])([#{m[0]}])((?:[^ \t\n])(?:.+|.+[\n].+)+(?:[^ \t\n])|(?:[^ \t\n]){1,2})([#{m[0]}])(?:[ \t.,:!?;'")}\\[-]|$)
+
+******* Notes                                                :noexport:
+
+#+BEGIN_SRC elisp :results verbatim replace :exports none 
   (fifth '("- 	('\"{" "- 	.,:!?;'\")}\\[" " 	" "." 1))
 #+END_SRC
 
@@ -5858,13 +5864,19 @@ newline      The maximum number of newlines allowed in an emphasis exp.
 You need to reload Org or to restart Emacs after customizing this.
 #+end_example
 
-
-
 ******* PRE-EM
 
 Allowed characters. Beginning of line also allowed.
 
 : "- 	('\"{"
+
+#+NAME: PRE-EM
+#+BEGIN_SRC css 
+  (?:^|[ \t('"{-])
+#+END_SRC
+
+#+RESULTS: PRE-EM
+: (?:^|[ \t('"{-])
 
 ******* POST-EM
 
@@ -5872,19 +5884,178 @@ Allowed characters. End of line also allowed.
 
 : "- 	.,:!?;'\")}\\["
 
+#+NAME: POST-EM
+#+BEGIN_SRC css 
+  (?:[ \t.,:!?;'")}\\[-]|$)
+#+END_SRC
+
+#+RESULTS: POST-EM
+: (?:[ \t.,:!?;'")}\\[-]|$)
+
 ******* BORDER-EM
 
 Forbidden characters
 
 : " 	"
 
-******* BODY-REGEXP
+#+NAME: BORDER-EM
+#+BEGIN_SRC css
+  (?:[^ \t\n])
+#+END_SRC
+
+#+RESULTS: BORDER-EM
+: (?:[^ \t\n])
+
+******* BODY-EM-REGEXP
 
 : "."
+
+#+NAME: BODY-EM-REGEXP
+#+BEGIN_SRC css
+  (?:.+|.+[\n].+)
+#+END_SRC
+
+#+RESULTS: BODY-EM-REGEXP
+: (?:.+|.+[\n].+)
 
 ******* NEWLINE-EM-MAX-COUNT
 
 : 1
+
+******* CONTENTS-EM
+
+#+NAME: CONTENTS-EM
+#+BEGIN_SRC css :noweb yes 
+  (<<BORDER-EM>><<BODY-EM-REGEXP>>+<<BORDER-EM>>|<<BORDER-EM>>{1,2})
+#+END_SRC
+
+#+RESULTS: CONTENTS-EM
+: ((?:[^ \t\n])(?:.+|.+[\n].+)+(?:[^ \t\n])|(?:[^ \t\n]){1,2})
+
+******* MARKER-EM
+
+#+NAME: MARKER-EM
+#+BEGIN_SRC css
+  ([#{m[0]}])
+#+END_SRC
+
+#+RESULTS: MARKER-EM
+: ([#{m[0]}])
+
+******* Grammar
+
+# :var object_link_pattern=text-markup-js
+
+#+NAME: gen-grammar-text-markup-cson
+#+BEGIN_SRC ruby :var object_type="text-markup"  :var text_markers=org-emphasis-alist :results verbatim replace :noweb yes 
+  text_markers.map{ |m|
+    object_template = <<-EOT
+  'object-#{object_type.downcase}-#{m[1].downcase}':
+    'patterns':[
+        {
+          'match': #{%Q@<<text-markup-js>>@.inspect().gsub(/(\\)/,'\1\1').gsub(/\\{2}["]/,'\"').gsub(/(\\{2}){2}(\[)/,'\1\2')}
+          'captures':
+            '0':
+              'name': 'markup.#{m[1].downcase}.#{object_type.downcase}.org-mode'
+            '1':
+              'name': 'punctuation.definition.#{m[1].downcase}.#{object_type.downcase}.org-mode'
+            '3':
+              'name': 'punctuation.definition.#{m[1].downcase}.#{object_type.downcase}.org-mode'
+        }
+    ]
+  EOT
+  }.join("\n")
+#+END_SRC
+
+#+NAME: grammar-text-markup-cson
+#+RESULTS: gen-grammar-text-markup-cson
+#+begin_example
+'object-text-markup-bold':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([*])((?:[^ \\t\\n])(?:.+|.+[\\n].+)+(?:[^ \\t\\n])|(?:[^ \\t\\n]){1,2})([*])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '0':
+            'name': 'markup.bold.text-markup.org-mode'
+          '1':
+            'name': 'punctuation.definition.bold.text-markup.org-mode'
+          '3':
+            'name': 'punctuation.definition.bold.text-markup.org-mode'
+      }
+  ]
+
+'object-text-markup-italic':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([/])((?:[^ \\t\\n])(?:.+|.+[\\n].+)+(?:[^ \\t\\n])|(?:[^ \\t\\n]){1,2})([/])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '0':
+            'name': 'markup.italic.text-markup.org-mode'
+          '1':
+            'name': 'punctuation.definition.italic.text-markup.org-mode'
+          '3':
+            'name': 'punctuation.definition.italic.text-markup.org-mode'
+      }
+  ]
+
+'object-text-markup-underline':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([_])((?:[^ \\t\\n])(?:.+|.+[\\n].+)+(?:[^ \\t\\n])|(?:[^ \\t\\n]){1,2})([_])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '0':
+            'name': 'markup.underline.text-markup.org-mode'
+          '1':
+            'name': 'punctuation.definition.underline.text-markup.org-mode'
+          '3':
+            'name': 'punctuation.definition.underline.text-markup.org-mode'
+      }
+  ]
+
+'object-text-markup-verbatim':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([=])((?:[^ \\t\\n])(?:.+|.+[\\n].+)+(?:[^ \\t\\n])|(?:[^ \\t\\n]){1,2})([=])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '0':
+            'name': 'markup.verbatim.text-markup.org-mode'
+          '1':
+            'name': 'punctuation.definition.verbatim.text-markup.org-mode'
+          '3':
+            'name': 'punctuation.definition.verbatim.text-markup.org-mode'
+      }
+  ]
+
+'object-text-markup-code':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([~])((?:[^ \\t\\n])(?:.+|.+[\\n].+)+(?:[^ \\t\\n])|(?:[^ \\t\\n]){1,2})([~])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '0':
+            'name': 'markup.code.text-markup.org-mode'
+          '1':
+            'name': 'punctuation.definition.code.text-markup.org-mode'
+          '3':
+            'name': 'punctuation.definition.code.text-markup.org-mode'
+      }
+  ]
+
+'object-text-markup-strike-through':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([+])((?:[^ \\t\\n])(?:.+|.+[\\n].+)+(?:[^ \\t\\n])|(?:[^ \\t\\n]){1,2})([+])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '0':
+            'name': 'markup.strike-through.text-markup.org-mode'
+          '1':
+            'name': 'punctuation.definition.strike-through.text-markup.org-mode'
+          '3':
+            'name': 'punctuation.definition.strike-through.text-markup.org-mode'
+      }
+  ]
+#+end_example
+
+
 
 * Export Settings                                                  :noexport:
 
