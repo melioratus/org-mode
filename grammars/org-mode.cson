@@ -521,211 +521,252 @@
       ]
 
   'code':
-      'patterns': [
+    'patterns':[
         {
-          'begin': '(?<=^|[^\\w\\d\\~])(\\~)(?!$|\\~|\\s)'
-          'beginCaptures':
+          'match': "(?:^|[ \\t('\"{-])([~])((?:[^~ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^~ \\t\\n])|(?:[^~ \\t\\n]){1,2})([~])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+          'captures':
             '1':
               'name': 'punctuation.definition.character.org-mode'
-          'end': '(?<!^|\\s)(\\~)(?=$|[^\\w|\\d])'
-          'endCaptures':
-            '1':
+              'patterns': [
+                  {
+                    'match': '[~]'
+                    'name': 'meta.text-markup.begin.markup.code.org-mode'
+                  }
+              ]
+            '2':
+              'name': 'markup.code.org-mode'
+              'patterns': [
+  
+              ]
+            '3':
               'name': 'punctuation.definition.character.org-mode'
-          'name': 'markup.raw.code.line.org-mode'
-
+              'patterns': [
+                  {
+                    'match': '[~]'
+                    'name': 'meta.text-markup.end.markup.code.org-mode'
+                  }
+              ]
         }
     ]
+  
 
   'verbatim':
-      'patterns': [
+    'patterns':[
         {
-          'begin': '(?<=^|[^\\w\\d\\=])(\\=)(?!$|\\=|\\s)'
-          'beginCaptures':
+          'match': "(?:^|[ \\t('\"{-])([=])((?:[^= \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^= \\t\\n])|(?:[^= \\t\\n]){1,2})([=])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+          'captures':
             '1':
               'name': 'punctuation.definition.character.org-mode'
-          'end': '(?<!^|\\s)(\\=)(?=$|[^\\w|\\d])'
-          'endCaptures':
-            '1':
+              'patterns': [
+                  {
+                    'match': '[=]'
+                    'name': 'meta.text-markup.begin.markup.verbatim.org-mode'
+                  }
+              ]
+            '2':
+              'name': 'markup.verbatim.org-mode'
+              'patterns': [
+  
+              ]
+            '3':
               'name': 'punctuation.definition.character.org-mode'
-          'name': 'markup.raw.verbatim.org-mode'
+              'patterns': [
+                  {
+                    'match': '[=]'
+                    'name': 'meta.text-markup.end.markup.verbatim.org-mode'
+                  }
+              ]
         }
     ]
+  
 
   'bold':
-      'patterns': [
+    'patterns':[
         {
-          'begin': '(?<=^|[^\\w\\d\\*])(\\*)(?!$|\\*|\\s)'
-          'beginCaptures':
+          'match': "(?:^|[ \\t('\"{-])([*])((?:[^* \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^* \\t\\n])|(?:[^* \\t\\n]){1,2})([*])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+          'captures':
             '1':
               'name': 'punctuation.definition.character.org-mode'
-          'end': '(?<!^|\\s)(\\*)(?=$|[^\\w|\\d])'
-          'endCaptures':
-            '1':
+              'patterns': [
+                  {
+                    'match': '[*]'
+                    'name': 'meta.text-markup.begin.markup.bold.org-mode'
+                  }
+              ]
+            '2':
+              'name': 'markup.bold.org-mode'
+              'patterns': [
+                            {
+                              'include': '#italic'
+                            }
+                            {
+                              'include': '#underline'
+                            }
+                            {
+                              'include': '#verbatim'
+                            }
+                            {
+                              'include': '#code'
+                            }
+                            {
+                              'include': '#strike-through'
+                            }
+                            {
+                              'include': '#object-links'
+                            }
+              ]
+            '3':
               'name': 'punctuation.definition.character.org-mode'
-          'name': 'markup.bold.org-mode'
-          'patterns': [
-            {
-              'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-              'name': 'constant.character.entity.org-mode'
-              'captures':
-                '1':
-                  'name': 'punctuation.definition.entity.org-mode'
-                '3':
-                  'name': 'punctuation.definition.entity.org-mode'
-            }
-            {
-              'include': '#italic'
-            }
-            {
-              'include': '#underline'
-            }
-            {
-              'include': '#strike-through'
-            }
-            {
-              'include': '#code'
-            }
-            {
-              'include': '#verbatim'
-            }
-            {
-              'include': '#object-links'
-            }
-          ]
-      }
+              'patterns': [
+                  {
+                    'match': '[*]'
+                    'name': 'meta.text-markup.end.markup.bold.org-mode'
+                  }
+              ]
+        }
     ]
+  
 
   'underline':
     'patterns':[
-       {
-         'begin': '(?<=^|[^\\w\\d_])(_)(?!$|_|\\s)'
-         'beginCaptures':
-           '1':
-             'name': 'punctuation.definition.character.org-mode'
-         'end': '(?<!^|\\s)(_)(?=$|[^\\w|\\d])'
-         'endCaptures':
-           '1':
-             'name': 'punctuation.definition.character.org-mode'
-         'name': 'markup.underline.link.org-mode'
-         'patterns': [
-           {
-             'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-             'name': 'constant.character.entity.org-mode'
-             'captures':
-               '1':
-                 'name': 'punctuation.definition.entity.org-mode'
-               '3':
-                 'name': 'punctuation.definition.entity.org-mode'
-           }
-           {
-             'include': '#bold'
-           }
-           {
-             'include': '#italic'
-           }
-           {
-             'include': '#strike-through'
-           }
-           {
-             'include': '#code'
-           }
-           {
-             'include': '#verbatim'
-           }
-           {
-             'include': '#object-links'
-           }
-         ]
-       }
-
+        {
+          'match': "(?:^|[ \\t('\"{-])([_])((?:[^_ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^_ \\t\\n])|(?:[^_ \\t\\n]){1,2})([_])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+          'captures':
+            '1':
+              'name': 'punctuation.definition.character.org-mode'
+              'patterns': [
+                  {
+                    'match': '[_]'
+                    'name': 'meta.text-markup.begin.markup.underline.org-mode'
+                  }
+              ]
+            '2':
+              'name': 'markup.underline.org-mode'
+              'patterns': [
+                            {
+                              'include': '#bold'
+                            }
+                            {
+                              'include': '#italic'
+                            }
+                            {
+                              'include': '#verbatim'
+                            }
+                            {
+                              'include': '#code'
+                            }
+                            {
+                              'include': '#strike-through'
+                            }
+                            {
+                              'include': '#object-links'
+                            }
+              ]
+            '3':
+              'name': 'punctuation.definition.character.org-mode'
+              'patterns': [
+                  {
+                    'match': '[_]'
+                    'name': 'meta.text-markup.end.markup.underline.org-mode'
+                  }
+              ]
+        }
     ]
+  
+
   'italic':
     'patterns':[
-      {
-          'begin': '(?<=^|[^\\w\\d\\/])(\\/)(?!$|\\/|\\s)'
-          'beginCaptures':
+        {
+          'match': "(?:^|[ \\t('\"{-])([/])((?:[^/ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^/ \\t\\n])|(?:[^/ \\t\\n]){1,2})([/])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+          'captures':
             '1':
               'name': 'punctuation.definition.character.org-mode'
-          'end': '(?<!^|\\s)(\\/)(?=$|[^\\w|\\d])'
-          'endCaptures':
-            '1':
+              'patterns': [
+                  {
+                    'match': '[/]'
+                    'name': 'meta.text-markup.begin.markup.italic.org-mode'
+                  }
+              ]
+            '2':
+              'name': 'markup.italic.org-mode'
+              'patterns': [
+                            {
+                              'include': '#bold'
+                            }
+                            {
+                              'include': '#underline'
+                            }
+                            {
+                              'include': '#verbatim'
+                            }
+                            {
+                              'include': '#code'
+                            }
+                            {
+                              'include': '#strike-through'
+                            }
+                            {
+                              'include': '#object-links'
+                            }
+              ]
+            '3':
               'name': 'punctuation.definition.character.org-mode'
-          'name': 'markup.italic.org-mode'
-          'patterns': [
-            {
-              'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-              'name': 'constant.character.entity.org-mode'
-              'captures':
-                '1':
-                  'name': 'punctuation.definition.entity.org-mode'
-                '3':
-                  'name': 'punctuation.definition.entity.org-mode'
-            }
-            {
-              'include': '#bold'
-            }
-            {
-              'include': '#underline'
-            }
-            {
-              'include': '#strike-through'
-            }
-            {
-              'include': '#code'
-            }
-            {
-              'include': '#verbatim'
-            }
-            {
-              'include': '#object-links'
-            }
-          ]
+              'patterns': [
+                  {
+                    'match': '[/]'
+                    'name': 'meta.text-markup.end.markup.italic.org-mode'
+                  }
+              ]
         }
     ]
+  
 
   'strike-through':
-    'patterns': [
+    'patterns':[
         {
-          'begin': '(?<=^|[^\\w\\d#\\+])(\\+)(?!$|\\+|\\s)'
-          'beginCaptures':
+          'match': "(?:^|[ \\t('\"{-])([+])((?:[^+ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^+ \\t\\n])|(?:[^+ \\t\\n]){1,2})([+])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+          'captures':
             '1':
               'name': 'punctuation.definition.character.org-mode'
-          'end': '(?<!^|\\s)(\\+)(?=$|[^\\w|\\d])'
-          'endCaptures':
-            '1':
+              'patterns': [
+                  {
+                    'match': '[+]'
+                    'name': 'meta.text-markup.begin.markup.strike-through.org-mode'
+                  }
+              ]
+            '2':
+              'name': 'markup.strike-through.org-mode'
+              'patterns': [
+                            {
+                              'include': '#bold'
+                            }
+                            {
+                              'include': '#italic'
+                            }
+                            {
+                              'include': '#underline'
+                            }
+                            {
+                              'include': '#verbatim'
+                            }
+                            {
+                              'include': '#code'
+                            }
+                            {
+                              'include': '#object-links'
+                            }
+              ]
+            '3':
               'name': 'punctuation.definition.character.org-mode'
-          'name': 'markup.strike.org-mode'
-          'patterns': [
-            {
-              'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-              'name': 'constant.character.entity.org-mode'
-              'captures':
-                '1':
-                  'name': 'punctuation.definition.entity.org-mode'
-                '3':
-                  'name': 'punctuation.definition.entity.org-mode'
-            }
-            {
-              'include': '#bold'
-            }
-            {
-              'include': '#italic'
-            }
-            {
-              'include': '#underline'
-            }
-            {
-              'include': '#code'
-            }
-            {
-              'include': '#verbatim'
-            }
-            {
-              'include': '#object-links'
-            }
-          ]
+              'patterns': [
+                  {
+                    'match': '[+]'
+                    'name': 'meta.text-markup.end.markup.strike-through.org-mode'
+                  }
+              ]
         }
     ]
+  
 
   'code-block-shell':
     'patterns':[
