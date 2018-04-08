@@ -543,7 +543,9 @@
             '2':
               'name': 'markup.code.org-mode'
               'patterns': [
-  
+                            {
+                              'include': '#object-regular-link'
+                            }
               ]
             '3':
               'name': 'punctuation.definition.character.org-mode'
@@ -573,7 +575,9 @@
             '2':
               'name': 'markup.verbatim.org-mode'
               'patterns': [
-  
+                            {
+                              'include': '#object-regular-link'
+                            }
               ]
             '3':
               'name': 'punctuation.definition.character.org-mode'

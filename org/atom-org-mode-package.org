@@ -5936,7 +5936,7 @@ Forbidden characters
 ******** grammar-text-markup-verbatim-cson
 
 #+NAME: grammar-text-markup-verbatim-cson
-#+CALL: gen-grammar-text-markup-cson(text_markers='(("=" "verbatim")), exclude_patterns=grammar-text-markup-include-objects())
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("=" "verbatim")), include_patterns='("object-regular-link"), exclude_patterns=grammar-text-markup-include-objects())
 
 #+RESULTS: grammar-text-markup-verbatim-cson
 #+begin_example
@@ -5956,7 +5956,9 @@ Forbidden characters
           '2':
             'name': 'markup.verbatim.org-mode'
             'patterns': [
-
+                          {
+                            'include': '#object-regular-link'
+                          }
             ]
           '3':
             'name': 'punctuation.definition.character.org-mode'
@@ -5973,7 +5975,7 @@ Forbidden characters
 ******** grammar-text-markup-code-cson
 
 #+NAME: grammar-text-markup-code-cson
-#+CALL: gen-grammar-text-markup-cson(text_markers='(("~" "code")), exclude_patterns=grammar-text-markup-include-objects())
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("~" "code")), include_patterns='("object-regular-link"), exclude_patterns=grammar-text-markup-include-objects())
 
 #+RESULTS: grammar-text-markup-code-cson
 #+begin_example
@@ -5993,7 +5995,9 @@ Forbidden characters
           '2':
             'name': 'markup.code.org-mode'
             'patterns': [
-
+                          {
+                            'include': '#object-regular-link'
+                          }
             ]
           '3':
             'name': 'punctuation.definition.character.org-mode'
