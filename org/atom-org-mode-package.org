@@ -544,6 +544,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             '0':
               'name': 'punctuation.definition.quote.org-mode'
           'contentName': 'markup.quote.org-mode'
+          'name': 'meta.quote-block.org-mode'
           'patterns': [
             {
               'include': '#text-markup'
