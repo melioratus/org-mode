@@ -6427,8 +6427,6 @@ The =gen-grammar-text-markup-cson= in the template code for generating text mark
   ]
 #+end_example
 
-
-
 * Export Settings                                                  :noexport:
 
 #+OPTIONS: ':nil *:t -:t ::t <:t H:7 \n:nil ^:{} arch:headline
