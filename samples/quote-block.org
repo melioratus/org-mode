@@ -4,5 +4,5 @@ This is not inside the quote block.
 
 #+BEGIN_QUOTE
 This is inside the quote block.
-*bold*, /italic/, _underlined_ +strike-through+
+*bold*, /italic/, _underlined_, +strike-through+, =verbatim=, ~code~, [[file:quote-block.org][a link inside a quote block]]
 #+END_QUOTE

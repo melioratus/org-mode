@@ -123,13 +123,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
       'include': '#object-links'
     }
     {
-      'include': '#verbatim'
-    }
-    {
-      'include': '#code'
-    }
-    {
-      'include': '#emphasis'
+      'include': '#text-markup'
     }
     {
       'include': '#code-block-shell'
@@ -245,7 +239,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -274,7 +268,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -303,7 +297,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -332,7 +326,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
           'include': '#verbatim'
         }
         {
-          'include': '#emphasis'
+          'include': '#text-markup'
         }
         {
           'include': '#object-links'
@@ -361,7 +355,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -390,7 +384,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -419,7 +413,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -448,7 +442,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -477,7 +471,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             'include': '#verbatim'
           }
           {
-            'include': '#emphasis'
+            'include': '#text-markup'
           }
           {
             'include': '#object-links'
@@ -550,9 +544,10 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
             '0':
               'name': 'punctuation.definition.quote.org-mode'
           'contentName': 'markup.quote.org-mode'
+          'name': 'meta.quote-block.org-mode'
           'patterns': [
             {
-              'include': '#emphasis'
+              'include': '#text-markup'
             }
             {
               'include': '#object-links'
@@ -589,6 +584,19 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
 
+    'text-markup':
+      'patterns':[
+        {
+          'include': '#verbatim'
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#emphasis'
+        }
+      ]
+
     'task-status-todo':
         'patterns': [
             {
@@ -614,214 +622,19 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
               'include': '#task-status-done'
             }
         ]
-
-    'code':
-        'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d\\~])(\\~)(?!$|\\~|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\~)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.raw.code.line.org-mode'
-
-          }
-      ]
-
-    'verbatim':
-        'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d\\=])(\\=)(?!$|\\=|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\=)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.raw.verbatim.org-mode'
-          }
-      ]
-
-    'bold':
-        'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d\\*])(\\*)(?!$|\\*|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\*)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.bold.org-mode'
-            'patterns': [
-              {
-                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-                'name': 'constant.character.entity.org-mode'
-                'captures':
-                  '1':
-                    'name': 'punctuation.definition.entity.org-mode'
-                  '3':
-                    'name': 'punctuation.definition.entity.org-mode'
-              }
-              {
-                'include': '#italic'
-              }
-              {
-                'include': '#underline'
-              }
-              {
-                'include': '#strike-through'
-              }
-              {
-                'include': '#code'
-              }
-              {
-                'include': '#verbatim'
-              }
-              {
-                'include': '#object-links'
-              }
-            ]
-        }
-      ]
-
-    'underline':
-      'patterns':[
-         {
-           'begin': '(?<=^|[^\\w\\d_])(_)(?!$|_|\\s)'
-           'beginCaptures':
-             '1':
-               'name': 'punctuation.definition.character.org-mode'
-           'end': '(?<!^|\\s)(_)(?=$|[^\\w|\\d])'
-           'endCaptures':
-             '1':
-               'name': 'punctuation.definition.character.org-mode'
-           'name': 'markup.underline.link.org-mode'
-           'patterns': [
-             {
-               'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-               'name': 'constant.character.entity.org-mode'
-               'captures':
-                 '1':
-                   'name': 'punctuation.definition.entity.org-mode'
-                 '3':
-                   'name': 'punctuation.definition.entity.org-mode'
-             }
-             {
-               'include': '#bold'
-             }
-             {
-               'include': '#italic'
-             }
-             {
-               'include': '#strike-through'
-             }
-             {
-               'include': '#code'
-             }
-             {
-               'include': '#verbatim'
-             }
-             {
-               'include': '#object-links'
-             }
-           ]
-         }
-
-      ]
-    'italic':
-      'patterns':[
-        {
-            'begin': '(?<=^|[^\\w\\d\\/])(\\/)(?!$|\\/|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\/)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.italic.org-mode'
-            'patterns': [
-              {
-                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-                'name': 'constant.character.entity.org-mode'
-                'captures':
-                  '1':
-                    'name': 'punctuation.definition.entity.org-mode'
-                  '3':
-                    'name': 'punctuation.definition.entity.org-mode'
-              }
-              {
-                'include': '#bold'
-              }
-              {
-                'include': '#underline'
-              }
-              {
-                'include': '#strike-through'
-              }
-              {
-                'include': '#code'
-              }
-              {
-                'include': '#verbatim'
-              }
-              {
-                'include': '#object-links'
-              }
-            ]
-          }
-      ]
-
-    'strike-through':
-      'patterns': [
-          {
-            'begin': '(?<=^|[^\\w\\d#\\+])(\\+)(?!$|\\+|\\s)'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'end': '(?<!^|\\s)(\\+)(?=$|[^\\w|\\d])'
-            'endCaptures':
-              '1':
-                'name': 'punctuation.definition.character.org-mode'
-            'name': 'markup.strike.org-mode'
-            'patterns': [
-              {
-                'match': '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
-                'name': 'constant.character.entity.org-mode'
-                'captures':
-                  '1':
-                    'name': 'punctuation.definition.entity.org-mode'
-                  '3':
-                    'name': 'punctuation.definition.entity.org-mode'
-              }
-              {
-                'include': '#bold'
-              }
-              {
-                'include': '#italic'
-              }
-              {
-                'include': '#underline'
-              }
-              {
-                'include': '#code'
-              }
-              {
-                'include': '#verbatim'
-              }
-              {
-                'include': '#object-links'
-              }
-            ]
-          }
-      ]
-
+    
+    <<grammar-text-markup-code-cson()>>
+    
+    <<grammar-text-markup-verbatim-cson()>>
+    
+    <<grammar-text-markup-bold-cson()>>
+    
+    <<grammar-text-markup-underline-cson()>>
+    
+    <<grammar-text-markup-italic-cson()>>
+    
+    <<grammar-text-markup-strike-through-cson()>>
+    
     'code-block-shell':
       'patterns':[
           {
@@ -1021,7 +834,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     <<grammar-radio-links-cson()>>
 
     <<grammar-plain-links-cson()>>
-    
+
     <<grammar-angle-links-cson()>>
 
     'object-links':
@@ -2146,7 +1959,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.14                                                                                                                       |
+| version       | 0.3.15                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
@@ -2233,7 +2046,7 @@ The version property is updated using =apm publish= command.
 #+NAME: atom-org-mode-package-package-specs-version
 | Property-Name | Property-Value |
 |---------------+----------------|
-| version       | 0.3.14         |
+| version       | 0.3.15         |
 
 ***** Generate Publish Package
 
@@ -2242,7 +2055,7 @@ The version property is updated using =apm publish= command.
 #+END_SRC
 
 #+RESULTS:
-: apm publish 0.3.14
+: apm publish 0.3.15
 
 *** =package.json= File
 
@@ -2464,226 +2277,214 @@ Let us begin our journey into a better future.
 # Tangle file with C-u C-c C-v t
 
 #+BEGIN_SRC css  :eval never :tangle ../styles/org-mode.less :mkdirp yes 
-  // The ui-variables file is provided by base themes provided by Atom.
-  //
-  // See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
-  // for a full listing of what's available.
-  @import "ui-variables";
+   // The ui-variables file is provided by base themes provided by Atom.
+   //
+   // See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+   // for a full listing of what's available.
+   @import "ui-variables";
 
-  @default-very-light-gray: #c5c8c6;
-  @default-light-gray: #969896;
-  @default-gray: #373b41;
-  @default-dark-gray: #282a2e;
-  @default-very-dark-gray: #1d1f21;
+   @default-very-light-gray: #c5c8c6;
+   @default-light-gray: #969896;
+   @default-gray: #373b41;
+   @default-dark-gray: #282a2e;
+   @default-very-dark-gray: #1d1f21;
 
-  @default-cyan: cyan;
-  @default-blue: blue;
-  @default-purple: purple;
-  @default-green: green;
-  @default-red: red;
-  @default-orange: orange;
-  @default-light-orange: #ffd280;
-
-
-  .grammar-tests {
-  }
+   @default-cyan: cyan;
+   @default-blue: blue;
+   @default-purple: purple;
+   @default-green: green;
+   @default-red: red;
+   @default-orange: orange;
+   @default-light-orange: #ffd280;
 
 
   .syntax--bold.syntax--org-mode  {
-    color: lighten(@syntax-text-color, 15%);
-    font-weight: bold;
-  }
+     font-weight: bold;
+   }
 
   .syntax--italic.syntax--org-mode  {
-    // color: lighten(@syntax-text-color, 15%);
-    font-style: italic;
-  }
+     font-style: italic;
+   }
 
   .syntax--underline.syntax--org-mode  {
-    // color: lighten(@syntax-text-color, 15%);
-    text-decoration: underline;
-  }
+     text-decoration: underline;
+   }
 
-  .syntax--strike.syntax--org-mode  {
-    // color: lighten(@default-red, 25%);
-    text-decoration: line-through;
-    font-weight: 100;
-  }
+  .syntax--strike-through.syntax--org-mode  {
+     color: lighten(maroon, 10%);
+     text-decoration: line-through;
+     font-weight: 100;
+   }
 
-  .syntax--leading-star.syntax--org-mode  {
-    color: @syntax-invisible-character-color;
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-    }
-  }
+  .syntax--markup.syntax--code.syntax--org-mode {
+     color: turquoise;
+     font-family: serif;
+     font-weight: lighter;
+   }
+
+  .syntax--markup.syntax--verbatim.syntax--org-mode {
+     color: royalblue;
+     font-family: monospace;
+     font-weight: lighter;
+   }
 
   .syntax--heading-1.syntax--org-mode  {
-     font-weight: bolder;
-  }
+      font-weight: bolder;
+   }
 
    .syntax--heading-2.syntax--org-mode  {
-     font-weight: bolder;
-  }
+      font-weight: bolder;
+   }
 
   .syntax--heading-3.syntax--org-mode  {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--heading-4.syntax--org-mode  {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--heading-5.syntax--org-mode  {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--heading-6.syntax--org-mode  {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--heading-7.syntax--org-mode  {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--heading-8.syntax--org-mode  {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--heading-9.syntax--org-mode  {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--variable.syntax--checkbox.syntax--list.syntax--org-mode {
-    font-weight: bolder;
-  }
+     font-weight: bolder;
+   }
 
   .syntax--variable.syntax--ordered.syntax--list.syntax--org-mode {
-    // color: darken(@syntax-text-color, 11%);
-    font-weight: 500;
-    &:hover {
-      font-weight: bolder;
-    }
-  }
+     // color: darken(@syntax-text-color, 11%);
+     font-weight: 500;
+     &:hover {
+       font-weight: bolder;
+     }
+   }
 
   .syntax--variable.syntax--unordered.syntax--list.syntax--org-mode {
-    // color: darken(@syntax-text-color, 11%);
-    font-weight: 500;
-    &:hover {
-      font-weight: bolder;
-    }
-  }
+     // color: darken(@syntax-text-color, 11%);
+     font-weight: 500;
+     &:hover {
+       font-weight: bolder;
+     }
+   }
 
-  .syntax--constant.syntax--task.syntax--status.syntax--todo.syntax--org-mode {
-    //color: darken(@syntax-background-color, 15%);
-    background-color: darken(@syntax-background-color, 5%);
-    font-family: monospace;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 5px;
-  }
+  .syntax--task.syntax--status.syntax--todo.syntax--org-mode {
+     //color: darken(@syntax-background-color, 15%);
+     background-color: darken(@syntax-background-color, 5%);
+     font-family: monospace;
+     padding-left: 5px;
+     padding-right: 5px;
+     border-radius: 5px;
+   }
 
-  .syntax--constant.syntax--task.syntax--status.syntax--done.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    background-color: darken(@syntax-background-color, 1%);
-    font-family: monospace;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 5px;
-  }
+  .syntax--task.syntax--status.syntax--done.syntax--org-mode {
+     //color: @syntax-invisible-character-color;
+     background-color: darken(@syntax-background-color, 1%);
+     font-family: monospace;
+     padding-left: 5px;
+     padding-right: 5px;
+     border-radius: 5px;
+   }
 
   .syntax--punctuation.syntax--definition.syntax--quote.syntax--org-mode {
 
-    color: @syntax-invisible-character-color;
+     color: @syntax-invisible-character-color;
 
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-    }
-  }
+     &:hover {
+       color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+     }
+   }
 
   .syntax--markup.syntax--quote.syntax--org-mode {
-     font-weight: 100;
-     color: darken(@syntax-text-color, 20%);
-     &::before {
-       content: "  ";
-     }
-  }
+      font-weight: 100;
+      color: darken(@syntax-text-color, 20%);
+      &::before {
+        content: "  ";
+      }
+   }
 
   .syntax--string.syntax--unquoted.syntax--org-mode {
-    font-weight: 100;
-    color: @syntax-text-color;
-  }
+     font-weight: 100;
+     color: @syntax-text-color;
+   }
 
   .syntax--punctuation.syntax--definition.syntax--string.syntax--org-mode {
-    color: @syntax-invisible-character-color;
+     color: @syntax-invisible-character-color;
 
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-    }
-  }
+     &:hover {
+       color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+     }
+   }
 
-  // punctuation.definition.entity
+   // punctuation.definition.entity
+
   .syntax--punctuation.syntax--definition.syntax--character.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    font-style: normal;
-    font-weight: 100;
+     color: @syntax-invisible-character-color;
+     font-style: normal;
+     font-weight: 100;
 
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-    }
-  }
+     &:hover {
+       color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+     }
+   }
 
-  .syntax--markup.syntax--code.syntax--line.syntax--org-mode {
-    font-family: serif;
-    // font-weight: lighter;
-  }
-
-  .syntax--markup.syntax--verbatim.syntax--org-mode {
-    // color: lighten(blue, 20%);
-    font-family: monospace;
-  }
   .syntax--border.syntax--pipe.syntax--outer {
-    color: multiply(@syntax-invisible-character-color, gray);
-    font-weight: bold;
-  }
+     color: multiply(@syntax-invisible-character-color, gray);
+     font-weight: bold;
+   }
   .syntax--border.syntax--header {
-    color: multiply(@syntax-invisible-character-color, gray);
-    font-weight: bold;
-    text-decoration: line-through;
-  }
+     color: multiply(@syntax-invisible-character-color, gray);
+     font-weight: bold;
+     text-decoration: line-through;
+   }
 
   .syntax--border.syntax--pipe.syntax--inner {
-    color: multiply(@syntax-invisible-character-color, gray);
-    font-weight: bold;
-  }
+     color: multiply(@syntax-invisible-character-color, gray);
+     font-weight: bold;
+   }
 
   .syntax--table {
-      // background-color: lighten(@syntax-background-color, 2%);
-  }
+       // background-color: lighten(@syntax-background-color, 2%);
+   }
 
   .syntax--code-block.syntax--type.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    font-style: italic;
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-      font-style: normal;
-      font-weight: bold;
-    }
-
-  }
+     color: @syntax-invisible-character-color;
+     font-style: italic;
+     &:hover {
+       color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+       font-style: normal;
+       font-weight: bold;
+     }
+   }
 
   .syntax--code-block.syntax--code-block-headers.syntax--org-mode {
-    color: @syntax-invisible-character-color;
-    font-style: italic;
-    &:hover {
-      color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
-      font-style: normal;
-    }
-
-  }
+     color: @syntax-invisible-character-color;
+     font-style: italic;
+     &:hover {
+       color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+       font-style: normal;
+     }
+   }
 
   .syntax--display-none {
-    display: none;
-  }
+     display: none;
+   }
 #+END_SRC
 
 * Notes
@@ -5763,6 +5564,868 @@ besides square brackets.
 ***** Code  
 
 ****** Regular Expressions 
+
+#+BEGIN_COMMENT
+org-emphasis-regexp-components is a variable defined in ‘org.el’.
+Its value is ("- 	('\"{" "- 	.,:!?;'\")}\\[" " 	" "." 1)
+
+Documentation:
+Components used to build the regular expression for emphasis.
+This is a list with five entries.  Terminology:  In an emphasis string
+like " *strong word* ", we call the initial space PREMATCH, the final
+space POSTMATCH, the stars MARKERS, "s" and "d" are BORDER characters
+and "trong wor" is the body.  The different components in this variable
+specify what is allowed/forbidden in each part:
+
+pre          Chars allowed as prematch.  Beginning of line will be allowed too.
+post         Chars allowed as postmatch.  End of line will be allowed too.
+border       The chars *forbidden* as border characters.
+body-regexp  A regexp like "." to match a body character.  Don’t use
+             non-shy groups here, and don’t allow newline here.
+newline      The maximum number of newlines allowed in an emphasis exp.
+
+You need to reload Org or to restart Emacs after customizing this.
+
+[back]
+------------------------
+org-emphasis-alist is a variable defined in ‘org.el’.
+Its value is (("*" bold)
+ ("/" italic)
+ ("_" underline)
+ ("=" org-verbatim verbatim)
+ ("~" org-code verbatim)
+ ("+"
+  (:strike-through t)))
+
+
+Documentation:
+Alist of characters and faces to emphasize text.
+Text starting and ending with a special character will be emphasized,
+for example *bold*, _underlined_ and /italic/.  This variable sets the
+marker characters and the face to be used by font-lock for highlighting
+in Org buffers.
+
+You need to reload Org or to restart Emacs after customizing this.
+
+You can customize this variable.
+
+This variable was introduced, or its default value was changed, in
+version 24.4 of Emacs.
+
+[back]
+
+#+END_COMMENT
+
+#+NAME: org-emphasis-alist
+| Marker | Emphasis       |
+|--------+----------------|
+| "*"    | bold           |
+| "/"    | italic         |
+| "_"    | underline      |
+| "="    | verbatim       |
+| "~"    | code           |
+| "+"    | strike-through |
+
+
+#+NAME: text-markup-js
+#+BEGIN_SRC css :noweb yes 
+  <<PRE-EM>><<MARKER-EM>><<CONTENTS-EM>><<MARKER-EM>><<POST-EM>>
+#+END_SRC
+
+#+RESULTS: text-markup-js
+: (?:^|[ \t('"{-])([#{m[0]}])((?:[^ \t\n])(?:.+|.+[\n].+)+(?:[^ \t\n])|(?:[^ \t\n]){1,2})([#{m[0]}])(?:[ \t.,:!?;'")}\\[-]|$)
+
+******* Notes                                                :noexport:
+
+#+BEGIN_SRC elisp :results verbatim replace :exports none 
+  (fifth '("- 	('\"{" "- 	.,:!?;'\")}\\[" " 	" "." 1))
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC elisp
+  ( 'org-emphasis-regexp-components)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+org-emphasis-regexp-components is a variable defined in ‘org.el’.
+Its value is ("- 	('\"{" "- 	.,:!?;'\")}\\[" " 	
+" "." 1)
+
+Documentation:
+Components used to build the regular expression for emphasis.
+This is a list with five entries.  Terminology:  In an emphasis string
+like " *strong word* ", we call the initial space PREMATCH, the final
+space POSTMATCH, the stars MARKERS, "s" and "d" are BORDER characters
+and "trong wor" is the body.  The different components in this variable
+specify what is allowed/forbidden in each part:
+
+pre          Chars allowed as prematch.  Beginning of line will be allowed too.
+post         Chars allowed as postmatch.  End of line will be allowed too.
+border       The chars *forbidden* as border characters.
+body-regexp  A regexp like "." to match a body character.  Don’t use
+             non-shy groups here, and don’t allow newline here.
+newline      The maximum number of newlines allowed in an emphasis exp.
+
+You need to reload Org or to restart Emacs after customizing this.
+#+end_example
+
+******* PRE-EM
+
+Allowed characters. Beginning of line also allowed.
+
+: "- 	('\"{"
+
+#+NAME: PRE-EM
+#+BEGIN_SRC css 
+  (?:^|[ \t('"{-])
+#+END_SRC
+
+#+RESULTS: PRE-EM
+: (?:^|[ \t('"{-])
+
+******* POST-EM
+
+Allowed characters. End of line also allowed.
+
+: "- 	.,:!?;'\")}\\["
+
+#+NAME: POST-EM
+#+BEGIN_SRC css 
+  (?:[ \t.,:!?;'")}\\[-]|$)
+#+END_SRC
+
+#+RESULTS: POST-EM
+: (?:[ \t.,:!?;'")}\\[-]|$)
+
+******* BORDER-EM
+
+Forbidden characters
+
+: " 	"
+
+#+NAME: BORDER-EM
+#+BEGIN_SRC css :noweb yes 
+  (?:[^<<MARKER-EM-RUBY>> \t\n])
+#+END_SRC
+
+#+RESULTS: BORDER-EM
+: (?:[^#{m[0]} \t\n])
+
+******** Implementation Notes
+
+- Added MARKER-EM-RUBY to Fix Pattern Collision with Headings
+
+******* BODY-EM-REGEXP
+
+: "."
+
+#+NAME: BODY-EM-REGEXP
+#+BEGIN_SRC css
+  (?:.+?|.+?[\n].+?)
+#+END_SRC
+
+#+RESULTS: BODY-EM-REGEXP
+: (?:.+?|.+?[\n].+?)
+
+******* NEWLINE-EM-MAX-COUNT
+
+: 1
+
+******* CONTENTS-EM
+
+#+NAME: CONTENTS-EM
+#+BEGIN_SRC css :noweb yes 
+  (<<BORDER-EM>><<BODY-EM-REGEXP>><<BORDER-EM>>|<<BORDER-EM>>{1,2})
+#+END_SRC
+
+#+RESULTS: CONTENTS-EM
+: ((?:[^#{m[0]} \t\n])(?:.+?|.+?[\n].+?)(?:[^#{m[0]} \t\n])|(?:[^#{m[0]} \t\n]){1,2})
+
+******* MARKER-EM
+
+#+NAME: MARKER-EM
+#+BEGIN_SRC css :noweb yes 
+  ([<<MARKER-EM-RUBY>>])
+#+END_SRC
+
+#+RESULTS: MARKER-EM
+: ([#{m[0]}])
+
+******** Implementation Notes
+
+- Added MARKER-EM-RUBY to simplify generating template
+
+******** MARKER-EM-RUBY
+
+#+NAME: MARKER-EM-RUBY
+#+BEGIN_SRC css
+  #{m[0]}
+#+END_SRC
+
+******* Grammar
+
+******** grammar-text-markup-bold-cson
+
+#+NAME: grammar-text-markup-bold-cson
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("*" "bold")))
+
+#+RESULTS: grammar-text-markup-bold-cson
+#+begin_example
+'bold':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([*])((?:[^* \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^* \\t\\n])|(?:[^* \\t\\n]){1,2})([*])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[*]'
+                  'name': 'meta.text-markup.begin.markup.bold.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.bold.org-mode'
+            'patterns': [
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[*]'
+                  'name': 'meta.text-markup.end.markup.bold.org-mode'
+                }
+            ]
+      }
+  ]
+#+end_example
+
+******** grammar-text-markup-italic-cson
+
+#+NAME: grammar-text-markup-italic-cson
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("/" "italic")))
+
+#+RESULTS: grammar-text-markup-italic-cson
+#+begin_example
+'italic':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([/])((?:[^/ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^/ \\t\\n])|(?:[^/ \\t\\n]){1,2})([/])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[/]'
+                  'name': 'meta.text-markup.begin.markup.italic.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.italic.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[/]'
+                  'name': 'meta.text-markup.end.markup.italic.org-mode'
+                }
+            ]
+      }
+  ]
+#+end_example
+
+******** grammar-text-markup-underline-cson
+
+#+NAME: grammar-text-markup-underline-cson
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("_" "underline")))
+
+#+RESULTS: grammar-text-markup-underline-cson
+#+begin_example
+'underline':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([_])((?:[^_ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^_ \\t\\n])|(?:[^_ \\t\\n]){1,2})([_])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[_]'
+                  'name': 'meta.text-markup.begin.markup.underline.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.underline.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[_]'
+                  'name': 'meta.text-markup.end.markup.underline.org-mode'
+                }
+            ]
+      }
+  ]
+#+end_example
+
+******** grammar-text-markup-verbatim-cson
+
+#+NAME: grammar-text-markup-verbatim-cson
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("=" "verbatim")), include_patterns='("object-regular-link"), exclude_patterns=grammar-text-markup-include-objects())
+
+#+RESULTS: grammar-text-markup-verbatim-cson
+#+begin_example
+'verbatim':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([=])((?:[^= \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^= \\t\\n])|(?:[^= \\t\\n]){1,2})([=])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[=]'
+                  'name': 'meta.text-markup.begin.markup.verbatim.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.verbatim.org-mode'
+            'patterns': [
+                          {
+                            'include': '#object-regular-link'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[=]'
+                  'name': 'meta.text-markup.end.markup.verbatim.org-mode'
+                }
+            ]
+      }
+  ]
+#+end_example
+
+******** grammar-text-markup-code-cson
+
+#+NAME: grammar-text-markup-code-cson
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("~" "code")), include_patterns='("object-regular-link"), exclude_patterns=grammar-text-markup-include-objects())
+
+#+RESULTS: grammar-text-markup-code-cson
+#+begin_example
+'code':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([~])((?:[^~ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^~ \\t\\n])|(?:[^~ \\t\\n]){1,2})([~])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[~]'
+                  'name': 'meta.text-markup.begin.markup.code.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.code.org-mode'
+            'patterns': [
+                          {
+                            'include': '#object-regular-link'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[~]'
+                  'name': 'meta.text-markup.end.markup.code.org-mode'
+                }
+            ]
+      }
+  ]
+#+end_example
+
+******** grammar-text-markup-strike-through-cson
+
+#+NAME: grammar-text-markup-strike-through-cson
+#+CALL: gen-grammar-text-markup-cson(text_markers='(("+" "strike-through")))
+
+#+RESULTS: grammar-text-markup-strike-through-cson
+#+begin_example
+'strike-through':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([+])((?:[^+ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^+ \\t\\n])|(?:[^+ \\t\\n]){1,2})([+])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[+]'
+                  'name': 'meta.text-markup.begin.markup.strike-through.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.strike-through.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[+]'
+                  'name': 'meta.text-markup.end.markup.strike-through.org-mode'
+                }
+            ]
+      }
+  ]
+#+end_example
+
+******** grammar-include-patterns-ruby
+
+#+NAME: grammar-include-patterns-ruby
+#+BEGIN_SRC ruby :eval never 
+  def grammar_include_patterns(patterns, excluding=[], indent=0)
+    padding = ' ' * indent
+  
+    filtered = patterns - excluding
+    filtered.map { |p|
+    [%Q<#{padding}{>,%Q<#{padding}  'include': '##{p}'>,%Q<#{padding}}>].join("\n")
+    }.join("\n")
+
+  end
+#+END_SRC
+
+********* Example Usage
+
+#+BEGIN_SRC ruby :noweb yes :var include_patterns='("bold" "italic" "notme") :results verbatim replace :exports both 
+  <<grammar-include-patterns-ruby>>
+
+  grammar_include_patterns(include_patterns, ["notme"], 8)
+#+END_SRC
+
+#+RESULTS:
+:         {
+:           'include': '#bold'
+:         }
+:         {
+:           'include': '#italic'
+:         }
+
+******** gen-grammar-text-markup-cson
+
+The following objects are included in Text Markup grammar:
+
+#+NAME: grammar-text-markup-include-objects
+#+BEGIN_SRC ruby :var include_object_names=org-emphasis-alist[,1] :var include_additional_object_names='("object-links") :exports results 
+  include_object_names + include_additional_object_names
+#+END_SRC
+
+#+RESULTS: grammar-text-markup-include-objects
+| bold | italic | underline | verbatim | code | strike-through | object-links |
+
+
+The =gen-grammar-text-markup-cson= in the template code for generating text markup grammar.
+
+#+NAME: gen-grammar-text-markup-cson
+#+BEGIN_SRC ruby :var text_markers=org-emphasis-alist :results verbatim replace :noweb yes :var include_patterns=grammar-text-markup-include-objects() :var include_patterns_indent=26 :var exclude_patterns='() :exports code 
+  <<grammar-include-patterns-ruby>>
+
+  text_markers.map{ |m|
+
+    exclude_these = exclude_patterns + [m[1]]
+
+    object_template = <<-EOT
+  '#{m[1].downcase}':
+    'patterns':[
+        {
+          'match': #{%Q@<<text-markup-js>>@.inspect().gsub(/(\\)/,'\1\1').gsub(/\\{2}["]/,'\"').gsub(/(\\{2}){2}(\[)/,'\1\2')}
+          'captures':
+            '1':
+              'name': 'punctuation.definition.character.org-mode'
+              'patterns': [
+                  {
+                    'match': '[#{m[0]}]'
+                    'name': 'meta.text-markup.begin.markup.#{m[1].downcase}.org-mode'
+                  }
+              ]
+            '2':
+              'name': 'markup.#{m[1].downcase}.org-mode'
+              'patterns': [
+  #{grammar_include_patterns(include_patterns, exclude_these, include_patterns_indent)}
+              ]
+            '3':
+              'name': 'punctuation.definition.character.org-mode'
+              'patterns': [
+                  {
+                    'match': '[#{m[0]}]'
+                    'name': 'meta.text-markup.end.markup.#{m[1].downcase}.org-mode'
+                  }
+              ]
+        }
+    ]
+  EOT
+  }.join("\n")
+#+END_SRC
+
+#+RESULTS: gen-grammar-text-markup-cson
+#+begin_example
+'bold':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([*])((?:[^* \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^* \\t\\n])|(?:[^* \\t\\n]){1,2})([*])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[*]'
+                  'name': 'meta.text-markup.begin.markup.bold.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.bold.org-mode'
+            'patterns': [
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[*]'
+                  'name': 'meta.text-markup.end.markup.bold.org-mode'
+                }
+            ]
+      }
+  ]
+
+'italic':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([/])((?:[^/ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^/ \\t\\n])|(?:[^/ \\t\\n]){1,2})([/])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[/]'
+                  'name': 'meta.text-markup.begin.markup.italic.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.italic.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[/]'
+                  'name': 'meta.text-markup.end.markup.italic.org-mode'
+                }
+            ]
+      }
+  ]
+
+'underline':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([_])((?:[^_ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^_ \\t\\n])|(?:[^_ \\t\\n]){1,2})([_])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[_]'
+                  'name': 'meta.text-markup.begin.markup.underline.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.underline.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[_]'
+                  'name': 'meta.text-markup.end.markup.underline.org-mode'
+                }
+            ]
+      }
+  ]
+
+'verbatim':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([=])((?:[^= \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^= \\t\\n])|(?:[^= \\t\\n]){1,2})([=])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[=]'
+                  'name': 'meta.text-markup.begin.markup.verbatim.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.verbatim.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[=]'
+                  'name': 'meta.text-markup.end.markup.verbatim.org-mode'
+                }
+            ]
+      }
+  ]
+
+'code':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([~])((?:[^~ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^~ \\t\\n])|(?:[^~ \\t\\n]){1,2})([~])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[~]'
+                  'name': 'meta.text-markup.begin.markup.code.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.code.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[~]'
+                  'name': 'meta.text-markup.end.markup.code.org-mode'
+                }
+            ]
+      }
+  ]
+
+'strike-through':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([+])((?:[^+ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^+ \\t\\n])|(?:[^+ \\t\\n]){1,2})([+])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[+]'
+                  'name': 'meta.text-markup.begin.markup.strike-through.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.strike-through.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[+]'
+                  'name': 'meta.text-markup.end.markup.strike-through.org-mode'
+                }
+            ]
+      }
+  ]
+#+end_example
 
 * Export Settings                                                  :noexport:
 

@@ -76,22 +76,21 @@ In this example, the =full path= to the apache script is =/etc/init.d/httpd= and
 
 + [[file:links.org][This Code Example]]
 
-
 * Regular Links with Text Markup
 
-** TODO Verbatim Inside Description
+** Verbatim Inside Description
 
 [[http://example.org][=Example=]]
 
-** TODO Verbatim Outside Description
+** Verbatim Outside Description
 
 =[[http://example.org][Example]]=
  
-** TODO Code Inside Description
+** Code Inside Description
 
 [[http://example.org][~Example~]]
  
-** TODO Code Outside Description
+** Code Outside Description
 
 ~[[http://example.org][Example]]~
  
