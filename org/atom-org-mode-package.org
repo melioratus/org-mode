@@ -104,20 +104,14 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     {
       'include': '#comment-line'
     }
-    {
-      'include': '#comment-block'
-    }
+    <<grammar-comment-block-include-cson()>>
     {
       'include': '#example-line'
     }
-    {
-      'include': '#example-block'
-    }
+    <<grammar-example-block-include-cson()>>
+    <<grammar-verse-block-include-cson()>>
     {
       'include': '#quote-block'
-    }
-    {
-      'include': '#user-defined-block'
     }
     {
       'include': '#object-links'
@@ -148,6 +142,12 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     }
     {
       'include': '#babel-call'
+    }
+    {
+      'include': '#export-blocks'
+    }
+    {
+      'include': '#user-defined-block'
     }
     {
       'begin': '^(-----BEGIN PGP MESSAGE-----)$'
@@ -493,17 +493,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
 
-    'comment-block':
-      'patterns': [
-        {
-          'begin': '^(?i:\\s*#\\+BEGIN_COMMENT\\s*)'
-          'captures':
-            '0':
-              'name': 'punctuation.definition.comment.org-mode'
-          'end': '^(?i:\\s*#\\+END_COMMENT\\s*)'
-          'name': 'comment.block.org-mode'
-        }
-      ]
+    <<grammar-comment-block-cson()>>
 
     'example-line':
       'patterns': [
@@ -517,20 +507,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
 
-    'example-block':
-      'patterns':[
-          {
-            'begin': '^(?i:\\s*#\\+BEGIN_EXAMPLE\\s*)'
-            'beginCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'end': '^(?i:\\s*#\\+END_EXAMPLE\\s*)'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'string.unquoted.org-mode'
-          }
-      ]
+    <<grammar-example-block-cson()>>
+
+    <<grammar-verse-block-cson()>>
 
     'quote-block':
       'patterns': [
@@ -622,19 +601,19 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
               'include': '#task-status-done'
             }
         ]
-    
+
     <<grammar-text-markup-code-cson()>>
-    
+
     <<grammar-text-markup-verbatim-cson()>>
-    
+
     <<grammar-text-markup-bold-cson()>>
-    
+
     <<grammar-text-markup-underline-cson()>>
-    
+
     <<grammar-text-markup-italic-cson()>>
-    
+
     <<grammar-text-markup-strike-through-cson()>>
-    
+
     'code-block-shell':
       'patterns':[
           {
@@ -814,21 +793,6 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
 
-    'user-defined-block':
-      'patterns':[
-          {
-            'begin': '^ *#\\+BEGIN_([\\w]+)$'
-            'beginCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'end': '^ *#\\+END_\\1$'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'string.unquoted.org-mode'
-          }
-      ]
-
     <<grammar-regular-links-cson()>>
 
     <<grammar-radio-links-cson()>>
@@ -852,6 +816,25 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
               'include': '#object-radio-link'
             }
         ]
+
+    <<grammar-export-blocks-cson()>>
+
+    <<grammar-export-blocks-include-cson()>>
+
+    'user-defined-block':
+      'patterns':[
+          {
+            'begin': '^ *#\\+BEGIN_([\\w]+)$'
+            'beginCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'end': '^ *#\\+END_\\1$'
+            'endCaptures':
+              '0':
+                'name': 'punctuation.definition.string.org-mode'
+            'contentName': 'string.unquoted.org-mode'
+          }
+      ]
 
 #+END_SRC
 
@@ -1959,7 +1942,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.15                                                                                                                       |
+| version       | 0.3.16                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
@@ -2046,7 +2029,7 @@ The version property is updated using =apm publish= command.
 #+NAME: atom-org-mode-package-package-specs-version
 | Property-Name | Property-Value |
 |---------------+----------------|
-| version       | 0.3.15         |
+| version       | 0.3.16         |
 
 ***** Generate Publish Package
 
@@ -2055,7 +2038,7 @@ The version property is updated using =apm publish= command.
 #+END_SRC
 
 #+RESULTS:
-: apm publish 0.3.15
+: apm publish 0.3.16
 
 *** =package.json= File
 
@@ -3284,80 +3267,296 @@ Let us begin our journey into a better future.
 
 ****** Regular Expressions
 
-******* Blocks
+- Blocks
 
-#+NAME: elements-blocks-names
-| Element-Block-Name | Default-Export-Backend | Atom-Scope-Name |
-|--------------------+------------------------+-----------------|
-| ASCII              | True                   | text.plain      |
-| BEAMER             | True                   | text.tex.latex  |
-| COMMENT            | False                  |                 |
-| EXAMPLE            | False                  |                 |
-| HTML               | True                   | text.html.basic |
-| LATEX              | True                   | text.tex.latex  |
-| MAN                | True                   | text.roff       |
-| MD                 | True                   | source.gfm      |
-| ODT                | True                   | text.xml        |
-| ORG                | True                   |                 |
-| TEXINFO            | True                   | source.texi     |
-| VERSE              | False                  |                 |
+  #+NAME: elements-blocks-names
+  | Element-Block-Name | Default-Export-Backend | Atom-Scope-Name |
+  |--------------------+------------------------+-----------------|
+  | ASCII              | True                   | text.plain      |
+  | BEAMER             | True                   | text.tex.latex  |
+  | COMMENT            | False                  |                 |
+  | EXAMPLE            | False                  |                 |
+  | HTML               | True                   | text.html.basic |
+  | LATEX              | True                   | text.tex.latex  |
+  | MAN                | True                   | text.roff       |
+  | MD                 | True                   | source.gfm      |
+  | ODT                | True                   | text.xml        |
+  | ORG                | True                   |                 |
+  | TEXINFO            | True                   | source.texi     |
+  | VERSE              | False                  |                 |
 
-******* Source Blocks
+  - COMMENT Block
 
-******* Export Blocks
-
-******** Code
-
-#+BEGIN_SRC ruby :var export_block_type="HTML" :var atom_scope_name="TEXT.HTML.BASIC"
-  export_block_template = <<-EOT
-    'export-block-#{export_block_type.downcase}':
-      'patterns':[
-          {
-            'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(#{export_block_type.downcase})$'
-            'beginCaptures':
-              '1':
-                'name': 'punctuation.definition.string.org-mode'
-              '2':
-                'name': 'export-block.type.org-mode'
-            'end': '^(?i)( *#[+]END_EXPORT)$'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
-            'patterns':[
-              {
-                'include': '#{atom_scope_name.downcase}'
-              }
-            ]
-          }
-      ]
-  EOT
-#+END_SRC
-
-#+RESULTS:
-#+begin_example
-  'export-block-html':
-    'patterns':[
-        {
-          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(html)$'
-          'beginCaptures':
-            '1':
-              'name': 'punctuation.definition.string.org-mode'
-            '2':
-              'name': 'export-block.type.org-mode'
-          'end': '^(?i)( *#[+]END_EXPORT)$'
-          'endCaptures':
-            '0':
-              'name': 'punctuation.definition.string.org-mode'
-          'contentName': 'source.embedded.html-org-mode'
-          'patterns':[
+    - grammar-comment-block-cson
+      
+      #+NAME: grammar-comment-block-cson
+      #+BEGIN_SRC css 
+        'comment-block':
+          'patterns': [
             {
-              'include': 'text.html.basic'
+              'begin': '^(?i)( *#[+]BEGIN_COMMENT)$'
+              'captures':
+                '0':
+                  'name': 'punctuation.definition.comment.org-mode'
+              'end': '^(?i)( *#[+]END_COMMENT)$'
+              'name': 'comment.block.org-mode'
             }
           ]
+      #+END_SRC
+
+    - grammar-comment-block-include-cson
+      
+      #+NAME: grammar-comment-block-include-cson
+      #+BEGIN_SRC css 
+        {
+          'include': '#comment-block'
         }
-    ]
-#+end_example
+      #+END_SRC
+
+  - EXAMPLE Block
+
+    - grammar-example-block-cson
+      
+      #+NAME: grammar-example-block-cson
+      #+BEGIN_SRC css 
+        'example-block':
+          'patterns':[
+              {
+                'begin': '^(?i)( *#[+]BEGIN_EXAMPLE)$'
+                'beginCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'end': '^(?i)( *#[+]END_EXAMPLE)$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'string.unquoted.org-mode'
+              }
+          ]
+      #+END_SRC
+
+    - grammar-example-block-include-cson
+      
+      #+NAME: grammar-example-block-include-cson
+      #+BEGIN_SRC css 
+        {
+          'include': '#example-block'
+        }
+      #+END_SRC
+
+  - VERSE Block
+
+    - grammar-verse-block-cson
+      
+      #+NAME: grammar-verse-block-cson
+      #+BEGIN_SRC css 
+        'verse-block':
+          'patterns':[
+              {
+                'begin': '^(?i)( *#[+]BEGIN_VERSE)$'
+                'beginCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'end': '^(?i)( *#[+]END_VERSE)$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'string.unquoted.org-mode'
+              }
+          ]
+      #+END_SRC
+
+    - grammar-verse-block-include-cson
+      
+      #+NAME: grammar-verse-block-include-cson
+      #+BEGIN_SRC css 
+        {
+          'include': '#verse-block'
+        }
+      #+END_SRC
+
+- Source Blocks
+
+- Export Blocks
+
+  - Code
+
+    - export-block-template
+
+      #+NAME: export-block-template
+      #+BEGIN_SRC ruby :var export_block_type="HTML" :var atom_scope_name="TEXT.HTML.BASIC" 
+        export_block_template = <<-EOT
+        'export-block-#{export_block_type.downcase}':
+          'patterns':[
+              {
+                'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(#{export_block_type.downcase})$'
+                'beginCaptures':
+                  '1':
+                    'name': 'punctuation.definition.string.org-mode'
+                  '2':
+                    'name': 'export-block.type.org-mode'
+                'end': '^(?i)( *#[+]END_EXPORT)$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
+                'patterns':[
+                  {
+                    'include': '#{atom_scope_name.downcase}'
+                  }
+                ]
+              }
+          ]
+
+        'export-block-#{export_block_type.downcase}-legacy':
+          'patterns':[
+              {
+                'begin': '^(?i)( *#[+]BEGIN_#{export_block_type.upcase})$'
+                'beginCaptures':
+                  '1':
+                    'name': 'punctuation.definition.string.org-mode'
+                'end': '^(?i)( *#[+]END_#{export_block_type.upcase})$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
+                'patterns':[
+                  {
+                    'include': '#{atom_scope_name.downcase}'
+                  }
+                ]
+              }
+          ]
+        EOT
+      #+END_SRC
+
+    - grammar-export-blocks-cson
+
+      #+NAME: grammar-export-blocks-cson
+      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
+        results = []
+
+        data.select{|s| s[2].length > 0}.map{|d|
+
+          export_block_type = d[0]
+          atom_scope_name = d[2]
+
+        <<export-block-template>>
+
+          results << [export_block_template]
+        }
+        results.join("\n")
+      #+END_SRC
+
+    - export-blocks-include-patterns-template-code
+
+      #+NAME: export-blocks-include-patterns-template-code
+      #+BEGIN_SRC ruby  :var data=elements-blocks-names
+        include_patterns = []
+
+        data.select{|s| s[2].length > 0}.map{|d|
+
+          export_block_type = d[0]
+
+          export_blocks_include_patterns_template = <<EOM
+                {
+                  'include': '#export-block-#{export_block_type.downcase}'
+                }
+
+                {
+                  'include': '#export-block-#{export_block_type.downcase}-legacy'
+                }
+        EOM
+          include_patterns << [export_blocks_include_patterns_template]
+        }
+        include_patterns.join("\n")
+      #+END_SRC
+
+    - grammar-export-blocks-include-cson
+
+      #+NAME: grammar-export-blocks-include-cson
+      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
+        <<export-blocks-include-patterns-template-code>>
+
+        export_blocks_include_template = <<EOT
+        'export-blocks':
+            'patterns': [
+        #{include_patterns.join("\n")}
+            ]
+        EOT
+
+      #+END_SRC
+
+      #+RESULTS: grammar-export-blocks-include-cson
+      #+begin_example
+      'export-blocks':
+          'patterns': [
+              {
+                'include': '#export-block-ascii'
+              }
+
+              {
+                'include': '#export-block-ascii-legacy'
+              }
+
+              {
+                'include': '#export-block-beamer'
+              }
+
+              {
+                'include': '#export-block-beamer-legacy'
+              }
+
+              {
+                'include': '#export-block-html'
+              }
+
+              {
+                'include': '#export-block-html-legacy'
+              }
+
+              {
+                'include': '#export-block-latex'
+              }
+
+              {
+                'include': '#export-block-latex-legacy'
+              }
+
+              {
+                'include': '#export-block-man'
+              }
+
+              {
+                'include': '#export-block-man-legacy'
+              }
+
+              {
+                'include': '#export-block-md'
+              }
+
+              {
+                'include': '#export-block-md-legacy'
+              }
+
+              {
+                'include': '#export-block-odt'
+              }
+
+              {
+                'include': '#export-block-odt-legacy'
+              }
+
+              {
+                'include': '#export-block-texinfo'
+              }
+
+              {
+                'include': '#export-block-texinfo-legacy'
+              }
+
+          ]
+      #+end_example
 
 **** Clock, Diary Sexp and Planning
    :PROPERTIES:

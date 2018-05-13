@@ -1,0 +1,16 @@
+* Export Blocks
+** HTML
+
+#+BEGIN_EXPORT HTML
+<svg viewBox="100 -10 500 600" width="700" height="600">
+   <use xlink:href="RegAddress.svg#pattern"></use>
+</svg>
+#+END_EXPORT
+
+*** HTML Legacy
+
+#+BEGIN_HTML
+<svg viewBox="100 -10 500 600" width="700" height="600">
+   <use xlink:href="RegAddress.svg#pattern"></use>
+</svg>
+#+END_HTML
