@@ -22,9 +22,6 @@
     'include': '#quote-block'
   }
   {
-    'include': '#user-defined-block'
-  }
-  {
     'include': '#object-links'
   }
   {
@@ -53,6 +50,12 @@
   }
   {
     'include': '#babel-call'
+  }
+  {
+    'include': '#export-blocks'
+  }
+  {
+    'include': '#user-defined-block'
   }
   {
     'begin': '^(-----BEGIN PGP MESSAGE-----)$'
@@ -959,21 +962,6 @@
       }
     ]
 
-  'user-defined-block':
-    'patterns':[
-        {
-          'begin': '^ *#\\+BEGIN_([\\w]+)$'
-          'beginCaptures':
-            '0':
-              'name': 'punctuation.definition.string.org-mode'
-          'end': '^ *#\\+END_\\1$'
-          'endCaptures':
-            '0':
-              'name': 'punctuation.definition.string.org-mode'
-          'contentName': 'string.unquoted.org-mode'
-        }
-    ]
-
   'object-regular-link':
     'patterns':[
         {
@@ -1083,3 +1071,424 @@
             'include': '#object-radio-link'
           }
       ]
+
+  'export-block-ascii':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(ascii)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.ascii-org-mode'
+          'patterns':[
+            {
+              'include': 'text.plain'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-ascii-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_ASCII)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_ASCII)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.ascii-org-mode'
+          'patterns':[
+            {
+              'include': 'text.plain'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-beamer':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(beamer)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.beamer-org-mode'
+          'patterns':[
+            {
+              'include': 'text.tex.latex'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-beamer-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_BEAMER)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_BEAMER)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.beamer-org-mode'
+          'patterns':[
+            {
+              'include': 'text.tex.latex'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-html':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(html)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.html-org-mode'
+          'patterns':[
+            {
+              'include': 'text.html.basic'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-html-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_HTML)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_HTML)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.html-org-mode'
+          'patterns':[
+            {
+              'include': 'text.html.basic'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-latex':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(latex)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.latex-org-mode'
+          'patterns':[
+            {
+              'include': 'text.tex.latex'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-latex-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_LATEX)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_LATEX)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.latex-org-mode'
+          'patterns':[
+            {
+              'include': 'text.tex.latex'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-man':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(man)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.man-org-mode'
+          'patterns':[
+            {
+              'include': 'text.roff'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-man-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_MAN)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_MAN)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.man-org-mode'
+          'patterns':[
+            {
+              'include': 'text.roff'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-md':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(md)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.md-org-mode'
+          'patterns':[
+            {
+              'include': 'source.gfm'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-md-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_MD)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_MD)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.md-org-mode'
+          'patterns':[
+            {
+              'include': 'source.gfm'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-odt':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(odt)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.odt-org-mode'
+          'patterns':[
+            {
+              'include': 'text.xml'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-odt-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_ODT)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_ODT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.odt-org-mode'
+          'patterns':[
+            {
+              'include': 'text.xml'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-texinfo':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(texinfo)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+            '2':
+              'name': 'export-block.type.org-mode'
+          'end': '^(?i)( *#[+]END_EXPORT)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.texinfo-org-mode'
+          'patterns':[
+            {
+              'include': 'source.texi'
+            }
+          ]
+        }
+    ]
+  
+  'export-block-texinfo-legacy':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_TEXINFO)$'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_TEXINFO)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'source.embedded.texinfo-org-mode'
+          'patterns':[
+            {
+              'include': 'source.texi'
+            }
+          ]
+        }
+    ]
+  
+
+  'export-blocks':
+      'patterns': [
+          {
+            'include': '#export-block-ascii'
+          }
+  
+          {
+            'include': '#export-block-ascii-legacy'
+          }
+  
+          {
+            'include': '#export-block-beamer'
+          }
+  
+          {
+            'include': '#export-block-beamer-legacy'
+          }
+  
+          {
+            'include': '#export-block-html'
+          }
+  
+          {
+            'include': '#export-block-html-legacy'
+          }
+  
+          {
+            'include': '#export-block-latex'
+          }
+  
+          {
+            'include': '#export-block-latex-legacy'
+          }
+  
+          {
+            'include': '#export-block-man'
+          }
+  
+          {
+            'include': '#export-block-man-legacy'
+          }
+  
+          {
+            'include': '#export-block-md'
+          }
+  
+          {
+            'include': '#export-block-md-legacy'
+          }
+  
+          {
+            'include': '#export-block-odt'
+          }
+  
+          {
+            'include': '#export-block-odt-legacy'
+          }
+  
+          {
+            'include': '#export-block-texinfo'
+          }
+  
+          {
+            'include': '#export-block-texinfo-legacy'
+          }
+  
+      ]
+  
+
+  'user-defined-block':
+    'patterns':[
+        {
+          'begin': '^ *#\\+BEGIN_([\\w]+)$'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^ *#\\+END_\\1$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'string.unquoted.org-mode'
+        }
+    ]
