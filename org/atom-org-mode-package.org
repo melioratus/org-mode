@@ -3291,201 +3291,206 @@ Let us begin our journey into a better future.
 
 ****** Regular Expressions
 
-******* Blocks
+- Blocks
 
-#+NAME: elements-blocks-names
-| Element-Block-Name | Default-Export-Backend | Atom-Scope-Name |
-|--------------------+------------------------+-----------------|
-| ASCII              | True                   | text.plain      |
-| BEAMER             | True                   | text.tex.latex  |
-| COMMENT            | False                  |                 |
-| EXAMPLE            | False                  |                 |
-| HTML               | True                   | text.html.basic |
-| LATEX              | True                   | text.tex.latex  |
-| MAN                | True                   | text.roff       |
-| MD                 | True                   | source.gfm      |
-| ODT                | True                   | text.xml        |
-| ORG                | True                   |                 |
-| TEXINFO            | True                   | source.texi     |
-| VERSE              | False                  |                 |
+  #+NAME: elements-blocks-names
+  | Element-Block-Name | Default-Export-Backend | Atom-Scope-Name |
+  |--------------------+------------------------+-----------------|
+  | ASCII              | True                   | text.plain      |
+  | BEAMER             | True                   | text.tex.latex  |
+  | COMMENT            | False                  |                 |
+  | EXAMPLE            | False                  |                 |
+  | HTML               | True                   | text.html.basic |
+  | LATEX              | True                   | text.tex.latex  |
+  | MAN                | True                   | text.roff       |
+  | MD                 | True                   | source.gfm      |
+  | ODT                | True                   | text.xml        |
+  | ORG                | True                   |                 |
+  | TEXINFO            | True                   | source.texi     |
+  | VERSE              | False                  |                 |
 
-******* Source Blocks
+- Source Blocks
 
-******* Export Blocks
+- Export Blocks
 
-******** Code
+  - Code
 
-#+NAME: export-block-template
-#+BEGIN_SRC ruby :var export_block_type="HTML" :var atom_scope_name="TEXT.HTML.BASIC" 
-  export_block_template = <<-EOT
-  'export-block-#{export_block_type.downcase}':
-    'patterns':[
-        {
-          'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(#{export_block_type.downcase})$'
-          'beginCaptures':
-            '1':
-              'name': 'punctuation.definition.string.org-mode'
-            '2':
-              'name': 'export-block.type.org-mode'
-          'end': '^(?i)( *#[+]END_EXPORT)$'
-          'endCaptures':
-            '0':
-              'name': 'punctuation.definition.string.org-mode'
-          'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
+    - export-block-template
+
+      #+NAME: export-block-template
+      #+BEGIN_SRC ruby :var export_block_type="HTML" :var atom_scope_name="TEXT.HTML.BASIC" 
+        export_block_template = <<-EOT
+        'export-block-#{export_block_type.downcase}':
           'patterns':[
-            {
-              'include': '#{atom_scope_name.downcase}'
-            }
+              {
+                'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(#{export_block_type.downcase})$'
+                'beginCaptures':
+                  '1':
+                    'name': 'punctuation.definition.string.org-mode'
+                  '2':
+                    'name': 'export-block.type.org-mode'
+                'end': '^(?i)( *#[+]END_EXPORT)$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
+                'patterns':[
+                  {
+                    'include': '#{atom_scope_name.downcase}'
+                  }
+                ]
+              }
           ]
-        }
-    ]
 
-  'export-block-#{export_block_type.downcase}-legacy':
-    'patterns':[
-        {
-          'begin': '^(?i)( *#[+]BEGIN_#{export_block_type.upcase})$'
-          'beginCaptures':
-            '1':
-              'name': 'punctuation.definition.string.org-mode'
-          'end': '^(?i)( *#[+]END_#{export_block_type.upcase})$'
-          'endCaptures':
-            '0':
-              'name': 'punctuation.definition.string.org-mode'
-          'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
+        'export-block-#{export_block_type.downcase}-legacy':
           'patterns':[
-            {
-              'include': '#{atom_scope_name.downcase}'
-            }
+              {
+                'begin': '^(?i)( *#[+]BEGIN_#{export_block_type.upcase})$'
+                'beginCaptures':
+                  '1':
+                    'name': 'punctuation.definition.string.org-mode'
+                'end': '^(?i)( *#[+]END_#{export_block_type.upcase})$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
+                'patterns':[
+                  {
+                    'include': '#{atom_scope_name.downcase}'
+                  }
+                ]
+              }
           ]
+        EOT
+      #+END_SRC
+
+    - grammar-export-blocks-cson
+
+      #+NAME: grammar-export-blocks-cson
+      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
+        results = []
+
+        data.select{|s| s[2].length > 0}.map{|d|
+
+          export_block_type = d[0]
+          atom_scope_name = d[2]
+
+        <<export-block-template>>
+
+          results << [export_block_template]
         }
-    ]
-  EOT
-#+END_SRC
+        results.join("\n")
+      #+END_SRC
 
-#+RESULTS: export-block-template
-: export-block-html
+    - export-blocks-include-patterns-template-code
 
-#+NAME: grammar-export-blocks-cson
-#+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
-  results = []
+      #+NAME: export-blocks-include-patterns-template-code
+      #+BEGIN_SRC ruby  :var data=elements-blocks-names
+        include_patterns = []
 
-  data.select{|s| s[2].length > 0}.map{|d|
+        data.select{|s| s[2].length > 0}.map{|d|
 
-    export_block_type = d[0]
-    atom_scope_name = d[2]
-   
-  <<export-block-template>>
-   
-    results << [export_block_template]
-  }
-  results.join("\n")
-#+END_SRC
+          export_block_type = d[0]
 
-#+NAME: export-blocks-include-patterns-template-code
-#+BEGIN_SRC ruby  :var data=elements-blocks-names
-  include_patterns = []
+          export_blocks_include_patterns_template = <<EOM
+                {
+                  'include': '#export-block-#{export_block_type.downcase}'
+                }
 
-  data.select{|s| s[2].length > 0}.map{|d|
-
-    export_block_type = d[0]
-
-    export_blocks_include_patterns_template = <<EOM
-          {
-            'include': '#export-block-#{export_block_type.downcase}'
-          }
-
-          {
-            'include': '#export-block-#{export_block_type.downcase}-legacy'
-          }
-  EOM
-    include_patterns << [export_blocks_include_patterns_template]
-  }
-  include_patterns.join("\n")
-#+END_SRC
-
-#+NAME: grammar-export-blocks-include-cson
-#+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
-  <<export-blocks-include-patterns-template-code>>
-
-  export_blocks_include_template = <<EOT
-  'export-blocks':
-      'patterns': [
-  #{include_patterns.join("\n")}
-      ]
-  EOT
-
-#+END_SRC
-
-#+RESULTS: grammar-export-blocks-include-cson
-#+begin_example
-'export-blocks':
-    'patterns': [
-        {
-          'include': '#export-block-ascii'
+                {
+                  'include': '#export-block-#{export_block_type.downcase}-legacy'
+                }
+        EOM
+          include_patterns << [export_blocks_include_patterns_template]
         }
+        include_patterns.join("\n")
+      #+END_SRC
 
-        {
-          'include': '#export-block-ascii-legacy'
-        }
+    - grammar-export-blocks-include-cson
 
-        {
-          'include': '#export-block-beamer'
-        }
+      #+NAME: grammar-export-blocks-include-cson
+      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
+        <<export-blocks-include-patterns-template-code>>
 
-        {
-          'include': '#export-block-beamer-legacy'
-        }
+        export_blocks_include_template = <<EOT
+        'export-blocks':
+            'patterns': [
+        #{include_patterns.join("\n")}
+            ]
+        EOT
 
-        {
-          'include': '#export-block-html'
-        }
+      #+END_SRC
 
-        {
-          'include': '#export-block-html-legacy'
-        }
+      #+RESULTS: grammar-export-blocks-include-cson
+      #+begin_example
+      'export-blocks':
+          'patterns': [
+              {
+                'include': '#export-block-ascii'
+              }
 
-        {
-          'include': '#export-block-latex'
-        }
+              {
+                'include': '#export-block-ascii-legacy'
+              }
 
-        {
-          'include': '#export-block-latex-legacy'
-        }
+              {
+                'include': '#export-block-beamer'
+              }
 
-        {
-          'include': '#export-block-man'
-        }
+              {
+                'include': '#export-block-beamer-legacy'
+              }
 
-        {
-          'include': '#export-block-man-legacy'
-        }
+              {
+                'include': '#export-block-html'
+              }
 
-        {
-          'include': '#export-block-md'
-        }
+              {
+                'include': '#export-block-html-legacy'
+              }
 
-        {
-          'include': '#export-block-md-legacy'
-        }
+              {
+                'include': '#export-block-latex'
+              }
 
-        {
-          'include': '#export-block-odt'
-        }
+              {
+                'include': '#export-block-latex-legacy'
+              }
 
-        {
-          'include': '#export-block-odt-legacy'
-        }
+              {
+                'include': '#export-block-man'
+              }
 
-        {
-          'include': '#export-block-texinfo'
-        }
+              {
+                'include': '#export-block-man-legacy'
+              }
 
-        {
-          'include': '#export-block-texinfo-legacy'
-        }
+              {
+                'include': '#export-block-md'
+              }
 
-    ]
-#+end_example
+              {
+                'include': '#export-block-md-legacy'
+              }
+
+              {
+                'include': '#export-block-odt'
+              }
+
+              {
+                'include': '#export-block-odt-legacy'
+              }
+
+              {
+                'include': '#export-block-texinfo'
+              }
+
+              {
+                'include': '#export-block-texinfo-legacy'
+              }
+
+          ]
+      #+end_example
 
 **** Clock, Diary Sexp and Planning
    :PROPERTIES:
