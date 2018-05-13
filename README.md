@@ -26,7 +26,7 @@ Road Map
 Specifications
 --------------
 
-<table id="org9518af1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org9522398" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -50,7 +50,7 @@ Specifications
 
 <tr>
 <td class="org-left">version</td>
-<td class="org-left">0.3.15</td>
+<td class="org-left">0.3.16</td>
 </tr>
 
 

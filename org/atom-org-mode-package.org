@@ -1942,7 +1942,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 | Property-Name | Property-Value                                                                                                               |
 |---------------+------------------------------------------------------------------------------------------------------------------------------|
 | name          | org-mode                                                                                                                     |
-| version       | 0.3.15                                                                                                                       |
+| version       | 0.3.16                                                                                                                       |
 | description   | Atom grammar for org-mode syntax                                                                                             |
 | keywords      | org, org-mode, org mode, orgmode, emacs, literate programming, literate devops, devops, reproducible research, documentation |
 | repository    | https://github.com/melioratus/org-mode                                                                                       |
@@ -2029,7 +2029,7 @@ The version property is updated using =apm publish= command.
 #+NAME: atom-org-mode-package-package-specs-version
 | Property-Name | Property-Value |
 |---------------+----------------|
-| version       | 0.3.15         |
+| version       | 0.3.16         |
 
 ***** Generate Publish Package
 
@@ -2038,7 +2038,7 @@ The version property is updated using =apm publish= command.
 #+END_SRC
 
 #+RESULTS:
-: apm publish 0.3.15
+: apm publish 0.3.16
 
 *** =package.json= File
 
