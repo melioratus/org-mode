@@ -104,15 +104,12 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     {
       'include': '#comment-line'
     }
-    {
-      'include': '#comment-block'
-    }
+    <<grammar-comment-block-include-cson()>>
     {
       'include': '#example-line'
     }
-    {
-      'include': '#example-block'
-    }
+    <<grammar-example-block-include-cson()>>
+    <<grammar-verse-block-include-cson()>>
     {
       'include': '#quote-block'
     }
@@ -496,17 +493,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
 
-    'comment-block':
-      'patterns': [
-        {
-          'begin': '^(?i:\\s*#\\+BEGIN_COMMENT\\s*)'
-          'captures':
-            '0':
-              'name': 'punctuation.definition.comment.org-mode'
-          'end': '^(?i:\\s*#\\+END_COMMENT\\s*)'
-          'name': 'comment.block.org-mode'
-        }
-      ]
+    <<grammar-comment-block-cson()>>
 
     'example-line':
       'patterns': [
@@ -520,20 +507,9 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
 
-    'example-block':
-      'patterns':[
-          {
-            'begin': '^(?i:\\s*#\\+BEGIN_EXAMPLE\\s*)'
-            'beginCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'end': '^(?i:\\s*#\\+END_EXAMPLE\\s*)'
-            'endCaptures':
-              '0':
-                'name': 'punctuation.definition.string.org-mode'
-            'contentName': 'string.unquoted.org-mode'
-          }
-      ]
+    <<grammar-example-block-cson()>>
+
+    <<grammar-verse-block-cson()>>
 
     'quote-block':
       'patterns': [
@@ -3308,6 +3284,96 @@ Let us begin our journey into a better future.
   | ORG                | True                   |                 |
   | TEXINFO            | True                   | source.texi     |
   | VERSE              | False                  |                 |
+
+  - COMMENT Block
+
+    - grammar-comment-block-cson
+      
+      #+NAME: grammar-comment-block-cson
+      #+BEGIN_SRC css 
+        'comment-block':
+          'patterns': [
+            {
+              'begin': '^(?i)( *#[+]BEGIN_COMMENT)$'
+              'captures':
+                '0':
+                  'name': 'punctuation.definition.comment.org-mode'
+              'end': '^(?i)( *#[+]END_COMMENT)$'
+              'name': 'comment.block.org-mode'
+            }
+          ]
+      #+END_SRC
+
+    - grammar-comment-block-include-cson
+      
+      #+NAME: grammar-comment-block-include-cson
+      #+BEGIN_SRC css 
+        {
+          'include': '#comment-block'
+        }
+      #+END_SRC
+
+  - EXAMPLE Block
+
+    - grammar-example-block-cson
+      
+      #+NAME: grammar-example-block-cson
+      #+BEGIN_SRC css 
+        'example-block':
+          'patterns':[
+              {
+                'begin': '^(?i)( *#[+]BEGIN_EXAMPLE)$'
+                'beginCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'end': '^(?i)( *#[+]END_EXAMPLE)$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'string.unquoted.org-mode'
+              }
+          ]
+      #+END_SRC
+
+    - grammar-example-block-include-cson
+      
+      #+NAME: grammar-example-block-include-cson
+      #+BEGIN_SRC css 
+        {
+          'include': '#example-block'
+        }
+      #+END_SRC
+
+  - VERSE Block
+
+    - grammar-verse-block-cson
+      
+      #+NAME: grammar-verse-block-cson
+      #+BEGIN_SRC css 
+        'verse-block':
+          'patterns':[
+              {
+                'begin': '^(?i)( *#[+]BEGIN_VERSE)$'
+                'beginCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'end': '^(?i)( *#[+]END_VERSE)$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.org-mode'
+                'contentName': 'string.unquoted.org-mode'
+              }
+          ]
+      #+END_SRC
+
+    - grammar-verse-block-include-cson
+      
+      #+NAME: grammar-verse-block-include-cson
+      #+BEGIN_SRC css 
+        {
+          'include': '#verse-block'
+        }
+      #+END_SRC
 
 - Source Blocks
 

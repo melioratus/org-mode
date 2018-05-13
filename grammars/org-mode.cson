@@ -19,6 +19,9 @@
     'include': '#example-block'
   }
   {
+    'include': '#verse-block'
+  }
+  {
     'include': '#quote-block'
   }
   {
@@ -404,11 +407,11 @@
   'comment-block':
     'patterns': [
       {
-        'begin': '^(?i:\\s*#\\+BEGIN_COMMENT\\s*)'
+        'begin': '^(?i)( *#[+]BEGIN_COMMENT)$'
         'captures':
           '0':
             'name': 'punctuation.definition.comment.org-mode'
-        'end': '^(?i:\\s*#\\+END_COMMENT\\s*)'
+        'end': '^(?i)( *#[+]END_COMMENT)$'
         'name': 'comment.block.org-mode'
       }
     ]
@@ -428,11 +431,26 @@
   'example-block':
     'patterns':[
         {
-          'begin': '^(?i:\\s*#\\+BEGIN_EXAMPLE\\s*)'
+          'begin': '^(?i)( *#[+]BEGIN_EXAMPLE)$'
           'beginCaptures':
             '0':
               'name': 'punctuation.definition.string.org-mode'
-          'end': '^(?i:\\s*#\\+END_EXAMPLE\\s*)'
+          'end': '^(?i)( *#[+]END_EXAMPLE)$'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'contentName': 'string.unquoted.org-mode'
+        }
+    ]
+
+  'verse-block':
+    'patterns':[
+        {
+          'begin': '^(?i)( *#[+]BEGIN_VERSE)$'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.org-mode'
+          'end': '^(?i)( *#[+]END_VERSE)$'
           'endCaptures':
             '0':
               'name': 'punctuation.definition.string.org-mode'
