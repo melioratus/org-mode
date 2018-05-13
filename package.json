@@ -1,6 +1,6 @@
 {
   "name": "org-mode",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "Atom grammar for org-mode syntax",
   "keywords": [
     "org",
