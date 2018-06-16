@@ -401,7 +401,7 @@
   'comment-line':
     'patterns': [
       {
-        'begin': '^\\s*#\\s'
+        'begin': '^ *# '
         'end': '$'
         'captures':
           '0':

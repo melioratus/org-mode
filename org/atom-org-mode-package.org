@@ -101,9 +101,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     'org'
   ]
   'patterns': [
-    {
-      'include': '#comment-line'
-    }
+    <<grammar-comment-line-include-cson()>>
     <<grammar-comment-block-include-cson()>>
     {
       'include': '#example-line'
@@ -479,17 +477,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
   ]
   'repository':
 
-    'comment-line':
-      'patterns': [
-        {
-          'begin': '^\\s*#\\s'
-          'end': '$'
-          'captures':
-            '0':
-              'name': 'punctuation.definition.comment.org-mode'
-          'name': 'comment.line.org-mode'
-        }
-      ]
+    <<grammar-comment-line-cson()>>
 
     <<grammar-comment-block-cson()>>
 
@@ -3749,6 +3737,32 @@ Let us begin our journey into a better future.
 ***** Code  
 
 ****** Regular Expressions
+
+- grammar-comment-line-cson
+
+  #+NAME: grammar-comment-line-cson
+  #+BEGIN_SRC css
+    'comment-line':
+      'patterns': [
+        {
+          'begin': '^ *# '
+          'end': '$'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.comment.org-mode'
+          'name': 'comment.line.org-mode'
+        }
+      ]
+  #+END_SRC
+
+ - grammar-comment-line-include-cson
+      
+   #+NAME: grammar-comment-line-include-cson
+   #+BEGIN_SRC css 
+     {
+       'include': '#comment-line'
+     }
+   #+END_SRC
 
 **** Fixed Width Areas
    :PROPERTIES:
