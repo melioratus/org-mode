@@ -110,9 +110,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     }
     <<grammar-example-block-include-cson()>>
     <<grammar-verse-block-include-cson()>>
-    {
-      'include': '#quote-block'
-    }
+    <<grammar-quote-block-include-cson()>>
     {
       'include': '#object-links'
     }
@@ -511,29 +509,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
 
     <<grammar-verse-block-cson()>>
 
-    'quote-block':
-      'patterns': [
-        {
-          'begin': '^(?i:\\s*#\\+BEGIN_QUOTE\\s*)'
-          'beginCaptures':
-            '0':
-              'name': 'punctuation.definition.quote.org-mode'
-          'end': '^(?i:\\s*#\\+END_QUOTE\\s*)'
-          'endCaptures':
-            '0':
-              'name': 'punctuation.definition.quote.org-mode'
-          'contentName': 'markup.quote.org-mode'
-          'name': 'meta.quote-block.org-mode'
-          'patterns': [
-            {
-              'include': '#text-markup'
-            }
-            {
-              'include': '#object-links'
-            }
-          ]
-        }
-      ]
+    <<grammar-quote-block-cson()>>
 
     'unordered-list':
       'patterns': [
@@ -2975,6 +2951,43 @@ Let us begin our journey into a better future.
 |------------------------------------|
 | CENTER                             |
 | QUOTE                              |
+
+- QUOTE Block
+
+  - grammar-quote-block-cson
+      
+    #+NAME: grammar-quote-block-cson
+    #+BEGIN_SRC css 
+      'quote-block':
+        'patterns': [
+          {
+            'begin': '^(?i)( *#[+]BEGIN_QUOTE)$'
+            'captures':
+              '0':
+                'name': 'punctuation.definition.quote.org-mode'
+            'end': '^(?i)( *#[+]END_QUOTE)$'
+            'contentName': 'markup.quote.org-mode'
+            'name': 'meta.quote-block.org-mode'
+            'patterns': [
+              {
+                'include': '#text-markup'
+              }
+              {
+                'include': '#object-links'
+              }
+            ]
+          }
+        ]
+    #+END_SRC
+
+  - grammar-quote-block-include-cson
+      
+    #+NAME: grammar-quote-block-include-cson
+    #+BEGIN_SRC css 
+      {
+        'include': '#quote-block'
+      }
+    #+END_SRC
 
 ******* Dynamic Blocks
 

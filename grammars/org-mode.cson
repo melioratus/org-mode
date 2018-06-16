@@ -461,14 +461,11 @@
   'quote-block':
     'patterns': [
       {
-        'begin': '^(?i:\\s*#\\+BEGIN_QUOTE\\s*)'
-        'beginCaptures':
+        'begin': '^(?i)( *#[+]BEGIN_QUOTE)$'
+        'captures':
           '0':
             'name': 'punctuation.definition.quote.org-mode'
-        'end': '^(?i:\\s*#\\+END_QUOTE\\s*)'
-        'endCaptures':
-          '0':
-            'name': 'punctuation.definition.quote.org-mode'
+        'end': '^(?i)( *#[+]END_QUOTE)$'
         'contentName': 'markup.quote.org-mode'
         'name': 'meta.quote-block.org-mode'
         'patterns': [
