@@ -140,6 +140,19 @@
     }
  }
 
+.syntax--punctuation.syntax--definition.syntax--center.syntax--org-mode {
+
+   color: @syntax-invisible-character-color;
+
+   &:hover {
+     color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+   }
+ }
+
+.syntax--markup.syntax--center.syntax--org-mode {
+    text-align: center;
+ }
+
 .syntax--string.syntax--unquoted.syntax--org-mode {
    font-weight: 100;
    color: @syntax-text-color;

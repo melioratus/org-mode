@@ -25,6 +25,9 @@
     'include': '#quote-block'
   }
   {
+    'include': '#center-block'
+  }
+  {
     'include': '#object-links'
   }
   {
@@ -468,6 +471,27 @@
         'end': '^(?i)( *#[+]END_QUOTE)$'
         'contentName': 'markup.quote.org-mode'
         'name': 'meta.quote-block.org-mode'
+        'patterns': [
+          {
+            'include': '#text-markup'
+          }
+          {
+            'include': '#object-links'
+          }
+        ]
+      }
+    ]
+
+  'center-block':
+    'patterns': [
+      {
+        'begin': '^(?i)( *#[+]BEGIN_CENTER)$'
+        'captures':
+          '0':
+            'name': 'punctuation.definition.center.org-mode'
+        'end': '^(?i)( *#[+]END_CENTER)$'
+        'contentName': 'markup.center.org-mode'
+        'name': 'meta.center-block.org-mode'
         'patterns': [
           {
             'include': '#text-markup'

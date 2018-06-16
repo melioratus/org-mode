@@ -111,6 +111,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     <<grammar-example-block-include-cson()>>
     <<grammar-verse-block-include-cson()>>
     <<grammar-quote-block-include-cson()>>
+    <<grammar-center-block-include-cson()>>
     {
       'include': '#object-links'
     }
@@ -510,6 +511,8 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     <<grammar-verse-block-cson()>>
 
     <<grammar-quote-block-cson()>>
+
+    <<grammar-center-block-cson()>>
 
     'unordered-list':
       'patterns': [
@@ -2378,6 +2381,19 @@ Let us begin our journey into a better future.
       }
    }
 
+  .syntax--punctuation.syntax--definition.syntax--center.syntax--org-mode {
+
+     color: @syntax-invisible-character-color;
+
+     &:hover {
+       color: multiply(@syntax-invisible-character-color, @syntax-invisible-character-color);
+     }
+   }
+
+  .syntax--markup.syntax--center.syntax--org-mode {
+      text-align: center;
+   }
+
   .syntax--string.syntax--unquoted.syntax--org-mode {
      font-weight: 100;
      color: @syntax-text-color;
@@ -2951,6 +2967,43 @@ Let us begin our journey into a better future.
 |------------------------------------|
 | CENTER                             |
 | QUOTE                              |
+
+- CENTER Block
+
+  - grammar-center-block-cson
+      
+    #+NAME: grammar-center-block-cson
+    #+BEGIN_SRC css 
+      'center-block':
+        'patterns': [
+          {
+            'begin': '^(?i)( *#[+]BEGIN_CENTER)$'
+            'captures':
+              '0':
+                'name': 'punctuation.definition.center.org-mode'
+            'end': '^(?i)( *#[+]END_CENTER)$'
+            'contentName': 'markup.center.org-mode'
+            'name': 'meta.center-block.org-mode'
+            'patterns': [
+              {
+                'include': '#text-markup'
+              }
+              {
+                'include': '#object-links'
+              }
+            ]
+          }
+        ]
+    #+END_SRC
+
+  - grammar-center-block-include-cson
+      
+    #+NAME: grammar-center-block-include-cson
+    #+BEGIN_SRC css 
+      {
+        'include': '#center-block'
+      }
+    #+END_SRC
 
 - QUOTE Block
 
