@@ -140,9 +140,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     {
       'include': '#keywords-line'
     }
-    {
-      'include': '#babel-call'
-    }
+    <<grammar-babel-call-include-cson()>>
     {
       'include': '#export-blocks'
     }
@@ -755,25 +753,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
         }
       ]
 
-    'babel-call':
-      'patterns': [
-        {
-          'begin': '^(\\s*#[+])(CALL[\\\[\\\]a-zA-Z0-9,]*)(:)((\\s+)(.+))?'
-          'end': '$'
-          'captures':
-            '1':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '2':
-              'name': 'markup.function.keyword.key-name.org-mode'
-            '3':
-              'name': 'punctuation.definition.keyword.org-mode'
-            '5':
-              'name': 'punctuation.definition.keyword.space.org-mode'
-            '6':
-              'name': 'punctuation.definition.keyword.key-value.org-mode'
-          'name': 'markup.keyword.org-mode'
-        }
-      ]
+    <<grammar-babel-call-cson()>>
 
     <<grammar-regular-links-cson()>>
 
@@ -3332,6 +3312,40 @@ Let us begin our journey into a better future.
 ***** Code  
 
 ****** Regular Expressions
+
+- grammar-babel-call-cson
+
+  #+NAME: grammar-babel-call-cson
+  #+BEGIN_SRC css
+    'babel-call':
+      'patterns': [
+        {
+          'begin': '^(\\s*#[+])(CALL[\\\[\\\]a-zA-Z0-9,]*)(:)((\\s+)(.+))?'
+          'end': '$'
+          'captures':
+            '1':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '2':
+              'name': 'markup.function.keyword.key-name.org-mode'
+            '3':
+              'name': 'punctuation.definition.keyword.org-mode'
+            '5':
+              'name': 'punctuation.definition.keyword.space.org-mode'
+            '6':
+              'name': 'punctuation.definition.keyword.key-value.org-mode'
+          'name': 'markup.keyword.org-mode'
+        }
+      ]
+  #+END_SRC
+
+ - grammar-babel-call-include-cson
+      
+   #+NAME: grammar-babel-call-include-cson
+   #+BEGIN_SRC css 
+     {
+       'include': '#babel-call'
+     }
+   #+END_SRC
 
 **** Blocks
    :PROPERTIES:
