@@ -3042,9 +3042,9 @@ Let us begin our journey into a better future.
       }
     #+END_SRC
 
-******* Dynamic Blocks
-
-******* Special Blocks
+******** TODO Add lines beginning with STARS must be quoted by a comma. [0/2]
+- [ ] Center Blocks
+- [ ] Quote Blocks
 
 **** Drawers and Property Drawers
    :PROPERTIES:
