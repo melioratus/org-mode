@@ -2453,6 +2453,11 @@ Let us begin our journey into a better future.
 #+END_SRC
 
 ** Org-Syntax[fn:9][fn:10]
+:PROPERTIES:
+:EXPORT_FILE_NAME: org-syntax-notes.org
+:EXPORT_OPTIONS: f:t
+:EXPORT_TITLE: Org Syntax Notes
+:END:
 
 *** Headlines and Sections
   :PROPERTIES:
