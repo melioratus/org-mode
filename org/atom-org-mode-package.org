@@ -3385,7 +3385,7 @@ Let us begin our journey into a better future.
     - export-block-template
 
       #+NAME: export-block-template
-      #+BEGIN_SRC ruby :var export_block_type="HTML" :var atom_scope_name="TEXT.HTML.BASIC" 
+      #+BEGIN_SRC ruby :var export_block_type="HTML" :var atom_scope_name="TEXT.HTML.BASIC" :results verbatim
         export_block_template = <<-EOT
         'export-block-#{export_block_type.downcase}':
           'patterns':[
