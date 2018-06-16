@@ -112,6 +112,7 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     <<grammar-verse-block-include-cson()>>
     <<grammar-quote-block-include-cson()>>
     <<grammar-center-block-include-cson()>>
+    <<grammar-dynamic-block-include-cson()>>
     {
       'include': '#object-links'
     }
@@ -513,6 +514,8 @@ In order to maintain compatibility, the Atom =org-mode= package will follow the 
     <<grammar-quote-block-cson()>>
 
     <<grammar-center-block-cson()>>
+
+    <<grammar-dynamic-block-cson()>>
 
     'unordered-list':
       'patterns': [
@@ -3067,7 +3070,7 @@ Let us begin our journey into a better future.
 ***** Code  
 
 ****** Regular Expressions
-
+- 
 **** Dynamic Blocks
    :PROPERTIES:
    :CUSTOM_ID: Dynamic_Blocks
@@ -3088,6 +3091,49 @@ Let us begin our journey into a better future.
 ***** Code  
 
 ****** Regular Expressions
+
+  - DYNAMIC Block
+
+    - grammar-dynamic-block-cson
+      
+      #+NAME: grammar-dynamic-block-cson
+      #+BEGIN_SRC css 
+        'dynamic-block':
+          'patterns':[
+              {
+                'begin': '^(?i)( *#[+]BEGIN: +)([^\\s]+)(( +)(:[\\w\\-]+)(( +)(.+))?)*$'
+                'beginCaptures':
+                  '1':
+                    'name': 'punctuation.definition.keyword.org-mode'
+                  '2':
+                    'name': 'markup.function.keyword.dynamic-block.dynamic-block-name.org-mode'
+                  '3':
+                    'name': 'dynamic-block.dynamic-block-headers.org-mode'
+                  '4':
+                    'name': 'punctuation.definition.keyword.space.org-mode'
+                  '5':
+                    'name': 'punctuation.definition.keyword.key-name.org-mode'
+                  '7':
+                    'name': 'punctuation.definition.keyword.space.org-mode'
+                  '8':
+                    'name': 'punctuation.definition.keyword.key-value.org-mode'
+                'end': '^(?i)( *#[+]END: *)$'
+                'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.keyword.org-mode'
+                'contentName': 'string.unquoted.org-mode'
+              }
+          ]
+      #+END_SRC
+
+    - grammar-dynamic-block-include-cson
+      
+      #+NAME: grammar-dynamic-block-include-cson
+      #+BEGIN_SRC css 
+        {
+          'include': '#dynamic-block'
+        }
+      #+END_SRC
 
 **** Footnote Definitions
    :PROPERTIES:

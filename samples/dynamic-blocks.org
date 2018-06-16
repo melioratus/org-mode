@@ -1,0 +1,5 @@
+# -*- mode: org; -*-
+
+#+BEGIN: myblock :param1 value1 :param2 value2
+my block contents
+#+END:
