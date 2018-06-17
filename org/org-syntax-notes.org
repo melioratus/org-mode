@@ -1,4 +1,4 @@
-# Created 2018-06-16 Sat 17:55
+# Created 2018-06-16 Sat 19:18
 #+TITLE: Org Syntax Notes
 #+DATE: <2018-02-25 Sun>
 #+AUTHOR: Brian Smith
@@ -11,26 +11,26 @@ STARS KEYWORD PRIORITY TITLE TAGS
 #+END_EXAMPLE
 
 #+NAME: org-syntax-stars-definition
-STARS is a string starting at column 0, containing at least one
+=STARS= is a string starting at column 0, containing at least one
 asterisk (and up to ~org-inlinetask-min-level~ if =org-inlinetask=
 library is loaded) and ended by a space character.  The number of
 asterisks is used to define the level of the headline.  It's the
 sole compulsory part of a headline.
 
 #+NAME: org-syntax-keyword-definition
-KEYWORD is a TODO keyword, which has to belong to the list defined
+=KEYWORD= is a =TODO= keyword, which has to belong to the list defined
 in ~org-todo-keywords-1~.  Case is significant.
 
 #+NAME: org-syntax-priority-definition
-PRIORITY is a priority cookie, i.e. a single letter preceded by
+=PRIORITY= is a priority cookie, i.e. a single letter preceded by
 a hash sign # and enclosed within square brackets.
 
 #+NAME: org-syntax-title-definition
-TITLE can be made of any character but a new line.  Though, it will
+=TITLE= can be made of any character but a new line.  Though, it will
 match after every other part have been matched.
 
 #+NAME: org-syntax-tags-definition
-TAGS is made of words containing any alpha-numeric character,
+=TAGS= is made of words containing any alpha-numeric character,
 underscore, at sign, hash sign or percent sign, and separated with
 colons.
 
@@ -48,7 +48,7 @@ Examples of valid headlines include:
 #+END_SRC
 
 #+NAME: org-syntax-title-comment-definition
-If the first word appearing in the title is "COMMENT", the headline
+If the first word appearing in the title is =COMMENT=, the headline
 will be considered as "commented".  Case is significant.
 
 #+NAME: org-syntax-title-footnote-section-definition
@@ -56,7 +56,7 @@ If its title is ~org-footnote-section~, it will be considered as
 a "footnote section".  Case is significant.
 
 #+NAME: org-syntax-tags-archive-definition
-If "ARCHIVE" is one of its tags, it will be considered as
+If =ARCHIVE= is one of its tags, it will be considered as
 "archived".  Case is significant.
 
 A headline contains directly one section (optionally), followed by
@@ -101,42 +101,40 @@ Its internal structure could be summarized as:
 
 **** Headline Regular Expressions
 
-#+NAME: headline-regex-js
-#+BEGIN_SRC org
-  ^([*]+(?=\s))((( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?|\s)
-#+END_SRC
+#+RESULTS: 
+: STARS KEYWORD PRIORITY TITLE TAGS
 
 #+RESULTS: headline-regex-js
 #+BEGIN_EXAMPLE
 ^([*]+(?=\s))((( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?|\s)
 #+END_EXAMPLE
 
-#+NAME: headline-regex-js-elisp
-#+BEGIN_SRC elisp
-  (concat (org-sbe STARS) (org-sbe KEYWORD) "?" (org-sbe PRIORITY) "?" (org-sbe TITLE) "?" (org-sbe TAGS) "?")
-#+END_SRC
-
-#+RESULTS: 
-: STARS KEYWORD PRIORITY TITLE TAGS
-
-: ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+))( (([:\\w@#%]+))+)?)?
-: ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+)?)( (([:\\w@#%]+))+)?)?
-: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
-: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
-: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))?
-
-
 *Headline Test 1 String*
 #+NAME: headline-test1
 : **** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:
 
-: (concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) (org-sbe TAGS))
-
+#+RESULTS: 
 #+BEGIN_SRC js
-  console.log(JSON.stringify(pattern))
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  "^([*]+(?=\\s))(( +)(TODO|DONE))?(( +)(\\[#[a-zA-Z]\\]))?(( +)(.+))?(( +)(([:\\w@#%]+))+)?"
+  /^([*]+(?=\s))(( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?/
+  [ '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+    '****',
+    ' DONE',
+    ' ',
+    'DONE',
+    ' [#A]',
+    ' ',
+    '[#A]',
+    ' *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+    ' ',
+    '*this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    index: 0,
+    input: '**** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:',
+    groups: undefined ]
 #+END_SRC
 
 ***** STARS
@@ -147,7 +145,7 @@ Its internal structure could be summarized as:
 #+END_SRC
 
 #+RESULTS: 
-:   STARS is a string starting at column 0, containing at least one
+:   =STARS= is a string starting at column 0, containing at least one
 :   asterisk (and up to ~org-inlinetask-min-level~ if =org-inlinetask=
 :   library is loaded) and ended by a space character.  The number of
 :   asterisks is used to define the level of the headline.  It's the
@@ -190,7 +188,7 @@ Its internal structure could be summarized as:
 #+END_SRC
 
 #+RESULTS: 
-:   KEYWORD is a TODO keyword, which has to belong to the list defined
+:   =KEYWORD= is a =TODO= keyword, which has to belong to the list defined
 :   in ~org-todo-keywords-1~.  Case is significant.
 
 #+RESULTS: 
@@ -215,7 +213,7 @@ Its internal structure could be summarized as:
 
 #+RESULTS: 
 :RESULTS:
-PRIORITY is a priority cookie, i.e. a single letter preceded by
+=PRIORITY= is a priority cookie, i.e. a single letter preceded by
 a hash sign # and enclosed within square brackets.
 :END:
 
@@ -243,7 +241,7 @@ a hash sign # and enclosed within square brackets.
 #+END_SRC
 
 #+RESULTS: 
-:   TITLE can be made of any character but a new line.  Though, it will
+:   =TITLE= can be made of any character but a new line.  Though, it will
 :   match after every other part have been matched.
 
 #+RESULTS: 
@@ -268,7 +266,7 @@ a hash sign # and enclosed within square brackets.
 - [ ] Add TITLE begins with =COMMENT= to regular expression
 
   #+RESULTS: 
-  :   If the first word appearing in the title is "COMMENT", the headline
+  :   If the first word appearing in the title is =COMMENT=, the headline
   :   will be considered as "commented".  Case is significant.
 
 - [ ] Add TITLE is =Footnotes= to regular expression
@@ -285,7 +283,7 @@ a hash sign # and enclosed within square brackets.
 #+END_SRC
 
 #+RESULTS: 
-:   TAGS is made of words containing any alpha-numeric character,
+:   =TAGS= is made of words containing any alpha-numeric character,
 :   underscore, at sign, hash sign or percent sign, and separated with
 :   colons.
 
@@ -319,7 +317,7 @@ a hash sign # and enclosed within square brackets.
 - [ ] Add =[:]ARCHIVE[:]= tag to regular expression 
 
   #+RESULTS: 
-  :   If "ARCHIVE" is one of its tags, it will be considered as
+  :   If =ARCHIVE= is one of its tags, it will be considered as
   :   "archived".  Case is significant.
 
 - [ ] Fix empty tag match, i.e. =::=, in regular expression
@@ -334,26 +332,22 @@ keywords", just above the element considered, no blank line
 allowed.
 
 Affiliated keywords are built upon one of the following patterns:
-"#+KEY: VALUE", "#+KEY[OPTIONAL]: VALUE" or "#+ATTR_BACKEND: VALUE".
+=#+KEY: VALUE=, =#+KEY[OPTIONAL]: VALUE= or =#+ATTR_BACKEND: VALUE=.
 
-KEY is either "CAPTION", "HEADER", "NAME", "PLOT" or "RESULTS"
+=KEY= is either =CAPTION=, =HEADER=, =NAME=, =PLOT= or =RESULTS=
 string.
 
-BACKEND is a string constituted of alpha-numeric characters, hyphens
+=BACKEND= is a string constituted of alpha-numeric characters, hyphens
 or underscores.
 
-OPTIONAL and VALUE can contain any character but a new line.  Only
-"CAPTION" and "RESULTS" keywords can have an optional value.
+=OPTIONAL= and =VALUE= can contain any character but a new line.  Only
+=CAPTION= and =RESULTS= keywords can have an optional value.
 
 An affiliated keyword can appear more than once if KEY is either
-"CAPTION" or "HEADER" or if its pattern is "#+ATTR_BACKEND: VALUE".
+=CAPTION= or =HEADER= or if its pattern is =#+ATTR_BACKEND: VALUE=.
 
-"CAPTION", "AUTHOR", "DATE" and "TITLE" keywords can contain objects
+=CAPTION=, =AUTHOR=, =DATE= and =TITLE= keywords can contain objects
 in their value and their optional value, if applicable.
-
-** Code
-
-*** Regular Expressions
 
 * Greater Elements
 Unless specified otherwise, greater elements can contain directly
@@ -372,19 +366,19 @@ CONTENTS
 ,#+END_NAME
 #+END_EXAMPLE
 
-NAME can contain any non-whitespace character.
+=NAME= can contain any non-whitespace character.
 
-PARAMETERS can contain any character other than new line, and can
+=PARAMETERS= can contain any character other than new line, and can
 be omitted.
 
-If NAME is "CENTER", it will be a "center block".  If it is
-"QUOTE", it will be a "quote block".
+If =NAME= is =CENTER=, it will be a "center block".  If it is
+=QUOTE=, it will be a "quote block".
 
 If the block is neither a center block, a quote block or a block
 element, it will be a "special block".
 
-CONTENTS can contain any element, except : a line =#+END_NAME= on
-its own.  Also lines beginning with STARS must be quoted by
+=CONTENTS= can contain any element, except : a line =#+END_NAME= on
+its own.  Also lines beginning with =STARS= must be quoted by
 a comma.
 
 *** Code
@@ -399,7 +393,7 @@ a comma.
 | CENTER                             |
 | QUOTE                              |
 
-- CENTER Block
+- *CENTER Block*
 
   - grammar-center-block-cson
 
@@ -436,7 +430,7 @@ a comma.
       }
     #+END_SRC
 
-- QUOTE Block
+- *QUOTE Block*
 
   - grammar-quote-block-cson
 
@@ -486,15 +480,10 @@ CONTENTS
 :END:
 #+END_EXAMPLE
 
-NAME can contain word-constituent characters, hyphens and
+=NAME= can contain word-constituent characters, hyphens and
 underscores.
 
-CONTENTS can contain any element but another drawer.
-
-*** Code
-
-**** Regular Expressions
-- 
+=CONTENTS= can contain any element but another drawer.
 ** Dynamic Blocks
 Pattern for dynamic blocks is:
 
@@ -504,15 +493,15 @@ CONTENTS
 ,#+END:
 #+END_EXAMPLE
 
-NAME cannot contain any whitespace character.
+=NAME= cannot contain any whitespace character.
 
-PARAMETERS can contain any character and can be omitted.
+=PARAMETERS= can contain any character and can be omitted.
 
 *** Code
 
 **** Regular Expressions
 
-- DYNAMIC Block
+- *DYNAMIC Block*
 
   - grammar-dynamic-block-cson
 
@@ -564,17 +553,13 @@ Pattern for footnote definitions is:
 
 It must start at column 0.
 
-LABEL is either a number or follows the pattern "fn:WORD", where
+=LABEL= is either a number or follows the pattern =fn:WORD=, where
 word can contain any word-constituent character, hyphens and
 underscore characters.
 
-CONTENTS can contain any element excepted another footnote
+=CONTENTS= can contain any element excepted another footnote
 definition.  It ends at the next footnote definition, the next
 headline, two consecutive empty lines or the end of buffer.
-
-*** Code
-
-**** Regular Expressions
 
 ** Inlinetasks
 Inlinetasks are defined by ~org-inlinetask-min-level~ contiguous
@@ -588,27 +573,23 @@ at column 0, followed by a space and the "END" string.
 Inlinetasks are recognized only after =org-inlinetask= library is
 loaded.
 
-*** Code
-
-**** Regular Expressions
-
 ** Plain Lists and Items
 Items are defined by a line starting with the following pattern:
-"BULLET COUNTER-SET CHECK-BOX TAG", in which only BULLET is
+=BULLET COUNTER-SET CHECK-BOX TAG=, in which only =BULLET= is
 mandatory.
 
-BULLET is either an asterisk, a hyphen, a plus sign character or
-follows either the pattern "COUNTER." or "COUNTER)".  In any case,
-BULLET is follwed by a whitespace character or line ending.
+=BULLET= is either an asterisk, a hyphen, a plus sign character or
+follows either the pattern =COUNTER.= or =COUNTER)=.  In any case,
+=BULLET= is follwed by a whitespace character or line ending.
 
-COUNTER can be a number or a single letter.
+=COUNTER= can be a number or a single letter.
 
-COUNTER-SET follows the pattern [@COUNTER].
+=COUNTER-SET= follows the pattern =[@COUNTER]=.
 
-CHECK-BOX is either a single whitespace character, a "X" character
+=CHECK-BOX= is either a single whitespace character, a =X= character
 or a hyphen, enclosed within square brackets.
 
-TAG follows "TAG-TEXT ::" pattern, where TAG-TEXT can contain any
+=TAG= follows =TAG-TEXT ::= pattern, where =TAG-TEXT= can contain any
 character but a new line.
 
 An item ends before the next item, the first line less or equally
@@ -668,7 +649,7 @@ PLANNING
 PROPERTYDRAWER
 #+END_EXAMPLE
 
-PROPERTYDRAWER follows the pattern
+=PROPERTYDRAWER= follows the pattern
 
 #+BEGIN_EXAMPLE
 :PROPERTIES:
@@ -676,15 +657,11 @@ CONTENTS
 :END:
 #+END_EXAMPLE
 
-where CONTENTS consists of zero or more node properties.
-
-*** Code
-
-**** Regular Expressions
+where =CONTENTS= consists of zero or more node properties.
 
 ** Tables
 Tables start at lines beginning with either a vertical bar or the
-"+-" string followed by plus or minus signs only, assuming they are
+=+-= string followed by plus or minus signs only, assuming they are
 not preceded with lines of the same type.  These lines can be
 indented.
 
@@ -698,12 +675,8 @@ a vertical line or a plus sign.  Such lines can be indented.
 An org table can only contain table rows.  A table.el table does
 not contain anything.
 
-One or more "#+TBLFM: FORMULAS" lines, where "FORMULAS" can contain
+One or more =#+TBLFM: FORMULAS= lines, where =FORMULAS= can contain
 any character, can follow an org table.
-
-*** Code
-
-**** Regular Expressions
 
 * Elements
 Elements cannot contain any other element.
@@ -719,7 +692,7 @@ Pattern for babel calls is:
 ,#+CALL: VALUE
 #+END_EXAMPLE
 
-VALUE is optional.  It can contain any character but a new line.
+=VALUE= is optional.  It can contain any character but a new line.
 
 *** Code
 
@@ -768,41 +741,41 @@ CONTENTS
 ,#+END_NAME
 #+END_EXAMPLE
 
-NAME cannot contain any whitespace character.
+=NAME= cannot contain any whitespace character.
 
-If NAME is "COMMENT", it will be a "comment block".  If it is
-"EXAMPLE", it will be an "example block".  If it is "EXPORT", it
+If =NAME= is =COMMENT=, it will be a "comment block".  If it is
+=EXAMPLE=, it will be an "example block".  If it is =EXPORT=, it
 will be an "export block".  If it is "SRC", it will be a "source
-block".  If it is "VERSE", it will be a "verse block".
+block".  If it is =VERSE=, it will be a "verse block".
 
-DATA can contain any character but a new line.  It can be ommitted,
+=DATA= can contain any character but a new line.  It can be ommitted,
 unless the block is either a "source block" or an "export block".
 
 In the latter case, it should be constituted of a single word.
 
-In the former case, it must follow the pattern "LANGUAGE SWITCHES
-ARGUMENTS", where SWITCHES and ARGUMENTS are optional.
+In the former case, it must follow the pattern =LANGUAGE SWITCHES ARGUMENTS=, 
+where =SWITCHES= and =ARGUMENTS= are optional.
 
-LANGUAGE cannot contain any whitespace character.
+=LANGUAGE= cannot contain any whitespace character.
 
-SWITCHES is made of any number of "SWITCH" patterns, separated by
+=SWITCHES= is made of any number of =SWITCH= patterns, separated by
 blank lines.
 
-A SWITCH pattern is either "-l "FORMAT"", where FORMAT can contain
-any character but a double quote and a new line, "-S" or "+S",
-where S stands for a single letter.
+A =SWITCH= pattern is either =-l "FORMAT"=, where =FORMAT= can contain
+any character but a double quote and a new line, =-S= or =+S=,
+where =S= stands for a single letter.
 
-ARGUMENTS can contain any character but a new line.
+=ARGUMENTS= can contain any character but a new line.
 
-CONTENTS can contain any character, including new lines.  Though it
+=CONTENTS= can contain any character, including new lines.  Though it
 will only contain Org objects if the block is a verse block.
-Otherwise, CONTENTS will not be parsed.
+Otherwise, =CONTENTS= will not be parsed.
 
 *** Code
 
 **** Regular Expressions
 
-- Blocks
+- *Blocks*
 
   #+NAME: elements-blocks-names
   | Element-Block-Name | Default-Export-Backend | Atom-Scope-Name |
@@ -820,7 +793,7 @@ Otherwise, CONTENTS will not be parsed.
   | TEXINFO            | True                   | source.texi     |
   | VERSE              | False                  |                 |
 
-  - COMMENT Block
+  - *COMMENT Block*
 
     - grammar-comment-block-cson
 
@@ -848,7 +821,7 @@ Otherwise, CONTENTS will not be parsed.
         }
       #+END_SRC
 
-  - EXAMPLE Block
+  - *EXAMPLE Block*
 
     - grammar-example-block-cson
 
@@ -879,7 +852,7 @@ Otherwise, CONTENTS will not be parsed.
         }
       #+END_SRC
 
-  - VERSE Block
+  - *VERSE Block*
 
     - grammar-verse-block-cson
 
@@ -910,9 +883,9 @@ Otherwise, CONTENTS will not be parsed.
         }
       #+END_SRC
 
-- Source Blocks
+- *Source Blocks*
 
-- Export Blocks
+- *Export Blocks*
 
   - Code
 
@@ -967,118 +940,486 @@ Otherwise, CONTENTS will not be parsed.
 
     - grammar-export-blocks-cson
 
-      #+NAME: grammar-export-blocks-cson
-      #+BEGIN_SRC ruby
-        results = []
-  
-        data.select{|s| s[2].length > 0}.map{|d|
-  
-          export_block_type = d[0]
-          atom_scope_name = d[2]
-  
-        export_block_template = <<-EOT
-        'export-block-#{export_block_type.downcase}':
-          'patterns':[
-              {
-        	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(#{export_block_type.downcase})$'
-        	'beginCaptures':
-        	  '1':
-        	    'name': 'punctuation.definition.string.org-mode'
-        	  '2':
-        	    'name': 'export-block.type.org-mode'
-        	'end': '^(?i)( *#[+]END_EXPORT)$'
-        	'endCaptures':
-        	  '0':
-        	    'name': 'punctuation.definition.string.org-mode'
-        	'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
-        	'patterns':[
-        	  {
-        	    'include': '#{atom_scope_name.downcase}'
-        	  }
-        	]
-              }
-          ]
-  
-        'export-block-#{export_block_type.downcase}-legacy':
-          'patterns':[
-              {
-        	'begin': '^(?i)( *#[+]BEGIN_#{export_block_type.upcase})$'
-        	'beginCaptures':
-        	  '1':
-        	    'name': 'punctuation.definition.string.org-mode'
-        	'end': '^(?i)( *#[+]END_#{export_block_type.upcase})$'
-        	'endCaptures':
-        	  '0':
-        	    'name': 'punctuation.definition.string.org-mode'
-        	'contentName': 'source.embedded.#{export_block_type.downcase}-org-mode'
-        	'patterns':[
-        	  {
-        	    'include': '#{atom_scope_name.downcase}'
-        	  }
-        	]
-              }
-          ]
-        EOT
-  
-          results << [export_block_template]
-        }
-        results.join("\n")
-      #+END_SRC
+      #+RESULTS: grammar-export-blocks-cson
+      #+BEGIN_EXAMPLE
+      'export-block-ascii':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(ascii)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.ascii-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.plain'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-ascii-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_ASCII)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_ASCII)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.ascii-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.plain'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-beamer':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(beamer)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.beamer-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.tex.latex'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-beamer-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_BEAMER)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_BEAMER)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.beamer-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.tex.latex'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-html':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(html)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.html-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.html.basic'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-html-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_HTML)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_HTML)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.html-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.html.basic'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-latex':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(latex)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.latex-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.tex.latex'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-latex-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_LATEX)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_LATEX)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.latex-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.tex.latex'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-man':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(man)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.man-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.roff'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-man-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_MAN)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_MAN)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.man-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.roff'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-md':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(md)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.md-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'source.gfm'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-md-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_MD)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_MD)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.md-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'source.gfm'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-odt':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(odt)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.odt-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.xml'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-odt-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_ODT)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_ODT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.odt-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'text.xml'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-texinfo':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_EXPORT +)(texinfo)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	  '2':
+      	    'name': 'export-block.type.org-mode'
+      	'end': '^(?i)( *#[+]END_EXPORT)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.texinfo-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'source.texi'
+      	  }
+      	]
+            }
+        ]
+
+      'export-block-texinfo-legacy':
+        'patterns':[
+            {
+      	'begin': '^(?i)( *#[+]BEGIN_TEXINFO)$'
+      	'beginCaptures':
+      	  '1':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'end': '^(?i)( *#[+]END_TEXINFO)$'
+      	'endCaptures':
+      	  '0':
+      	    'name': 'punctuation.definition.string.org-mode'
+      	'contentName': 'source.embedded.texinfo-org-mode'
+      	'patterns':[
+      	  {
+      	    'include': 'source.texi'
+      	  }
+      	]
+            }
+        ]
+      #+END_EXAMPLE
 
     - export-blocks-include-patterns-template-code
 
-      #+NAME: export-blocks-include-patterns-template-code
-      #+BEGIN_SRC ruby
-        include_patterns = []
-  
-        data.select{|s| s[2].length > 0}.map{|d|
-  
-          export_block_type = d[0]
-  
-          export_blocks_include_patterns_template = <<EOM
-        	{
-        	  'include': '#export-block-#{export_block_type.downcase}'
-        	}
-  
-        	{
-        	  'include': '#export-block-#{export_block_type.downcase}-legacy'
-        	}
-        EOM
-          include_patterns << [export_blocks_include_patterns_template]
-        }
-        include_patterns.join("\n")
-      #+END_SRC
+      #+RESULTS: export-blocks-include-patterns-template-code
+      #+BEGIN_EXAMPLE
+      {
+        'include': '#export-block-ascii'
+      }
+
+      {
+        'include': '#export-block-ascii-legacy'
+      }
+
+      {
+        'include': '#export-block-beamer'
+      }
+
+      {
+        'include': '#export-block-beamer-legacy'
+      }
+
+      {
+        'include': '#export-block-html'
+      }
+
+      {
+        'include': '#export-block-html-legacy'
+      }
+
+      {
+        'include': '#export-block-latex'
+      }
+
+      {
+        'include': '#export-block-latex-legacy'
+      }
+
+      {
+        'include': '#export-block-man'
+      }
+
+      {
+        'include': '#export-block-man-legacy'
+      }
+
+      {
+        'include': '#export-block-md'
+      }
+
+      {
+        'include': '#export-block-md-legacy'
+      }
+
+      {
+        'include': '#export-block-odt'
+      }
+
+      {
+        'include': '#export-block-odt-legacy'
+      }
+
+      {
+        'include': '#export-block-texinfo'
+      }
+
+      {
+        'include': '#export-block-texinfo-legacy'
+      }
+      #+END_EXAMPLE
 
     - grammar-export-blocks-include-cson
 
-      #+NAME: grammar-export-blocks-include-cson
-      #+BEGIN_SRC ruby
-        include_patterns = []
-  
-        data.select{|s| s[2].length > 0}.map{|d|
-  
-          export_block_type = d[0]
-  
-          export_blocks_include_patterns_template = <<EOM
-        	{
-        	  'include': '#export-block-#{export_block_type.downcase}'
-        	}
-  
-        	{
-        	  'include': '#export-block-#{export_block_type.downcase}-legacy'
-        	}
-        EOM
-          include_patterns << [export_blocks_include_patterns_template]
-        }
-        include_patterns.join("\n")
-  
-        export_blocks_include_template = <<EOT
-        'export-blocks':
-            'patterns': [
-        #{include_patterns.join("\n")}
-            ]
-        EOT
-      #+END_SRC
+      #+RESULTS: grammar-export-blocks-include-cson
+      #+BEGIN_EXAMPLE
+      'export-blocks':
+          'patterns': [
+      	{
+      	  'include': '#export-block-ascii'
+      	}
+
+      	{
+      	  'include': '#export-block-ascii-legacy'
+      	}
+
+      	{
+      	  'include': '#export-block-beamer'
+      	}
+
+      	{
+      	  'include': '#export-block-beamer-legacy'
+      	}
+
+      	{
+      	  'include': '#export-block-html'
+      	}
+
+      	{
+      	  'include': '#export-block-html-legacy'
+      	}
+
+      	{
+      	  'include': '#export-block-latex'
+      	}
+
+      	{
+      	  'include': '#export-block-latex-legacy'
+      	}
+
+      	{
+      	  'include': '#export-block-man'
+      	}
+
+      	{
+      	  'include': '#export-block-man-legacy'
+      	}
+
+      	{
+      	  'include': '#export-block-md'
+      	}
+
+      	{
+      	  'include': '#export-block-md-legacy'
+      	}
+
+      	{
+      	  'include': '#export-block-odt'
+      	}
+
+      	{
+      	  'include': '#export-block-odt-legacy'
+      	}
+
+      	{
+      	  'include': '#export-block-texinfo'
+      	}
+
+      	{
+      	  'include': '#export-block-texinfo-legacy'
+      	}
+
+          ]
+      #+END_EXAMPLE
 
 ** Clock, Diary Sexp and Planning
 A clock follows the pattern:
@@ -1087,20 +1428,20 @@ A clock follows the pattern:
 CLOCK: TIMESTAMP DURATION
 #+END_EXAMPLE
 
-Both TIMESTAMP and DURATION are optional.
+Both =TIMESTAMP= and =DURATION= are optional.
 
-TIMESTAMP is a timestamp object.
+=TIMESTAMP= is a timestamp object.
 
-DURATION follows the pattern:
+=DURATION= follows the pattern:
 
 #+BEGIN_EXAMPLE
 => HH:MM
 #+END_EXAMPLE
 
-HH is a number containing any number of digits.  MM is a two digit
+=HH= is a number containing any number of digits.  =MM= is a two digit
 numbers.
 
-A diary sexp is a line starting at column 0 with "%%(" string.  It
+A diary sexp is a line starting at column 0 with =%%(= string.  It
 can then contain any character besides a new line.
 
 A planning is an element with the following pattern:
@@ -1110,25 +1451,21 @@ HEADLINE
 PLANNING
 #+END_EXAMPLE
 
-where HEADLINE is a headline element and PLANNING is a line filled
-with INFO parts, where each of them follows the pattern:
+where =HEADLINE= is a headline element and =PLANNING= is a line filled
+with =INFO= parts, where each of them follows the pattern:
 
 #+BEGIN_EXAMPLE
 KEYWORD: TIMESTAMP
 #+END_EXAMPLE
 
-KEYWORD is either "DEADLINE", "SCHEDULED" or "CLOSED".  TIMESTAMP
+=KEYWORD= is either =DEADLINE=, =SCHEDULED= or =CLOSED=.  =TIMESTAMP=
 is a timestamp object.
 
-In particular, no blank line is allowed between PLANNING and
-HEADLINE.
-
-*** Code
-
-**** Regular Expressions
+In particular, no blank line is allowed between =PLANNING= and
+=HEADLINE=.
 
 ** Comments
-A "comment line" starts with a hash signe and a whitespace
+A "comment line" starts with a hash sign and a whitespace
 character or an end of line.
 
 Comments can contain any number of consecutive comment lines.
@@ -1137,22 +1474,24 @@ Comments can contain any number of consecutive comment lines.
 
 **** Regular Expressions
 
-- grammar-comment-line-cson
+- *Comment Line*
 
-  #+NAME: grammar-comment-line-cson
-  #+BEGIN_SRC css
-    'comment-line':
-      'patterns': [
-        {
-          'begin': '^ *# '
-          'end': '$'
-          'captures':
-    	'0':
-    	  'name': 'punctuation.definition.comment.org-mode'
-          'name': 'comment.line.org-mode'
-        }
-      ]
-  #+END_SRC
+  - grammar-comment-line-cson
+
+    #+NAME: grammar-comment-line-cson
+    #+BEGIN_SRC css
+      'comment-line':
+        'patterns': [
+          {
+            'begin': '^ *# '
+            'end': '$'
+            'captures':
+      	'0':
+      	  'name': 'punctuation.definition.comment.org-mode'
+            'name': 'comment.line.org-mode'
+          }
+        ]
+    #+END_SRC
 
   - grammar-comment-line-include-cson
 
@@ -1170,17 +1509,9 @@ or an end of line.
 Fixed width areas can contain any number of consecutive fixed-width
 lines.
 
-*** Code
-
-**** Regular Expressions
-
 ** Horizontal Rules
 A horizontal rule is a line made of at least 5 consecutive hyphens.
 It can be indented.
-
-*** Code
-
-**** Regular Expressions
 
 ** Keywords
 Keywords follow the syntax:
@@ -1189,17 +1520,13 @@ Keywords follow the syntax:
 ,#+KEY: VALUE
 #+END_EXAMPLE
 
-KEY can contain any non-whitespace character, but it cannot be
-equal to "CALL" or any affiliated keyword.
+=KEY= can contain any non-whitespace character, but it cannot be
+equal to =CALL= or any affiliated keyword.
 
-VALUE can contain any character excepted a new line.
+=VALUE= can contain any character excepted a new line.
 
 If KEY belongs to ~org-element-document-properties~, VALUE can
 contain objects.
-
-*** Code
-
-**** Regular Expressions
 
 ** LaTeX Environments
 Pattern for LaTeX environments is:
@@ -1208,13 +1535,9 @@ Pattern for LaTeX environments is:
 \begin{NAME} CONTENTS \end{NAME}
 #+END_EXAMPLE
 
-NAME is constituted of alpha-numeric or asterisk characters.
+=NAME= is constituted of alpha-numeric or asterisk characters.
 
-CONTENTS can contain anything but the "\end{NAME}" string.
-
-*** Code
-
-**** Regular Expressions
+=CONTENTS= can contain anything but the =\end{NAME}= string.
 
 ** Node Properties
 Node properties can only exist in property drawers.  Their pattern
@@ -1230,14 +1553,10 @@ is any of the following
 :NAME+:
 #+END_EXAMPLE
 
-NAME can contain any non-whitespace character but cannot end with
+=NAME= can contain any non-whitespace character but cannot end with
 a plus sign.  It cannot be the empty string.
 
-VALUE can contain anything but a newline character.
-
-*** Code
-
-**** Regular Expressions
+=VALUE= can contain anything but a newline character.
 
 ** Paragraphs
 Paragraphs are the default element, which means that any
@@ -1247,10 +1566,6 @@ Empty lines and other elements end paragraphs.
 
 Paragraphs can contain every type of object.
 
-*** Code
-
-**** Regular Expressions
-
 ** Table Rows
 A table rows is either constituted of a vertical bar and any number
 of table cells or a vertical bar followed by a hyphen.
@@ -1259,10 +1574,6 @@ In the first case the table row has the "standard" type.  In the
 second case, it has the "rule" type.
 
 Table rows can only exist in tables.
-
-*** Code
-
-**** Regular Expressions
 
 * Objects
 Objects can only be found in the following locations:
@@ -1288,11 +1599,11 @@ An entity follows the pattern:
 \NAME POST
 #+END_EXAMPLE
 
-where NAME has a valid association in either ~org-entities~ or
+where =NAME= has a valid association in either ~org-entities~ or
 ~org-entities-user~.
 
-POST is the end of line, "{}" string, or a non-alphabetical
-character.  It isn't separated from NAME by a whitespace character.
+=POST= is the end of line, ={}= string, or a non-alphabetical
+character.  It isn't separated from =NAME= by a whitespace character.
 
 A LaTeX fragment can follow multiple patterns:
 
@@ -1305,10 +1616,10 @@ PRE$CHAR$POST
 PRE$BORDER1 BODY BORDER2$POST
 #+END_EXAMPLE
 
-NAME contains alphabetical characters only and must not have an
+=NAME= contains alphabetical characters only and must not have an
 association in either ~org-entities~ or ~org-entities-user~.
 
-BRACKETS is optional, and is not separated from NAME with white
+=BRACKETS= is optional, and is not separated from =NAME= with white
 spaces.  It may contain any number of the following patterns:
 
 #+BEGIN_EXAMPLE
@@ -1316,29 +1627,29 @@ spaces.  It may contain any number of the following patterns:
 {CONTENTS2}
 #+END_EXAMPLE
 
-where CONTENTS1 can contain any characters excepted "{" "}", "["
-"]" and newline and CONTENTS2 can contain any character excepted
-"{", "}" and newline.
+where =CONTENTS1= can contain any characters excepted ={= =}=, =[=
+=]= and newline and =CONTENTS2= can contain any character excepted
+={=, =}= and newline.
 
-CONTENTS can contain any character but cannot contain "\)" in the
-second template or "\]" in the third one.
+=CONTENTS= can contain any character but cannot contain =\)= in the
+second template or =\]= in the third one.
 
-PRE is either the beginning of line or a character different from
+=PRE= is either the beginning of line or a character different from
 ~$~.
 
-CHAR is a non-whitespace character different from ~.~, ~,~, ~?~,
+=CHAR= is a non-whitespace character different from ~.~, ~,~, ~?~,
 ~;~, ~'~ or a double quote.
 
-POST is any punctuation (including parentheses and quotes) or space
+=POST= is any punctuation (including parentheses and quotes) or space
 character, or the end of line.
 
-BORDER1 is a non-whitespace character different from ~.~, ~,~, ~;~
+=BORDER1= is a non-whitespace character different from ~.~, ~,~, ~;~
 and ~$~.
 
-BODY can contain any character excepted ~$~, and may not span over
+=BODY= can contain any character excepted ~$~, and may not span over
 more than 3 lines.
 
-BORDER2 is any non-whitespace character different from ~,~, ~.~ and
+=BORDER2= is any non-whitespace character different from ~,~, ~.~ and
 ~$~.
 
 -----
@@ -1352,10 +1663,6 @@ They are slow to parse, fragile, redundant and imply false
 positives.  --- ngz
 #+END_QUOTE
 
-*** Code
-
-**** Regular Expressions
-
 ** Export Snippets
 Patter for export snippets is:
 
@@ -1363,13 +1670,9 @@ Patter for export snippets is:
 @@NAME:VALUE@@
 #+END_EXAMPLE
 
-NAME can contain any alpha-numeric character and hyphens.
+=NAME= can contain any alpha-numeric character and hyphens.
 
-VALUE can contain anything but "@@" string.
-
-*** Code
-
-**** Regular Expressions
+=VALUE= can contain anything but =@@= string.
 
 ** Footnote References
 There are four patterns for footnote references:
@@ -1380,20 +1683,16 @@ There are four patterns for footnote references:
 [fn::DEFINITION]
 #+END_EXAMPLE
 
-LABEL can contain any word constituent character, hyphens and
+=LABEL= can contain any word constituent character, hyphens and
 underscores.
 
-DEFINITION can contain any character.  Though opening and closing
+=DEFINITION= can contain any character.  Though opening and closing
 square brackets must be balanced in it.  It can contain any object
 encountered in a paragraph, even other footnote references.
 
 If the reference follows the second pattern, it is called an
 "inline footnote".  If it follows the third one, i.e. if LABEL is
 omitted, it is an "anonymous footnote".
-
-*** Code
-
-**** Regular Expressions
 
 ** Inline Babel Calls and Source Blocks
 Inline Babel calls follow any of the following patterns:
@@ -1403,11 +1702,11 @@ call_NAME(ARGUMENTS)
 call_NAME[HEADER](ARGUMENTS)[HEADER]
 #+END_EXAMPLE
 
-NAME can contain any character besides ~(~, ~)~ and "\n".
+=NAME= can contain any character besides ~(~, ~)~ and "\n".
 
-HEADER can contain any character besides ~]~ and "\n".
+=HEADER= can contain any character besides ~]~ and "\n".
 
-ARGUMENTS can contain any character besides ~)~ and "\n".
+=ARGUMENTS= can contain any character besides ~)~ and "\n".
 
 Inline source blocks follow any of the following patterns:
 
@@ -1416,23 +1715,15 @@ src_LANG{BODY}
 src_LANG[OPTIONS]{BODY}
 #+END_EXAMPLE
 
-LANG can contain any non-whitespace character.
+=LANG= can contain any non-whitespace character.
 
-OPTIONS and BODY can contain any character but "\n".
-
-*** Code
-
-**** Regular Expressions
+=OPTIONS= and BODY can contain any character but "\n".
 
 ** Line Breaks
-A line break consists in "\\SPACE" pattern at the end of an
+A line break consists in =\\SPACE= pattern at the end of an
 otherwise non-empty line.
 
-SPACE can contain any number of tabs and spaces, including 0.
-
-*** Code
-
-**** Regular Expressions
+=SPACE= can contain any number of tabs and spaces, including 0.
 
 ** Links
 There are 4 major types of links:
@@ -1444,31 +1735,31 @@ PRE2 PROTOCOL:PATH2 POST2 ("plain" link)
 [[PATH3]DESCRIPTION]      ("regular" link)
 #+END_EXAMPLE
 
-PRE1 and POST1, when they exist, are non alphanumeric characters.
+=PRE1= and =POST1=, when they exist, are non alphanumeric characters.
 
-RADIO is a string matched by some radio target.  It may contain
+=RADIO= is a string matched by some radio target.  It may contain
 entities, latex fragments, subscript and superscript.
 
-PROTOCOL is a string among ~org-link-types~.
+=PROTOCOL= is a string among ~org-link-types~.
 
-PATH can contain any character but ~]~, ~<~, ~>~ and ~\n~.
+=PATH= can contain any character but ~]~, ~<~, ~>~ and ~\n~.
 
-PRE2 and POST2, when they exist, are non word constituent
+=PRE2= and =POST2=, when they exist, are non word constituent
 characters.
 
-PATH2 can contain any non-whitespace character excepted ~(~, ~)~,
+=PATH2= can contain any non-whitespace character excepted ~(~, ~)~,
 ~<~ and ~>~.  It must end with a word-constituent character, or any
 non-whitespace non-punctuation character followed by ~/~.
 
-DESCRIPTION must be enclosed within square brackets.  It can
+=DESCRIPTION= must be enclosed within square brackets.  It can
 contain any character but square brackets.  It can contain any
 object found in a paragraph excepted a footnote reference, a radio
 target and a line break.  It cannot contain another link either,
 unless it is a plain or angular link.
 
-DESCRIPTION is optional.
+=DESCRIPTION= is optional.
 
-PATH3 is built according to the following patterns:
+=PATH3= is built according to the following patterns:
 
 #+BEGIN_EXAMPLE
 FILENAME           ("file" type)
@@ -1480,13 +1771,13 @@ id:ID              ("id" type)
 FUZZY              ("fuzzy" type)
 #+END_EXAMPLE
 
-FILENAME is a file name, either absolute or relative.
+=FILENAME= is a file name, either absolute or relative.
 
-PATH4 can contain any character besides square brackets.
+=PATH4= can contain any character besides square brackets.
 
-ID is constituted of hexadecimal numbers separated with hyphens.
+=ID= is constituted of hexadecimal numbers separated with hyphens.
 
-PATH4, CUSTOM-ID, CODEREF and FUZZY can contain any character
+=PATH4=, =CUSTOM-ID=, =CODEREF= and =FUZZY= can contain any character
 besides square brackets.
 
 *** Code
@@ -1523,28 +1814,25 @@ besides square brackets.
 
 ****** Grammar
 
-#+NAME: gen-grammar-radio-links-cson
-#+BEGIN_SRC ruby
-  object_link_template = <<-EOT
-    'object-#{object_link_type.downcase}':
-      'patterns':[
-  	{
-  	  'match': #{object_link_pattern.inspect()}
-  	  'captures':
-  	    '0':
-  	      'name': 'markup.underline.link.org-mode'
-  	    '1':
-  	      'name': 'punctuation.definition.radio-link.begin.org-mode'
-  	    '2':
-  	      'name': 'markup.radio-link.org-mode'
-  	    '3':
-  	      'name': 'punctuation.definition.radio-link.end.org-mode'
-  	}
-      ]
-  EOT
-#+END_SRC
-
 #+NAME: grammar-radio-links-cson
+#+RESULTS: gen-grammar-radio-links-cson
+#+BEGIN_EXAMPLE
+'object-radio-link':
+  'patterns':[
+      {
+        'match': "(<<<)([\\w \\t :;'\"|\\\\~`!@\#$%^&*(){}\\[\\]=\\-_+|.,?/]+)(>>>)"
+        'captures':
+          '0':
+            'name': 'markup.underline.link.org-mode'
+          '1':
+            'name': 'punctuation.definition.radio-link.begin.org-mode'
+          '2':
+            'name': 'markup.radio-link.org-mode'
+          '3':
+            'name': 'punctuation.definition.radio-link.end.org-mode'
+      }
+  ]
+#+END_EXAMPLE
 
 ***** Angle, Plain and Regular Links
 
@@ -1611,14 +1899,10 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 ****** Angle Links
 
-#+NAME: angle-links-js
-#+BEGIN_SRC css
-  ([<]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]<>\n]+)([>]{2})
-#+END_SRC
+#+RESULTS: angle-links-js
+: ([<]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]<>\n]+)([>]{2})
 
 ******* PATH
-
-: PATH can contain any character but ~]~, ~<~, ~>~ and ~\n~.
 
 #+NAME: PATH
 #+BEGIN_SRC css
@@ -1627,28 +1911,25 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 ******* Grammar
 
-#+NAME: gen-grammar-angle-links-cson
-#+BEGIN_SRC ruby
-  object_link_template = <<-EOT
-    'object-#{object_link_type.downcase}':
-      'patterns':[
-  	{
-  	  'match': #{object_link_pattern.inspect()}
-  	  'captures':
-  	    '0':
-  	      'name': 'markup.underline.link.org-mode'
-  	    '1':
-  	      'name': 'punctuation.definition.angle-link.begin.org-mode'
-  	    '4':
-  	      'name': 'markup.angle-link.org-mode'
-  	    '5':
-  	      'name': 'punctuation.definition.angle-link.end.org-mode'
-  	}
-      ]
-  EOT
-#+END_SRC
-
 #+NAME: grammar-angle-links-cson
+#+RESULTS: gen-grammar-angle-links-cson
+#+BEGIN_EXAMPLE
+'object-angle-link':
+  'patterns':[
+      {
+        'match': "([<]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\\]<>\\n]+)([>]{2})"
+        'captures':
+          '0':
+            'name': 'markup.underline.link.org-mode'
+          '1':
+            'name': 'punctuation.definition.angle-link.begin.org-mode'
+          '4':
+            'name': 'markup.angle-link.org-mode'
+          '5':
+            'name': 'punctuation.definition.angle-link.end.org-mode'
+      }
+  ]
+#+END_EXAMPLE
 
 ******* Implementation Notes about Angle Link
 
@@ -1656,18 +1937,24 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 ******* Tests - Angle Link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([<]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]<>\n]+)([>]{2})/
+  [ '<<target>>',
+    '<<',
+    undefined,
+    undefined,
+    'target',
+    '>>',
+    index: 2,
+    input: '- <<target>>another item',
+    groups: undefined ]
 #+END_SRC
 
 ****** <<<Plain Links>>>
 
-#+NAME: plain-links-js
-#+BEGIN_SRC css
-  ([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|/)))(?![\]]{1,2})([^\]\[\w]+?)?
-#+END_SRC
+#+RESULTS: plain-links-js
+: ([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|/)))(?![\]]{1,2})([^\]\[\w]+?)?
 
 ******* Implementation Notes
 
@@ -1698,427 +1985,784 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 ******** DONE Web Case 1
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'http://www.astro.uva.nl/~dominik ',
+    undefined,
+    'http:',
+    'http',
+    '//www.astro.uva.nl/~dominik',
+    'k',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'http://www.astro.uva.nl/~dominik             on the web',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Web Case 2
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ ' http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World ',
+    ' ',
+    'http:',
+    'http',
+    '//www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World',
+    'd',
+    undefined,
+    ' ',
+    index: 15,
+    input: 'put text before http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Web Case 3
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ ' \nhttp://www.astro.uva.nl/~dominik ',
+    ' \n',
+    'http:',
+    'http',
+    '//www.astro.uva.nl/~dominik',
+    'k',
+    undefined,
+    ' ',
+    index: 15,
+    input: 'put text before \nhttp://www.astro.uva.nl/~dominik             on the web',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE DOI for an electronic resource
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'doi:10.1000/182 ',
+    undefined,
+    'doi:',
+    'doi',
+    '10.1000/182',
+    '2',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'doi:10.1000/182                              DOI for an electronic resource',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE file, absolute path
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:/home/dominik/images/jupiter.jpg ',
+    undefined,
+    'file:',
+    'file',
+    '/home/dominik/images/jupiter.jpg',
+    'g',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'file:/home/dominik/images/jupiter.jpg        file, absolute path',
+    groups: undefined ]
 #+END_SRC
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  null
 #+END_SRC
 
 ******** DONE file, relative path
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:papers/last.pdf ',
+    undefined,
+    'file:',
+    'file',
+    'papers/last.pdf',
+    'f',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'file:papers/last.pdf                         file, relative path',
+    groups: undefined ]
 #+END_SRC
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  null
 #+END_SRC
 
 ******** DONE file, path on remote machine
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:/ssh:myself@some.where:papers/last.pdf ',
+    undefined,
+    'file:',
+    'file',
+    '/ssh:myself@some.where:papers/last.pdf',
+    'f',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine',
+    groups: undefined ]
 #+END_SRC
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  null
 #+END_SRC
 
 ******** DONE file, jump to line number
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:sometextfile::NNN ',
+    undefined,
+    'file:',
+    'file',
+    'sometextfile::NNN',
+    'N',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'file:sometextfile::NNN                       file, jump to line number',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE another Org file
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:projects.org ',
+    undefined,
+    'file:',
+    'file',
+    'projects.org',
+    'g',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'file:projects.org                            another Org file',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE text search in Org file
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:projects.org::some ',
+    undefined,
+    'file:',
+    'file',
+    'projects.org::some',
+    'e',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'file:projects.org::some words                text search in Org file(31)',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE heading search in Org file
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:projects.org::*task ',
+    undefined,
+    'file:',
+    'file',
+    'projects.org::*task',
+    'k',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'file:projects.org::*task title               heading search in Org file(32)',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE open in doc-view mode at page
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'docview:papers/last.pdf::NNN ',
+    undefined,
+    'docview:',
+    'docview',
+    'papers/last.pdf::NNN',
+    'N',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'docview:papers/last.pdf::NNN                 open in doc-view mode at page',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Link to heading by ID
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'id:B7423F4D-2E8A-471B-8810-C40F074717E9 ',
+    undefined,
+    'id:',
+    'id',
+    'B7423F4D-2E8A-471B-8810-C40F074717E9',
+    '9',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'id:B7423F4D-2E8A-471B-8810-C40F074717E9      Link to heading by ID',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Usenet link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'news:comp.emacs ',
+    undefined,
+    'news:',
+    'news',
+    'comp.emacs',
+    's',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'news:comp.emacs                              Usenet link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Mail link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'mailto:adent@galaxy.net ',
+    undefined,
+    'mailto:',
+    'mailto',
+    'adent@galaxy.net',
+    't',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'mailto:adent@galaxy.net                      Mail link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE MH-E folder link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'mhe:folder ',
+    undefined,
+    'mhe:',
+    'mhe',
+    'folder',
+    'r',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'mhe:folder                                   MH-E folder link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE MH-E message link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'mhe:folder#id ',
+    undefined,
+    'mhe:',
+    'mhe',
+    'folder#id',
+    'd',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'mhe:folder#id                                MH-E message link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE RMAIL folder link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'rmail:folder ',
+    undefined,
+    'rmail:',
+    'rmail',
+    'folder',
+    'r',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'rmail:folder                                 RMAIL folder link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE RMAIL message link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'rmail:folder#id ',
+    undefined,
+    'rmail:',
+    'rmail',
+    'folder#id',
+    'd',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'rmail:folder#id                              RMAIL message link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Gnus group link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'gnus:group ',
+    undefined,
+    'gnus:',
+    'gnus',
+    'group',
+    'p',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'gnus:group                                   Gnus group link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Gnus article link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'gnus:group#id ',
+    undefined,
+    'gnus:',
+    'gnus',
+    'group#id',
+    'd',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'gnus:group#id                                Gnus article link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE BBDB link (with regexp)
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'bbdb:R.*Stallman ',
+    undefined,
+    'bbdb:',
+    'bbdb',
+    'R.*Stallman',
+    'n',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'bbdb:R.*Stallman                             BBDB link (with regexp)',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE IRC link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'irc:/irc.com/#emacs/bob ',
+    undefined,
+    'irc:',
+    'irc',
+    '/irc.com/#emacs/bob',
+    'b',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'irc:/irc.com/#emacs/bob                      IRC link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Info node or index link
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'info:org#External ',
+    undefined,
+    'info:',
+    'info',
+    'org#External',
+    'l',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'info:org#External links                      Info node or index link',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE A shell command
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'shell:ls ',
+    undefined,
+    'shell:',
+    'shell',
+    'ls',
+    's',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'shell:ls *.org                               A shell command',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Interactive Elisp command
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'elisp:org-agenda ',
+    undefined,
+    'elisp:',
+    'elisp',
+    'org-agenda',
+    'a',
+    undefined,
+    ' ',
+    index: 0,
+    input: 'elisp:org-agenda                             Interactive Elisp command',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Elisp form to evaluate
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  null
 #+END_SRC
 
 ******** DONE Inside Verbatim Case 1
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  null
 #+END_SRC
 
 ******** DONE Inside Verbatim Case 2
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  null
 #+END_SRC
 
 ******** DONE Inside Brackets 1
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'https://www.google.co',
+    undefined,
+    'https:',
+    'https',
+    '//www.google.co',
+    'o',
+    undefined,
+    undefined,
+    index: 2,
+    input: '[[https://www.google.com]]',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Inside Brackets 2
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'https://www.google.co',
+    undefined,
+    'https:',
+    'https',
+    '//www.google.co',
+    'o',
+    undefined,
+    undefined,
+    index: 2,
+    input: '[[https://www.google.com][Google Search]]',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Inside Brackets 3
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:links.or',
+    undefined,
+    'file:',
+    'file',
+    'links.or',
+    'r',
+    undefined,
+    undefined,
+    index: 2,
+    input: '[[file:links.org]]',
+    groups: undefined ]
 #+END_SRC
 
 ******** DONE Inside Brackets 4
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
-#+END_SRC
-
-******** zzz Empty Test Plain Link
-
-#+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([^\[\]\w]+?)?(?![\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\]\[ \t\n()<>]+(?![\]\[]+)(?:([\w0-9_]+)|([^\]\[\w \t\n]|\/)))(?![\]]{1,2})([^\]\[\w]+?)?/
+  [ 'file:links.or',
+    undefined,
+    'file:',
+    'file',
+    'links.or',
+    'r',
+    undefined,
+    undefined,
+    index: 2,
+    input: '[[file:links.org][This Code Example]]',
+    groups: undefined ]
 #+END_SRC
 
 ******* Grammar
 
-#+NAME: gen-grammar-plain-links-cson
-#+BEGIN_SRC ruby
-  object_link_template = <<-EOT
-    'object-#{object_link_type.downcase}':
-      'patterns':[
-  	{
-  	  'match': #{object_link_pattern.inspect()}
-  	  'captures':
-  	    '1':
-  	      'name': 'punctuation.definition.plain-link.begin.org-mode'
-  	    '2':
-  	      'name': 'markup.link.protocol.plain-link.org-mode'
-  	    '4':
-  	      'name': 'markup.link.path.plain-link.org-mode'
-  	    '7':
-  	      'name': 'punctuation.definition.plain-link.end.org-mode'
-  	}
-      ]
-  EOT
-#+END_SRC
-
 #+NAME: grammar-plain-links-cson
+#+RESULTS: gen-grammar-plain-links-cson
+#+BEGIN_EXAMPLE
+'object-plain-link':
+  'patterns':[
+      {
+        'match': "([^\\[\\]\\w]+?)?(?![\\[]{2})((b(?:bdb|ibtex)|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)([^\\]\\[ \\t\\n()<>]+(?![\\]\\[]+)(?:([\\w0-9_]+)|([^\\]\\[\\w \\t\\n]|/)))(?![\\]]{1,2})([^\\]\\[\\w]+?)?"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.plain-link.begin.org-mode'
+          '2':
+            'name': 'markup.link.protocol.plain-link.org-mode'
+          '4':
+            'name': 'markup.link.path.plain-link.org-mode'
+          '7':
+            'name': 'punctuation.definition.plain-link.end.org-mode'
+      }
+  ]
+#+END_EXAMPLE
 
 ****** Regular links
 
-#+NAME: org-bracket-link-analytic-regexp++-js
-: ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
+- org-bracket-link-analytic-regexp++-js
 
-#+BEGIN_SRC css
-  ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
-#+END_SRC
+  #+NAME: org-bracket-link-analytic-regexp++-js
+  : ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
 
+- regular-links-js
 
-#+NAME: regular-links-js
-#+BEGIN_SRC css
-  ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
-#+END_SRC
+  #+NAME: regular-links-js
+  #+BEGIN_SRC css
+    ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
+  #+END_SRC
 
 ******* Tests - Regular Links
 ******** Web Case 1
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
+  [ '[[https://www.google.com]]',
+    '[',
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    '[',
+    'https',
+    ':',
+    '//www.google.com',
+    ']',
+    ']',
+    index: 0,
+    input: '[[https://www.google.com]]',
+    groups: undefined ]
 #+END_SRC
 
 
 ******** Web Case 2
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
+  [ '[[https://www.google.com][Google Search]]',
+    '[',
+    '[https://www.google.com]',
+    '[',
+    'https',
+    ':',
+    '//www.google.com',
+    ']',
+    '[Google Search]',
+    '[',
+    'Google Search',
+    ']',
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ']',
+    index: 0,
+    input: '[[https://www.google.com][Google Search]]',
+    groups: undefined ]
 #+END_SRC
 
 
 ******** File Case 1
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
+  [ '[[file:links.org]]',
+    '[',
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    '[',
+    'file',
+    ':',
+    'links.org',
+    ']',
+    ']',
+    index: 0,
+    input: '[[file:links.org]]',
+    groups: undefined ]
 #+END_SRC
 
 
 ******** File Case 2
 
+#+RESULTS: 
 #+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
-#+END_SRC
-
-******** zzz Empty Test Regular Link
-
-#+BEGIN_SRC js
-  let re = new RegExp(pattern);
-  console.log(re)
-  console.log(data.match(re))
+  /([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])/
+  [ '[[file:links.org][This Code Example]]',
+    '[',
+    '[file:links.org]',
+    '[',
+    'file',
+    ':',
+    'links.org',
+    ']',
+    '[This Code Example]',
+    '[',
+    'This Code Example',
+    ']',
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ']',
+    index: 0,
+    input: '[[file:links.org][This Code Example]]',
+    groups: undefined ]
 #+END_SRC
 
 ******* Grammar
-#+NAME: gen-grammar-regular-links-cson
-#+BEGIN_SRC ruby
-  object_link_template = <<-EOT
-    'object-#{object_link_type.downcase}':
-      'patterns':[
-  	{
-  	  'match': #{object_link_pattern.inspect()}
-  	  'captures':
-  	    '0':
-  	      'name': 'markup.underline.link.org-mode'
-  	    '1':
-  	      'name': 'punctuation.definition.regular-link.begin.display-none.org-mode'
-  	    '2':
-  	      'name': 'meta.regular-link.meta-path3.display-none.org-mode'
-  	    '3':
-  	      'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
-  	    '4':
-  	      'name': 'markup.link.protocol.regular-link.org-mode'
-  	    '6':
-  	      'name': 'markup.link.path.regular-link.org-mode'
-  	    '7':
-  	      'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
-  	    '8':
-  	      'name': 'meta.regular-link.meta-description.org-mode'
-  	    '9':
-  	      'name': 'punctuation.definition.regular-link.begin.meta-description.display-none.org-mode'
-  	    '10':
-  	      'name': 'markup.link.description.regular-link.org-mode'
-  	    '11':
-  	      'name': 'punctuation.definition.regular-link.end.meta-description.display-none.org-mode'
-  	    '12':
-  	      'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
-  	    '13':
-  	      'name': 'markup.link.protocol.regular-link.org-mode'
-  	    '14':
-  	      'name': 'punctuation.definition.regular-link.meta-path3.org-mode'
-  	    '15':
-  	      'name': 'markup.link.path.regular-link.org-mode'
-  	    '16':
-  	      'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
-  	    '17':
-  	      'name': 'punctuation.definition.regular-link.end.display-none.org-mode'
-  	}
-      ]
-  EOT
-#+END_SRC
-
 #+NAME: grammar-regular-links-cson
+#+RESULTS: gen-grammar-regular-links-cson
+#+BEGIN_EXAMPLE
+'object-regular-link':
+  'patterns':[
+      {
+        'match': "([\\[])(?:(([\\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\\]]+)([\\]]))(([\\[])([^\\]]+)([\\]]))|(?:([\\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\\]]+)([\\]])))([\\]])"
+        'captures':
+          '0':
+            'name': 'markup.underline.link.org-mode'
+          '1':
+            'name': 'punctuation.definition.regular-link.begin.display-none.org-mode'
+          '2':
+            'name': 'meta.regular-link.meta-path3.display-none.org-mode'
+          '3':
+            'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+          '4':
+            'name': 'markup.link.protocol.regular-link.org-mode'
+          '6':
+            'name': 'markup.link.path.regular-link.org-mode'
+          '7':
+            'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
+          '8':
+            'name': 'meta.regular-link.meta-description.org-mode'
+          '9':
+            'name': 'punctuation.definition.regular-link.begin.meta-description.display-none.org-mode'
+          '10':
+            'name': 'markup.link.description.regular-link.org-mode'
+          '11':
+            'name': 'punctuation.definition.regular-link.end.meta-description.display-none.org-mode'
+          '12':
+            'name': 'punctuation.definition.regular-link.begin.meta-path3.display-none.org-mode'
+          '13':
+            'name': 'markup.link.protocol.regular-link.org-mode'
+          '14':
+            'name': 'punctuation.definition.regular-link.meta-path3.org-mode'
+          '15':
+            'name': 'markup.link.path.regular-link.org-mode'
+          '16':
+            'name': 'punctuation.definition.regular-link.end.meta-path3.display-none.org-mode'
+          '17':
+            'name': 'punctuation.definition.regular-link.end.display-none.org-mode'
+      }
+  ]
+#+END_EXAMPLE
 
 ** Macros
 Macros follow the pattern:
@@ -2127,16 +2771,12 @@ Macros follow the pattern:
 {{{NAME(ARGUMENTS)}}}
 #+END_EXAMPLE
 
-NAME must start with a letter and can be followed by any number of
+=NAME= must start with a letter and can be followed by any number of
 alpha-numeric characters, hyphens and underscores.
 
-ARGUMENTS can contain anything but "}}}" string.  Values within
-ARGUMENTS are separated by commas.  Non-separating commas have to
+=ARGUMENTS= can contain anything but =}}}= string.  Values within
+=ARGUMENTS= are separated by commas.  Non-separating commas have to
 be escaped with a backslash character.
-
-*** Code
-
-**** Regular Expressions
 
 ** Targets and Radio Targets
 Radio targets follow the pattern:
@@ -2145,7 +2785,7 @@ Radio targets follow the pattern:
 <<<CONTENTS>>>
 #+END_EXAMPLE
 
-CONTENTS can be any character besides ~<~, ~>~ and "\n".  It cannot
+=CONTENTS= can be any character besides ~<~, ~>~ and =\n=.  It cannot
 start or end with a whitespace character.  As far as objects go, it
 can contain text markup, entities, latex fragments, subscript and
 superscript only.
@@ -2156,13 +2796,9 @@ Targets follow the pattern:
 <<TARGET>>
 #+END_EXAMPLE
 
-TARGET can contain any character besides ~<~, ~>~ and "\n".  It
+=TARGET= can contain any character besides ~<~, ~>~ and =\n=.  It
 cannot start or end with a whitespace character.  It cannot contain
 any object.
-
-*** Code
-
-**** Regular Expressions
 
 ** Statistics Cookies
 Statistics cookies follow either pattern:
@@ -2172,11 +2808,7 @@ Statistics cookies follow either pattern:
 [NUM1/NUM2]
 #+END_EXAMPLE
 
-PERCENT, NUM1 and NUM2 are numbers or the empty string.
-
-*** Code
-
-**** Regular Expressions
+=PERCENT=, =NUM1= and =NUM2= are numbers or the empty string.
 
 ** Subscript and Superscript
 Pattern for subscript is:
@@ -2191,30 +2823,26 @@ Pattern for superscript is:
 CHAR^SCRIPT
 #+END_EXAMPLE
 
-CHAR is any non-whitespace character.
+=CHAR= is any non-whitespace character.
 
-SCRIPT can be ~*~ or an expression enclosed in parenthesis
+=SCRIPT= can be ~*~ or an expression enclosed in parenthesis
 (respectively curly brackets), possibly containing balanced
 parenthesis (respectively curly brackets).
 
-SCRIPT can also follow the pattern:
+=SCRIPT= can also follow the pattern:
 
 #+BEGIN_EXAMPLE
 SIGN CHARS FINAL
 #+END_EXAMPLE
 
-SIGN is either a plus sign, a minus sign, or an empty string.
+=SIGN= is either a plus sign, a minus sign, or an empty string.
 
-CHARS is any number of alpha-numeric characters, commas,
+=CHARS= is any number of alpha-numeric characters, commas,
 backslashes and dots, or an empty string.
 
-FINAL is an alpha-numeric character.
+=FINAL= is an alpha-numeric character.
 
 There is no white space between SIGN, CHARS and FINAL.
-
-*** Code
-
-**** Regular Expressions
 
 ** Table Cells
 Table cells follow the pattern:
@@ -2223,17 +2851,13 @@ Table cells follow the pattern:
 CONTENTS SPACES|
 #+END_EXAMPLE
 
-CONTENTS can contain any character excepted a vertical bar.
+=CONTENTS= can contain any character excepted a vertical bar.
 
-SPACES contains any number of space characters, including zero.  It
+=SPACES= contains any number of space characters, including zero.  It
 can be used to align properly the table.
 
 The final bar may be replaced with a newline character for the last
 cell in row.
-
-*** Code
-
-**** Regular Expressions
 
 ** Timestamps
 There are seven possible patterns for timestamps:
@@ -2248,43 +2872,39 @@ There are seven possible patterns for timestamps:
 [DATE TIME-TIME REPEATER-OR-DELAY]                             (inactive range)
 #+END_EXAMPLE
 
-SEXP can contain any character excepted ~>~ and ~\n~.
+=SEXP= can contain any character excepted ~>~ and ~\n~.
 
-DATE follows the pattern:
+=DATE= follows the pattern:
 
 #+BEGIN_EXAMPLE
 YYYY-MM-DD DAYNAME
 #+END_EXAMPLE
 
-~Y~, ~M~ and ~D~ are digits.  DAYNAME can contain any non
+~Y~, ~M~ and ~D~ are digits.  =DAYNAME= can contain any non
 whitespace-character besides ~+~, ~-~, ~]~, ~>~, a digit or ~\n~.
 
-TIME follows the pattern ~H:MM~.  ~H~ can be one or two digit long
+=TIME= follows the pattern ~H:MM~.  ~H~ can be one or two digit long
 and can start with 0.
 
-REPEATER-OR-DELAY follows the pattern:
+=REPEATER-OR-DELAY= follows the pattern:
 
 #+BEGIN_EXAMPLE
 MARK VALUE UNIT
 #+END_EXAMPLE
 
-MARK is ~+~ (cumulate type), ~++~ (catch-up type) or ~.+~ (restart
+=MARK= is ~+~ (cumulate type), ~++~ (catch-up type) or ~.+~ (restart
 type) for a repeater, and ~-~ (all type) or ~--~ (first type) for
 warning delays.
 
-VALUE is a number.
+=VALUE= is a number.
 
-UNIT is a character among ~h~ (hour), ~d~ (day), ~w~ (week), ~m~
+=UNIT= is a character among ~h~ (hour), ~d~ (day), ~w~ (week), ~m~
 (month), ~y~ (year).
 
-MARK, VALUE and UNIT are not separated by whitespace characters.
+=MARK=, =VALUE= and =UNIT= are not separated by whitespace characters.
 
-There can be two REPEATER-OR-DELAY in the timestamp: one as
+There can be two =REPEATER-OR-DELAY= in the timestamp: one as
 a repeater and one as a warning delay.
-
-*** Code
-
-**** Regular Expressions
 
 ** Text Markup
 Text markup follows the pattern:
@@ -2293,33 +2913,33 @@ Text markup follows the pattern:
 PRE MARKER CONTENTS MARKER POST
 #+END_EXAMPLE
 
-PRE is a whitespace character, ~(~, ~{~ ~'~ or a double quote.  It
+=PRE= is a whitespace character, ~(~, ~{~ ~'~ or a double quote.  It
 can also be a beginning of line.
 
-MARKER is a character among ~*~ (bold), ~=~ (verbatim), ~/~
+=MARKER= is a character among ~*~ (bold), ~=~ (verbatim), ~/~
 (italic), ~+~ (strike-through), ~_~ (underline), ~~~ (code).
 
-CONTENTS is a string following the pattern:
+=CONTENTS= is a string following the pattern:
 
 #+BEGIN_EXAMPLE
 BORDER BODY BORDER
 #+END_EXAMPLE
 
-BORDER can be any non-whitespace character excepted ~,~, ~'~ or
+=BORDER= can be any non-whitespace character excepted ~,~, ~'~ or
 a double quote.
 
-BODY can contain contain any character but may not span over more
+=BODY= can contain contain any character but may not span over more
 than 3 lines.
 
-BORDER and BODY are not separated by whitespaces.
+=BORDER= and BODY are not separated by whitespaces.
 
-CONTENTS can contain any object encountered in a paragraph when
+=CONTENTS= can contain any object encountered in a paragraph when
 markup is "bold", "italic", "strike-through" or "underline".
 
-POST is a whitespace character, ~-~, ~.~, ~,~, ~:~, ~!~, ~?~, ~'~,
+=POST= is a whitespace character, ~-~, ~.~, ~,~, ~:~, ~!~, ~?~, ~'~,
 ~)~, ~}~ or a double quote.  It can also be an end of line.
 
-PRE, MARKER, CONTENTS, MARKER and POST are not separated by
+=PRE=, =MARKER=, =CONTENTS=, =MARKER= and =POST= are not separated by
 whitespace characters.
 
 -----
@@ -2330,7 +2950,7 @@ All of this is wrong if ~org-emphasis-regexp-components~ or
 
 This should really be simplified.
 
-Also, CONTENTS should be anything within code and verbatim
+Also, =CONTENTS= should be anything within code and verbatim
 emphasis, by definition.  --- ngz
 #+END_QUOTE
 
@@ -2349,16 +2969,12 @@ emphasis, by definition.  --- ngz
 | "+"    | strike-through |
 
 
-#+NAME: text-markup-js
-#+BEGIN_SRC css
-  (?:^|[ \t('"{-])([#{m[0]}])((?:[^#{m[0]} \t\n])(?:.+?|.+?[\n].+?)(?:[^#{m[0]} \t\n])|(?:[^#{m[0]} \t\n]){1,2})([#{m[0]}])(?:[ \t.,:!?;'")}\\[-]|$)
-#+END_SRC
+#+RESULTS: text-markup-js
+: (?:^|[ \t('"{-])([#{m[0]}])((?:[^#{m[0]} \t\n])(?:.+?|.+?[\n].+?)(?:[^#{m[0]} \t\n])|(?:[^#{m[0]} \t\n]){1,2})([#{m[0]}])(?:[ \t.,:!?;'")}\\[-]|$)
 
 ***** PRE-EM
 
 Allowed characters. Beginning of line also allowed.
-
-: "- 	('\"{"
 
 #+NAME: PRE-EM
 #+BEGIN_SRC css
@@ -2369,8 +2985,6 @@ Allowed characters. Beginning of line also allowed.
 
 Allowed characters. End of line also allowed.
 
-: "- 	.,:!?;'\")}\\["
-
 #+NAME: POST-EM
 #+BEGIN_SRC css
   (?:[ \t.,:!?;'")}\\[-]|$)
@@ -2380,8 +2994,6 @@ Allowed characters. End of line also allowed.
 
 Forbidden characters
 
-: " 	"
-
 #+NAME: BORDER-EM
 #+BEGIN_SRC css
   (?:[^#{m[0]} \t\n])
@@ -2389,11 +3001,9 @@ Forbidden characters
 
 ****** Implementation Notes
 
-- Added MARKER-EM-RUBY to Fix Pattern Collision with Headings
+- Added =MARKER-EM-RUBY= to Fix Pattern Collision with Headings
 
 ***** BODY-EM-REGEXP
-
-: "."
 
 #+NAME: BODY-EM-REGEXP
 #+BEGIN_SRC css
@@ -2406,10 +3016,8 @@ Forbidden characters
 
 ***** CONTENTS-EM
 
-#+NAME: CONTENTS-EM
-#+BEGIN_SRC css
-  ((?:[^#{m[0]} \t\n])(?:.+?|.+?[\n].+?)(?:[^#{m[0]} \t\n])|(?:[^#{m[0]} \t\n]){1,2})
-#+END_SRC
+#+RESULTS: CONTENTS-EM
+: ((?:[^#{m[0]} \t\n])(?:.+?|.+?[\n].+?)(?:[^#{m[0]} \t\n])|(?:[^#{m[0]} \t\n]){1,2})
 
 ***** MARKER-EM
 
@@ -2420,7 +3028,7 @@ Forbidden characters
 
 ****** Implementation Notes
 
-- Added MARKER-EM-RUBY to simplify generating template
+- Added =MARKER-EM-RUBY= to simplify generating template
 
 ****** MARKER-EM-RUBY
 
@@ -2804,3 +3412,284 @@ The =gen-grammar-text-markup-cson= in the template code for generating text mark
   EOT
   }.join("\n")
 #+END_SRC
+
+The Text Markup grammar:
+
+#+RESULTS: gen-grammar-text-markup-cson
+#+BEGIN_EXAMPLE
+'bold':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([*])((?:[^* \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^* \\t\\n])|(?:[^* \\t\\n]){1,2})([*])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[*]'
+                  'name': 'meta.text-markup.begin.markup.bold.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.bold.org-mode'
+            'patterns': [
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[*]'
+                  'name': 'meta.text-markup.end.markup.bold.org-mode'
+                }
+            ]
+      }
+  ]
+
+'italic':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([/])((?:[^/ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^/ \\t\\n])|(?:[^/ \\t\\n]){1,2})([/])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[/]'
+                  'name': 'meta.text-markup.begin.markup.italic.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.italic.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[/]'
+                  'name': 'meta.text-markup.end.markup.italic.org-mode'
+                }
+            ]
+      }
+  ]
+
+'underline':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([_])((?:[^_ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^_ \\t\\n])|(?:[^_ \\t\\n]){1,2})([_])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[_]'
+                  'name': 'meta.text-markup.begin.markup.underline.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.underline.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[_]'
+                  'name': 'meta.text-markup.end.markup.underline.org-mode'
+                }
+            ]
+      }
+  ]
+
+'verbatim':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([=])((?:[^= \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^= \\t\\n])|(?:[^= \\t\\n]){1,2})([=])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[=]'
+                  'name': 'meta.text-markup.begin.markup.verbatim.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.verbatim.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[=]'
+                  'name': 'meta.text-markup.end.markup.verbatim.org-mode'
+                }
+            ]
+      }
+  ]
+
+'code':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([~])((?:[^~ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^~ \\t\\n])|(?:[^~ \\t\\n]){1,2})([~])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[~]'
+                  'name': 'meta.text-markup.begin.markup.code.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.code.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#strike-through'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[~]'
+                  'name': 'meta.text-markup.end.markup.code.org-mode'
+                }
+            ]
+      }
+  ]
+
+'strike-through':
+  'patterns':[
+      {
+        'match': "(?:^|[ \\t('\"{-])([+])((?:[^+ \\t\\n])(?:.+?|.+?[\\n].+?)(?:[^+ \\t\\n])|(?:[^+ \\t\\n]){1,2})([+])(?:[ \\t.,:!?;'\")}\\[-]|$)"
+        'captures':
+          '1':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[+]'
+                  'name': 'meta.text-markup.begin.markup.strike-through.org-mode'
+                }
+            ]
+          '2':
+            'name': 'markup.strike-through.org-mode'
+            'patterns': [
+                          {
+                            'include': '#bold'
+                          }
+                          {
+                            'include': '#italic'
+                          }
+                          {
+                            'include': '#underline'
+                          }
+                          {
+                            'include': '#verbatim'
+                          }
+                          {
+                            'include': '#code'
+                          }
+                          {
+                            'include': '#object-links'
+                          }
+            ]
+          '3':
+            'name': 'punctuation.definition.character.org-mode'
+            'patterns': [
+                {
+                  'match': '[+]'
+                  'name': 'meta.text-markup.end.markup.strike-through.org-mode'
+                }
+            ]
+      }
+  ]
+#+END_EXAMPLE

@@ -2473,26 +2473,26 @@ Let us begin our journey into a better future.
   #+END_EXAMPLE
 
   #+NAME: org-syntax-stars-definition
-  STARS is a string starting at column 0, containing at least one
+  =STARS= is a string starting at column 0, containing at least one
   asterisk (and up to ~org-inlinetask-min-level~ if =org-inlinetask=
   library is loaded) and ended by a space character.  The number of
   asterisks is used to define the level of the headline.  It's the
   sole compulsory part of a headline.
 
   #+NAME: org-syntax-keyword-definition
-  KEYWORD is a TODO keyword, which has to belong to the list defined
+  =KEYWORD= is a =TODO= keyword, which has to belong to the list defined
   in ~org-todo-keywords-1~.  Case is significant.
 
   #+NAME: org-syntax-priority-definition
-  PRIORITY is a priority cookie, i.e. a single letter preceded by
+  =PRIORITY= is a priority cookie, i.e. a single letter preceded by
   a hash sign # and enclosed within square brackets.
   
   #+NAME: org-syntax-title-definition
-  TITLE can be made of any character but a new line.  Though, it will
+  =TITLE= can be made of any character but a new line.  Though, it will
   match after every other part have been matched.
   
   #+NAME: org-syntax-tags-definition  
-  TAGS is made of words containing any alpha-numeric character,
+  =TAGS= is made of words containing any alpha-numeric character,
   underscore, at sign, hash sign or percent sign, and separated with
   colons.
     
@@ -2510,7 +2510,7 @@ Let us begin our journey into a better future.
   #+END_SRC
   
   #+NAME: org-syntax-title-comment-definition  
-  If the first word appearing in the title is "COMMENT", the headline
+  If the first word appearing in the title is =COMMENT=, the headline
   will be considered as "commented".  Case is significant.
   
   #+NAME: org-syntax-title-footnote-section-definition
@@ -2518,7 +2518,7 @@ Let us begin our journey into a better future.
   a "footnote section".  Case is significant.
 
   #+NAME: org-syntax-tags-archive-definition
-  If "ARCHIVE" is one of its tags, it will be considered as
+  If =ARCHIVE= is one of its tags, it will be considered as
   "archived".  Case is significant.
 
   A headline contains directly one section (optionally), followed by
@@ -2563,43 +2563,42 @@ Let us begin our journey into a better future.
 
 ****** Headline Regular Expressions
 
+#+CALL: elisp/display-this-here(data=org-syntax-headline-definition)
+
+#+RESULTS:
+: STARS KEYWORD PRIORITY TITLE TAGS
+
 #+NAME: headline-regex-js
-#+BEGIN_SRC org :noweb yes :results verbatim replace :exports both :wrap EXAMPLE :exports both
+#+BEGIN_SRC css :noweb yes :results verbatim replace :exports both :wrap EXAMPLE :exports results
   <<STARS>>(<<KEYWORD>>?<<PRIORITY>>?<<TITLE>>?<<TAGS>>?|\s)
 #+END_SRC
 
 #+RESULTS: headline-regex-js
 #+BEGIN_EXAMPLE
-^([*]+(?=\s))(( ?(TODO|DONE))?( +(\[#[a-zA-Z]\]))?( +(.+))?( +(([:\w@#%]+))+)?|\s)
+^([*]+(?=\s))((( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?|\s)
 #+END_EXAMPLE
 
 #+NAME: headline-regex-js-elisp
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :exports none 
   (concat (org-sbe STARS) (org-sbe KEYWORD) "?" (org-sbe PRIORITY) "?" (org-sbe TITLE) "?" (org-sbe TAGS) "?")
 #+END_SRC
 
 #+RESULTS: headline-regex-js-elisp
 : ^([*]+(?=\s))(( +)(TODO|DONE))?(( +)(\[#[a-zA-Z]\]))?(( +)(.+))?(( +)(([:\w@#%]+))+)?
 
-#+CALL: elisp/display-this-here(data=org-syntax-headline-definition)
-
-#+RESULTS:
-: STARS KEYWORD PRIORITY TITLE TAGS
-
-: ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+))( (([:\\w@#%]+))+)?)?
-: ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+)?)( (([:\\w@#%]+))+)?)?
-: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
-: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
-: ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))?
-
+# : ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+))( (([:\\w@#%]+))+)?)?
+# : ^([*]+)( ?(TODO|DONE)? ?(\\[#[a-zA-Z]\\])?( (.+)?)( (([:\\w@#%]+))+)?)?
+# : ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
+# : ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))
+# : ^([*]+)( +(TODO|DONE)?( +(\\[#[a-zA-Z]\\]))?( +(.+))?( +(([:\\w@#%]+))+))?
 
 *Headline Test 1 String*
 #+NAME: headline-test1
 : **** DONE [#A] *this* /is/ _the_ =title= +of+ ~my~ headline :notattag: :tag1:@tag2:#tag3:%TAG4#:
 
-: (concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) (org-sbe TAGS))
+# : (concat (org-sbe STARS) (org-sbe KEYWORD) (org-sbe PRIORITY) (org-sbe TITLE) (org-sbe TAGS))
 
-#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=headline-regex-js-elisp() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data=(org-sbe headline-test1) :results replace output :var pattern=headline-regex-js-elisp() :wrap "SRC js :eval never" :exports results 
   console.log(JSON.stringify(pattern))
   let re = new RegExp(pattern);
   console.log(re)
@@ -2636,7 +2635,7 @@ Let us begin our journey into a better future.
   ^([*]+(?=\s))
 #+END_SRC
 
-#+CALL: elisp/display-this-here(data=org-syntax-stars-definition)
+#+CALL: elisp/display-this-here(data=org-syntax-stars-definition) :exports none
 
 #+RESULTS:
 :   STARS is a string starting at column 0, containing at least one
@@ -2871,24 +2870,24 @@ Let us begin our journey into a better future.
   allowed.
 
   Affiliated keywords are built upon one of the following patterns:
-  "#+KEY: VALUE", "#+KEY[OPTIONAL]: VALUE" or "#+ATTR_BACKEND: VALUE".
+  =#+KEY: VALUE=, =#+KEY[OPTIONAL]: VALUE= or =#+ATTR_BACKEND: VALUE=.
 
-  KEY is either "CAPTION", "HEADER", "NAME", "PLOT" or "RESULTS"
+  =KEY= is either =CAPTION=, =HEADER=, =NAME=, =PLOT= or =RESULTS=
   string.
 
-  BACKEND is a string constituted of alpha-numeric characters, hyphens
+  =BACKEND= is a string constituted of alpha-numeric characters, hyphens
   or underscores.
 
-  OPTIONAL and VALUE can contain any character but a new line.  Only
-  "CAPTION" and "RESULTS" keywords can have an optional value.
+  =OPTIONAL= and =VALUE= can contain any character but a new line.  Only
+  =CAPTION= and =RESULTS= keywords can have an optional value.
 
   An affiliated keyword can appear more than once if KEY is either
-  "CAPTION" or "HEADER" or if its pattern is "#+ATTR_BACKEND: VALUE".
+  =CAPTION= or =HEADER= or if its pattern is =#+ATTR_BACKEND: VALUE=.
 
-  "CAPTION", "AUTHOR", "DATE" and "TITLE" keywords can contain objects
+  =CAPTION=, =AUTHOR=, =DATE= and =TITLE= keywords can contain objects
   in their value and their optional value, if applicable.
 
-**** Code  
+**** Code                                                       :noexport:
 
 ***** Regular Expressions
 
@@ -2917,19 +2916,19 @@ Let us begin our journey into a better future.
    ,#+END_NAME
    #+END_EXAMPLE
 
-   NAME can contain any non-whitespace character.
+   =NAME= can contain any non-whitespace character.
 
-   PARAMETERS can contain any character other than new line, and can
+   =PARAMETERS= can contain any character other than new line, and can
    be omitted.
 
-   If NAME is "CENTER", it will be a "center block".  If it is
-   "QUOTE", it will be a "quote block".
+   If =NAME= is =CENTER=, it will be a "center block".  If it is
+   =QUOTE=, it will be a "quote block".
 
    If the block is neither a center block, a quote block or a block
    element, it will be a "special block".
 
-   CONTENTS can contain any element, except : a line =#+END_NAME= on
-   its own.  Also lines beginning with STARS must be quoted by
+   =CONTENTS= can contain any element, except : a line =#+END_NAME= on
+   its own.  Also lines beginning with =STARS= must be quoted by
    a comma.
 
 ***** Code  
@@ -2944,7 +2943,7 @@ Let us begin our journey into a better future.
 | CENTER                             |
 | QUOTE                              |
 
-- CENTER Block
+- *CENTER Block*
 
   - grammar-center-block-cson
       
@@ -2981,7 +2980,7 @@ Let us begin our journey into a better future.
       }
     #+END_SRC
 
-- QUOTE Block
+- *QUOTE Block*
 
   - grammar-quote-block-cson
       
@@ -3035,15 +3034,14 @@ Let us begin our journey into a better future.
    :END:
    #+END_EXAMPLE
 
-   NAME can contain word-constituent characters, hyphens and
+   =NAME= can contain word-constituent characters, hyphens and
    underscores.
 
-   CONTENTS can contain any element but another drawer.
+   =CONTENTS= can contain any element but another drawer.
 
-***** Code  
+***** Code                                                     :noexport:
 
-****** Regular Expressions
-- 
+****** Regular Expressions 
 **** Dynamic Blocks
    :PROPERTIES:
    :CUSTOM_ID: Dynamic_Blocks
@@ -3057,15 +3055,15 @@ Let us begin our journey into a better future.
    ,#+END:
    #+END_EXAMPLE
 
-   NAME cannot contain any whitespace character.
+   =NAME= cannot contain any whitespace character.
 
-   PARAMETERS can contain any character and can be omitted.
+   =PARAMETERS= can contain any character and can be omitted.
 
 ***** Code  
 
 ****** Regular Expressions
 
-  - DYNAMIC Block
+  - *DYNAMIC Block*
 
     - grammar-dynamic-block-cson
       
@@ -3121,15 +3119,15 @@ Let us begin our journey into a better future.
 
    It must start at column 0.
 
-   LABEL is either a number or follows the pattern "fn:WORD", where
+   =LABEL= is either a number or follows the pattern =fn:WORD=, where
    word can contain any word-constituent character, hyphens and
    underscore characters.
 
-   CONTENTS can contain any element excepted another footnote
+   =CONTENTS= can contain any element excepted another footnote
    definition.  It ends at the next footnote definition, the next
    headline, two consecutive empty lines or the end of buffer.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3149,7 +3147,7 @@ Let us begin our journey into a better future.
    Inlinetasks are recognized only after =org-inlinetask= library is
    loaded.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3159,21 +3157,21 @@ Let us begin our journey into a better future.
    :END:
 
    Items are defined by a line starting with the following pattern:
-   "BULLET COUNTER-SET CHECK-BOX TAG", in which only BULLET is
+   =BULLET COUNTER-SET CHECK-BOX TAG=, in which only =BULLET= is
    mandatory.
 
-   BULLET is either an asterisk, a hyphen, a plus sign character or
-   follows either the pattern "COUNTER." or "COUNTER)".  In any case,
-   BULLET is follwed by a whitespace character or line ending.
+   =BULLET= is either an asterisk, a hyphen, a plus sign character or
+   follows either the pattern =COUNTER.= or =COUNTER)=.  In any case,
+   =BULLET= is follwed by a whitespace character or line ending.
 
-   COUNTER can be a number or a single letter.
+   =COUNTER= can be a number or a single letter.
 
-   COUNTER-SET follows the pattern [@COUNTER].
+   =COUNTER-SET= follows the pattern =[@COUNTER]=.
 
-   CHECK-BOX is either a single whitespace character, a "X" character
+   =CHECK-BOX= is either a single whitespace character, a =X= character
    or a hyphen, enclosed within square brackets.
 
-   TAG follows "TAG-TEXT ::" pattern, where TAG-TEXT can contain any
+   =TAG= follows =TAG-TEXT ::= pattern, where =TAG-TEXT= can contain any
    character but a new line.
 
    An item ends before the next item, the first line less or equally
@@ -3237,7 +3235,7 @@ Let us begin our journey into a better future.
    PROPERTYDRAWER
    #+END_EXAMPLE
 
-   PROPERTYDRAWER follows the pattern
+   =PROPERTYDRAWER= follows the pattern
 
    #+BEGIN_EXAMPLE
    :PROPERTIES:
@@ -3245,9 +3243,9 @@ Let us begin our journey into a better future.
    :END:
    #+END_EXAMPLE
 
-   where CONTENTS consists of zero or more node properties.
+   where =CONTENTS= consists of zero or more node properties.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3257,7 +3255,7 @@ Let us begin our journey into a better future.
    :END:
 
    Tables start at lines beginning with either a vertical bar or the
-   "+-" string followed by plus or minus signs only, assuming they are
+   =+-= string followed by plus or minus signs only, assuming they are
    not preceded with lines of the same type.  These lines can be
    indented.
 
@@ -3271,10 +3269,10 @@ Let us begin our journey into a better future.
    An org table can only contain table rows.  A table.el table does
    not contain anything.
 
-   One or more "#+TBLFM: FORMULAS" lines, where "FORMULAS" can contain
+   One or more =#+TBLFM: FORMULAS= lines, where =FORMULAS= can contain
    any character, can follow an org table.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3300,7 +3298,7 @@ Let us begin our journey into a better future.
    ,#+CALL: VALUE
    #+END_EXAMPLE
 
-   VALUE is optional.  It can contain any character but a new line.
+   =VALUE= is optional.  It can contain any character but a new line.
 
 ***** Code  
 
@@ -3353,41 +3351,41 @@ Let us begin our journey into a better future.
    ,#+END_NAME
    #+END_EXAMPLE
 
-   NAME cannot contain any whitespace character.
+   =NAME= cannot contain any whitespace character.
 
-   If NAME is "COMMENT", it will be a "comment block".  If it is
-   "EXAMPLE", it will be an "example block".  If it is "EXPORT", it
+   If =NAME= is =COMMENT=, it will be a "comment block".  If it is
+   =EXAMPLE=, it will be an "example block".  If it is =EXPORT=, it
    will be an "export block".  If it is "SRC", it will be a "source
-   block".  If it is "VERSE", it will be a "verse block".
+   block".  If it is =VERSE=, it will be a "verse block".
 
-   DATA can contain any character but a new line.  It can be ommitted,
+   =DATA= can contain any character but a new line.  It can be ommitted,
    unless the block is either a "source block" or an "export block".
 
    In the latter case, it should be constituted of a single word.
 
-   In the former case, it must follow the pattern "LANGUAGE SWITCHES
-   ARGUMENTS", where SWITCHES and ARGUMENTS are optional.
+   In the former case, it must follow the pattern =LANGUAGE SWITCHES ARGUMENTS=, 
+   where =SWITCHES= and =ARGUMENTS= are optional.
 
-   LANGUAGE cannot contain any whitespace character.
+   =LANGUAGE= cannot contain any whitespace character.
 
-   SWITCHES is made of any number of "SWITCH" patterns, separated by
+   =SWITCHES= is made of any number of =SWITCH= patterns, separated by
    blank lines.
 
-   A SWITCH pattern is either "-l "FORMAT"", where FORMAT can contain
-   any character but a double quote and a new line, "-S" or "+S",
-   where S stands for a single letter.
+   A =SWITCH= pattern is either =-l "FORMAT"=, where =FORMAT= can contain
+   any character but a double quote and a new line, =-S= or =+S=,
+   where =S= stands for a single letter.
 
-   ARGUMENTS can contain any character but a new line.
+   =ARGUMENTS= can contain any character but a new line.
 
-   CONTENTS can contain any character, including new lines.  Though it
+   =CONTENTS= can contain any character, including new lines.  Though it
    will only contain Org objects if the block is a verse block.
-   Otherwise, CONTENTS will not be parsed.
+   Otherwise, =CONTENTS= will not be parsed.
 
 ***** Code  
 
 ****** Regular Expressions
 
-- Blocks
+- *Blocks*
 
   #+NAME: elements-blocks-names
   | Element-Block-Name | Default-Export-Backend | Atom-Scope-Name |
@@ -3405,7 +3403,7 @@ Let us begin our journey into a better future.
   | TEXINFO            | True                   | source.texi     |
   | VERSE              | False                  |                 |
 
-  - COMMENT Block
+  - *COMMENT Block*
 
     - grammar-comment-block-cson
       
@@ -3433,7 +3431,7 @@ Let us begin our journey into a better future.
         }
       #+END_SRC
 
-  - EXAMPLE Block
+  - *EXAMPLE Block*
 
     - grammar-example-block-cson
       
@@ -3464,7 +3462,7 @@ Let us begin our journey into a better future.
         }
       #+END_SRC
 
-  - VERSE Block
+  - *VERSE Block*
 
     - grammar-verse-block-cson
       
@@ -3495,9 +3493,9 @@ Let us begin our journey into a better future.
         }
       #+END_SRC
 
-- Source Blocks
+- *Source Blocks*
 
-- Export Blocks
+- *Export Blocks*
 
   - Code
 
@@ -3553,7 +3551,7 @@ Let us begin our journey into a better future.
     - grammar-export-blocks-cson
 
       #+NAME: grammar-export-blocks-cson
-      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
+      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim :exports results 
         results = []
 
         data.select{|s| s[2].length > 0}.map{|d|
@@ -3571,7 +3569,7 @@ Let us begin our journey into a better future.
     - export-blocks-include-patterns-template-code
 
       #+NAME: export-blocks-include-patterns-template-code
-      #+BEGIN_SRC ruby  :var data=elements-blocks-names
+      #+BEGIN_SRC ruby  :var data=elements-blocks-names :exports results 
         include_patterns = []
 
         data.select{|s| s[2].length > 0}.map{|d|
@@ -3595,7 +3593,7 @@ Let us begin our journey into a better future.
     - grammar-export-blocks-include-cson
 
       #+NAME: grammar-export-blocks-include-cson
-      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim
+      #+BEGIN_SRC ruby :var data=elements-blocks-names :noweb yes :results verbatim :exports results 
         <<export-blocks-include-patterns-template-code>>
 
         export_blocks_include_template = <<EOT
@@ -3689,20 +3687,20 @@ Let us begin our journey into a better future.
    CLOCK: TIMESTAMP DURATION
    #+END_EXAMPLE
 
-   Both TIMESTAMP and DURATION are optional.
+   Both =TIMESTAMP= and =DURATION= are optional.
 
-   TIMESTAMP is a timestamp object.
+   =TIMESTAMP= is a timestamp object.
 
-   DURATION follows the pattern:
+   =DURATION= follows the pattern:
 
    #+BEGIN_EXAMPLE
    => HH:MM
    #+END_EXAMPLE
 
-   HH is a number containing any number of digits.  MM is a two digit
+   =HH= is a number containing any number of digits.  =MM= is a two digit
    numbers.
 
-   A diary sexp is a line starting at column 0 with "%%(" string.  It
+   A diary sexp is a line starting at column 0 with =%%(= string.  It
    can then contain any character besides a new line.
 
    A planning is an element with the following pattern:
@@ -3712,20 +3710,20 @@ Let us begin our journey into a better future.
    PLANNING
    #+END_EXAMPLE
 
-   where HEADLINE is a headline element and PLANNING is a line filled
-   with INFO parts, where each of them follows the pattern:
+   where =HEADLINE= is a headline element and =PLANNING= is a line filled
+   with =INFO= parts, where each of them follows the pattern:
 
    #+BEGIN_EXAMPLE
    KEYWORD: TIMESTAMP
    #+END_EXAMPLE
 
-   KEYWORD is either "DEADLINE", "SCHEDULED" or "CLOSED".  TIMESTAMP
+   =KEYWORD= is either =DEADLINE=, =SCHEDULED= or =CLOSED=.  =TIMESTAMP=
    is a timestamp object.
 
-   In particular, no blank line is allowed between PLANNING and
-   HEADLINE.
+   In particular, no blank line is allowed between =PLANNING= and
+   =HEADLINE=.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3734,7 +3732,7 @@ Let us begin our journey into a better future.
    :CUSTOM_ID: Comments
    :END:
 
-   A "comment line" starts with a hash signe and a whitespace
+   A "comment line" starts with a hash sign and a whitespace
    character or an end of line.
 
    Comments can contain any number of consecutive comment lines.
@@ -3743,31 +3741,33 @@ Let us begin our journey into a better future.
 
 ****** Regular Expressions
 
-- grammar-comment-line-cson
+- *Comment Line*
 
-  #+NAME: grammar-comment-line-cson
-  #+BEGIN_SRC css
-    'comment-line':
-      'patterns': [
-        {
-          'begin': '^ *# '
-          'end': '$'
-          'captures':
-            '0':
-              'name': 'punctuation.definition.comment.org-mode'
-          'name': 'comment.line.org-mode'
-        }
-      ]
-  #+END_SRC
+  - grammar-comment-line-cson
 
- - grammar-comment-line-include-cson
+    #+NAME: grammar-comment-line-cson
+    #+BEGIN_SRC css
+      'comment-line':
+        'patterns': [
+          {
+            'begin': '^ *# '
+            'end': '$'
+            'captures':
+              '0':
+                'name': 'punctuation.definition.comment.org-mode'
+            'name': 'comment.line.org-mode'
+          }
+        ]
+    #+END_SRC
+
+  - grammar-comment-line-include-cson
       
-   #+NAME: grammar-comment-line-include-cson
-   #+BEGIN_SRC css 
-     {
-       'include': '#comment-line'
-     }
-   #+END_SRC
+    #+NAME: grammar-comment-line-include-cson
+    #+BEGIN_SRC css 
+      {
+        'include': '#comment-line'
+      }
+    #+END_SRC
 
 **** Fixed Width Areas
    :PROPERTIES:
@@ -3780,7 +3780,7 @@ Let us begin our journey into a better future.
    Fixed width areas can contain any number of consecutive fixed-width
    lines.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3792,7 +3792,7 @@ Let us begin our journey into a better future.
    A horizontal rule is a line made of at least 5 consecutive hyphens.
    It can be indented.
 
-***** Code  
+***** Code                                                        :noexport:
 
 ****** Regular Expressions
 
@@ -3807,15 +3807,15 @@ Let us begin our journey into a better future.
    ,#+KEY: VALUE
    #+END_EXAMPLE
 
-   KEY can contain any non-whitespace character, but it cannot be
-   equal to "CALL" or any affiliated keyword.
+   =KEY= can contain any non-whitespace character, but it cannot be
+   equal to =CALL= or any affiliated keyword.
 
-   VALUE can contain any character excepted a new line.
+   =VALUE= can contain any character excepted a new line.
 
    If KEY belongs to ~org-element-document-properties~, VALUE can
    contain objects.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3830,11 +3830,11 @@ Let us begin our journey into a better future.
    \begin{NAME} CONTENTS \end{NAME}
    #+END_EXAMPLE
 
-   NAME is constituted of alpha-numeric or asterisk characters.
+   =NAME= is constituted of alpha-numeric or asterisk characters.
 
-   CONTENTS can contain anything but the "\end{NAME}" string.
+   =CONTENTS= can contain anything but the =\end{NAME}= string.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3856,12 +3856,12 @@ Let us begin our journey into a better future.
    :NAME+:
    #+END_EXAMPLE
 
-   NAME can contain any non-whitespace character but cannot end with
+   =NAME= can contain any non-whitespace character but cannot end with
    a plus sign.  It cannot be the empty string.
 
-   VALUE can contain anything but a newline character.
+   =VALUE= can contain anything but a newline character.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3877,7 +3877,7 @@ Let us begin our journey into a better future.
 
    Paragraphs can contain every type of object.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3894,7 +3894,7 @@ Let us begin our journey into a better future.
 
    Table rows can only exist in tables.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -3930,11 +3930,11 @@ Let us begin our journey into a better future.
    \NAME POST
    #+END_EXAMPLE
 
-   where NAME has a valid association in either ~org-entities~ or
+   where =NAME= has a valid association in either ~org-entities~ or
    ~org-entities-user~.
 
-   POST is the end of line, "{}" string, or a non-alphabetical
-   character.  It isn't separated from NAME by a whitespace character.
+   =POST= is the end of line, ={}= string, or a non-alphabetical
+   character.  It isn't separated from =NAME= by a whitespace character.
 
    A LaTeX fragment can follow multiple patterns:
 
@@ -3947,10 +3947,10 @@ Let us begin our journey into a better future.
    PRE$BORDER1 BODY BORDER2$POST
    #+END_EXAMPLE
 
-   NAME contains alphabetical characters only and must not have an
+   =NAME= contains alphabetical characters only and must not have an
    association in either ~org-entities~ or ~org-entities-user~.
 
-   BRACKETS is optional, and is not separated from NAME with white
+   =BRACKETS= is optional, and is not separated from =NAME= with white
    spaces.  It may contain any number of the following patterns:
 
    #+BEGIN_EXAMPLE
@@ -3958,29 +3958,29 @@ Let us begin our journey into a better future.
    {CONTENTS2}
    #+END_EXAMPLE
 
-   where CONTENTS1 can contain any characters excepted "{" "}", "["
-   "]" and newline and CONTENTS2 can contain any character excepted
-   "{", "}" and newline.
+   where =CONTENTS1= can contain any characters excepted ={= =}=, =[=
+   =]= and newline and =CONTENTS2= can contain any character excepted
+   ={=, =}= and newline.
 
-   CONTENTS can contain any character but cannot contain "\)" in the
-   second template or "\]" in the third one.
+   =CONTENTS= can contain any character but cannot contain =\)= in the
+   second template or =\]= in the third one.
 
-   PRE is either the beginning of line or a character different from
+   =PRE= is either the beginning of line or a character different from
    ~$~.
 
-   CHAR is a non-whitespace character different from ~.~, ~,~, ~?~,
+   =CHAR= is a non-whitespace character different from ~.~, ~,~, ~?~,
    ~;~, ~'~ or a double quote.
 
-   POST is any punctuation (including parentheses and quotes) or space
+   =POST= is any punctuation (including parentheses and quotes) or space
    character, or the end of line.
 
-   BORDER1 is a non-whitespace character different from ~.~, ~,~, ~;~
+   =BORDER1= is a non-whitespace character different from ~.~, ~,~, ~;~
    and ~$~.
 
-   BODY can contain any character excepted ~$~, and may not span over
+   =BODY= can contain any character excepted ~$~, and may not span over
    more than 3 lines.
 
-   BORDER2 is any non-whitespace character different from ~,~, ~.~ and
+   =BORDER2= is any non-whitespace character different from ~,~, ~.~ and
    ~$~.
 
    #+ATTR_ASCII: :width 5
@@ -3995,7 +3995,7 @@ Let us begin our journey into a better future.
    positives.  --- ngz
    #+END_QUOTE
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -4010,11 +4010,11 @@ Let us begin our journey into a better future.
    @@NAME:VALUE@@
    #+END_EXAMPLE
 
-   NAME can contain any alpha-numeric character and hyphens.
+   =NAME= can contain any alpha-numeric character and hyphens.
 
-   VALUE can contain anything but "@@" string.
+   =VALUE= can contain anything but =@@= string.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -4031,10 +4031,10 @@ Let us begin our journey into a better future.
    [fn::DEFINITION]
    #+END_EXAMPLE
 
-   LABEL can contain any word constituent character, hyphens and
+   =LABEL= can contain any word constituent character, hyphens and
    underscores.
 
-   DEFINITION can contain any character.  Though opening and closing
+   =DEFINITION= can contain any character.  Though opening and closing
    square brackets must be balanced in it.  It can contain any object
    encountered in a paragraph, even other footnote references.
 
@@ -4042,7 +4042,7 @@ Let us begin our journey into a better future.
    "inline footnote".  If it follows the third one, i.e. if LABEL is
    omitted, it is an "anonymous footnote".
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -4058,11 +4058,11 @@ Let us begin our journey into a better future.
    call_NAME[HEADER](ARGUMENTS)[HEADER]
    #+END_EXAMPLE
 
-   NAME can contain any character besides ~(~, ~)~ and "\n".
+   =NAME= can contain any character besides ~(~, ~)~ and "\n".
 
-   HEADER can contain any character besides ~]~ and "\n".
+   =HEADER= can contain any character besides ~]~ and "\n".
 
-   ARGUMENTS can contain any character besides ~)~ and "\n".
+   =ARGUMENTS= can contain any character besides ~)~ and "\n".
 
    Inline source blocks follow any of the following patterns:
    
@@ -4071,11 +4071,11 @@ Let us begin our journey into a better future.
    src_LANG[OPTIONS]{BODY}
    #+END_EXAMPLE
 
-   LANG can contain any non-whitespace character.
+   =LANG= can contain any non-whitespace character.
 
-   OPTIONS and BODY can contain any character but "\n".
+   =OPTIONS= and BODY can contain any character but "\n".
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -4084,12 +4084,12 @@ Let us begin our journey into a better future.
    :CUSTOM_ID: Line_Breaks
    :END:
 
-   A line break consists in "\\SPACE" pattern at the end of an
+   A line break consists in =\\SPACE= pattern at the end of an
    otherwise non-empty line.
 
-   SPACE can contain any number of tabs and spaces, including 0.
+   =SPACE= can contain any number of tabs and spaces, including 0.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -4107,31 +4107,31 @@ Let us begin our journey into a better future.
    [[PATH3]DESCRIPTION]      ("regular" link)
    #+END_EXAMPLE
 
-   PRE1 and POST1, when they exist, are non alphanumeric characters.
+   =PRE1= and =POST1=, when they exist, are non alphanumeric characters.
 
-   RADIO is a string matched by some radio target.  It may contain
+   =RADIO= is a string matched by some radio target.  It may contain
    entities, latex fragments, subscript and superscript.
 
-   PROTOCOL is a string among ~org-link-types~.
+   =PROTOCOL= is a string among ~org-link-types~.
 
-   PATH can contain any character but ~]~, ~<~, ~>~ and ~\n~.
+   =PATH= can contain any character but ~]~, ~<~, ~>~ and ~\n~.
 
-   PRE2 and POST2, when they exist, are non word constituent
+   =PRE2= and =POST2=, when they exist, are non word constituent
    characters.
 
-   PATH2 can contain any non-whitespace character excepted ~(~, ~)~,
+   =PATH2= can contain any non-whitespace character excepted ~(~, ~)~,
    ~<~ and ~>~.  It must end with a word-constituent character, or any
    non-whitespace non-punctuation character followed by ~/~.
 
-   DESCRIPTION must be enclosed within square brackets.  It can
+   =DESCRIPTION= must be enclosed within square brackets.  It can
    contain any character but square brackets.  It can contain any
    object found in a paragraph excepted a footnote reference, a radio
    target and a line break.  It cannot contain another link either,
    unless it is a plain or angular link.
 
-   DESCRIPTION is optional.
+   =DESCRIPTION= is optional.
 
-   PATH3 is built according to the following patterns:
+   =PATH3= is built according to the following patterns:
 
    #+BEGIN_EXAMPLE
    FILENAME           ("file" type)
@@ -4143,13 +4143,13 @@ Let us begin our journey into a better future.
    FUZZY              ("fuzzy" type)
    #+END_EXAMPLE
 
-   FILENAME is a file name, either absolute or relative.
+   =FILENAME= is a file name, either absolute or relative.
 
-   PATH4 can contain any character besides square brackets.
+   =PATH4= can contain any character besides square brackets.
 
-   ID is constituted of hexadecimal numbers separated with hyphens.
+   =ID= is constituted of hexadecimal numbers separated with hyphens.
 
-   PATH4, CUSTOM-ID, CODEREF and FUZZY can contain any character
+   =PATH4=, =CUSTOM-ID=, =CODEREF= and =FUZZY= can contain any character
    besides square brackets.
 
 ***** Code  
@@ -4190,7 +4190,7 @@ Let us begin our journey into a better future.
 ******** Grammar
 
 #+NAME: gen-grammar-radio-links-cson
-#+BEGIN_SRC ruby :var object_link_type="radio-link" :var object_link_pattern=radio-links-js 
+#+BEGIN_SRC ruby :var object_link_type="radio-link" :var object_link_pattern=radio-links-js :exports results 
   object_link_template = <<-EOT
     'object-#{object_link_type.downcase}':
       'patterns':[
@@ -4306,7 +4306,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 #
 
 #+NAME: angle-links-js
-#+BEGIN_SRC css :noweb yes 
+#+BEGIN_SRC css :noweb yes :exports results 
   ([<]{2})<<PROTOCOL>>?<<PATH>>([>]{2})
 #+END_SRC
 
@@ -4315,7 +4315,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 ********* PATH
 
-: PATH can contain any character but ~]~, ~<~, ~>~ and ~\n~.
+# PATH can contain any character but ~]~, ~<~, ~>~ and ~\n~.
 
 #+NAME: PATH
 #+BEGIN_SRC css
@@ -4325,7 +4325,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 ********* Grammar
 
 #+NAME: gen-grammar-angle-links-cson
-#+BEGIN_SRC ruby :var object_link_type="angle-link" :var object_link_pattern=angle-links-js 
+#+BEGIN_SRC ruby :var object_link_type="angle-link" :var object_link_pattern=angle-links-js :exports results 
   object_link_template = <<-EOT
     'object-#{object_link_type.downcase}':
       'patterns':[
@@ -4373,7 +4373,7 @@ elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate
 
 # - <<target>> another item
 
-#+BEGIN_SRC js :cmd "node" :var data="- <<target>>another item" :results replace output :var pattern=angle-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="- <<target>>another item" :results replace output :var pattern=angle-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4416,7 +4416,7 @@ Matches plain link, without spaces.
 #+END_COMMENT
 
 #+NAME: plain-links-js
-#+BEGIN_SRC css :noweb yes 
+#+BEGIN_SRC css :noweb yes  :exports results 
   <<PRE2>><<PROTOCOL>><<PATH2>><<POST2>>
 #+END_SRC
 
@@ -4452,7 +4452,7 @@ Matches plain link, without spaces.
 
 ********** DONE Web Case 1
 
-#+BEGIN_SRC js :cmd "node" :var data="http://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="http://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4475,7 +4475,7 @@ Matches plain link, without spaces.
 
 ********** DONE Web Case 2
 
-#+BEGIN_SRC js :cmd "node" :var data="put text before http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="put text before http://www.astro.uva.nl/~dominik?param1=123&param2=Hello%20World             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4498,7 +4498,7 @@ Matches plain link, without spaces.
 
 ********** DONE Web Case 3
 
-#+BEGIN_SRC js :cmd "node" :var data="put text before \nhttp://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="put text before \nhttp://www.astro.uva.nl/~dominik             on the web" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4521,7 +4521,7 @@ Matches plain link, without spaces.
 
 ********** DONE DOI for an electronic resource
 
-#+BEGIN_SRC js :cmd "node" :var data="doi:10.1000/182                              DOI for an electronic resource" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="doi:10.1000/182                              DOI for an electronic resource" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4544,7 +4544,7 @@ Matches plain link, without spaces.
 
 ********** DONE file, absolute path
 
-#+BEGIN_SRC js :cmd "node" :var data="file:/home/dominik/images/jupiter.jpg        file, absolute path" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="file:/home/dominik/images/jupiter.jpg        file, absolute path" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4565,7 +4565,7 @@ Matches plain link, without spaces.
   input: 'file:/home/dominik/images/jupiter.jpg        file, absolute path' ]
 #+END_SRC
 
-#+BEGIN_SRC js :cmd "node" :var data="/home/dominik/images/jupiter.jpg             same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="/home/dominik/images/jupiter.jpg             same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4579,7 +4579,7 @@ null
 
 ********** DONE file, relative path
 
-#+BEGIN_SRC js :cmd "node" :var data="file:papers/last.pdf                         file, relative path" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="file:papers/last.pdf                         file, relative path" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4600,7 +4600,7 @@ null
   input: 'file:papers/last.pdf                         file, relative path' ]
 #+END_SRC
 
-#+BEGIN_SRC js :cmd "node" :var data="./papers/last.pdf                            same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="./papers/last.pdf                            same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4614,7 +4614,7 @@ null
 
 ********** DONE file, path on remote machine
 
-#+BEGIN_SRC js :cmd "node" :var data="file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4635,7 +4635,7 @@ null
   input: 'file:/ssh:myself@some.where:papers/last.pdf  file, path on remote machine' ]
 #+END_SRC
 
-#+BEGIN_SRC js :cmd "node" :var data="/ssh:myself@some.where:papers/last.pdf       same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="/ssh:myself@some.where:papers/last.pdf       same as above" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4649,7 +4649,7 @@ null
 
 ********** DONE file, jump to line number
 
-#+BEGIN_SRC js :cmd "node" :var data="file:sometextfile::NNN                       file, jump to line number" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="file:sometextfile::NNN                       file, jump to line number" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4672,7 +4672,7 @@ null
 
 ********** DONE another Org file
 
-#+BEGIN_SRC js :cmd "node" :var data="file:projects.org                            another Org file" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="file:projects.org                            another Org file" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4695,7 +4695,7 @@ null
 
 ********** DONE text search in Org file
 
-#+BEGIN_SRC js :cmd "node" :var data="file:projects.org::some words                text search in Org file(31)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="file:projects.org::some words                text search in Org file(31)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4718,7 +4718,7 @@ null
 
 ********** DONE heading search in Org file
 
-#+BEGIN_SRC js :cmd "node" :var data="file:projects.org::*task title               heading search in Org file(32)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="file:projects.org::*task title               heading search in Org file(32)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4741,7 +4741,7 @@ null
 
 ********** DONE open in doc-view mode at page
 
-#+BEGIN_SRC js :cmd "node" :var data="docview:papers/last.pdf::NNN                 open in doc-view mode at page" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="docview:papers/last.pdf::NNN                 open in doc-view mode at page" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4764,7 +4764,7 @@ null
 
 ********** DONE Link to heading by ID
 
-#+BEGIN_SRC js :cmd "node" :var data="id:B7423F4D-2E8A-471B-8810-C40F074717E9      Link to heading by ID" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="id:B7423F4D-2E8A-471B-8810-C40F074717E9      Link to heading by ID" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4787,7 +4787,7 @@ null
 
 ********** DONE Usenet link
 
-#+BEGIN_SRC js :cmd "node" :var data="news:comp.emacs                              Usenet link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="news:comp.emacs                              Usenet link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4810,7 +4810,7 @@ null
 
 ********** DONE Mail link
 
-#+BEGIN_SRC js :cmd "node" :var data="mailto:adent@galaxy.net                      Mail link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="mailto:adent@galaxy.net                      Mail link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4833,7 +4833,7 @@ null
 
 ********** DONE MH-E folder link
 
-#+BEGIN_SRC js :cmd "node" :var data="mhe:folder                                   MH-E folder link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="mhe:folder                                   MH-E folder link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4856,7 +4856,7 @@ null
 
 ********** DONE MH-E message link
 
-#+BEGIN_SRC js :cmd "node" :var data="mhe:folder#id                                MH-E message link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="mhe:folder#id                                MH-E message link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4879,7 +4879,7 @@ null
 
 ********** DONE RMAIL folder link
 
-#+BEGIN_SRC js :cmd "node" :var data="rmail:folder                                 RMAIL folder link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="rmail:folder                                 RMAIL folder link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4902,7 +4902,7 @@ null
 
 ********** DONE RMAIL message link
 
-#+BEGIN_SRC js :cmd "node" :var data="rmail:folder#id                              RMAIL message link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="rmail:folder#id                              RMAIL message link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4925,7 +4925,7 @@ null
 
 ********** DONE Gnus group link
 
-#+BEGIN_SRC js :cmd "node" :var data="gnus:group                                   Gnus group link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="gnus:group                                   Gnus group link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4948,7 +4948,7 @@ null
 
 ********** DONE Gnus article link
 
-#+BEGIN_SRC js :cmd "node" :var data="gnus:group#id                                Gnus article link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="gnus:group#id                                Gnus article link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4971,7 +4971,7 @@ null
 
 ********** DONE BBDB link (with regexp)
 
-#+BEGIN_SRC js :cmd "node" :var data="bbdb:R.*Stallman                             BBDB link (with regexp)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="bbdb:R.*Stallman                             BBDB link (with regexp)" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -4994,7 +4994,7 @@ null
 
 ********** DONE IRC link
 
-#+BEGIN_SRC js :cmd "node" :var data="irc:/irc.com/#emacs/bob                      IRC link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="irc:/irc.com/#emacs/bob                      IRC link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5017,7 +5017,7 @@ null
 
 ********** DONE Info node or index link
 
-#+BEGIN_SRC js :cmd "node" :var data="info:org#External links                      Info node or index link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="info:org#External links                      Info node or index link" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5040,7 +5040,7 @@ null
 
 ********** DONE A shell command
 
-#+BEGIN_SRC js :cmd "node" :var data="shell:ls *.org                               A shell command" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="shell:ls *.org                               A shell command" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5063,7 +5063,7 @@ null
 
 ********** DONE Interactive Elisp command
 
-#+BEGIN_SRC js :cmd "node" :var data="elisp:org-agenda                             Interactive Elisp command" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="elisp:org-agenda                             Interactive Elisp command" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5083,7 +5083,7 @@ null
 
 ********** DONE Elisp form to evaluate
 
-#+BEGIN_SRC js :cmd "node" :var data="elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="elisp:(find-file-other-frame "Elisp.org")    Elisp form to evaluate" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5097,7 +5097,7 @@ null
 
 ********** DONE Inside Verbatim Case 1
 
-#+BEGIN_SRC js :cmd "node" :var data="In all these simple examples, the common generic rc script will be deployed to =/etc/init.d/middleware=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="In all these simple examples, the common generic rc script will be deployed to =/etc/init.d/middleware=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5111,7 +5111,7 @@ null
 
 ********** DONE Inside Verbatim Case 2
 
-#+BEGIN_SRC js :cmd "node" :var data="In this example, the path to the apache script is =/etc/init.d/httpd= and the service account is =apache=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="In this example, the path to the apache script is =/etc/init.d/httpd= and the service account is =apache=." :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5125,7 +5125,7 @@ null
 
 ********** DONE Inside Brackets 1
 
-#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5148,7 +5148,7 @@ null
 
 ********** DONE Inside Brackets 2
 
-#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com][Google Search]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com][Google Search]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5171,7 +5171,7 @@ null
 
 ********** DONE Inside Brackets 3
 
-#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5194,7 +5194,7 @@ null
 
 ********** DONE Inside Brackets 4
 
-#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org][This Code Example]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org][This Code Example]]" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5215,7 +5215,7 @@ null
   input: '[[file:links.org][This Code Example]]' ]
 #+END_SRC
 
-********** zzz Empty Test Plain Link
+********** zzz Empty Test Plain Link                      :noexport:
 
 #+BEGIN_SRC js :cmd "node" :var data="" :results replace output :var pattern=plain-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
@@ -5226,7 +5226,7 @@ null
 ********* Grammar
 
 #+NAME: gen-grammar-plain-links-cson
-#+BEGIN_SRC ruby :var object_link_type="plain-link" :var object_link_pattern=plain-links-js 
+#+BEGIN_SRC ruby :var object_link_type="plain-link" :var object_link_pattern=plain-links-js  :exports results 
   object_link_template = <<-EOT
     'object-#{object_link_type.downcase}':
       'patterns':[
@@ -5348,22 +5348,24 @@ PATH4, CUSTOM-ID, CODEREF and FUZZY can contain any character
 besides square brackets.
 #+END_COMMENT
 
+- org-bracket-link-analytic-regexp++-js
 
-#+NAME: org-bracket-link-analytic-regexp++-js
-: ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
+  #+NAME: org-bracket-link-analytic-regexp++-js
+  : ([\[])([\[])((b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m):)?([^\]]+)([\]])(([\[])([^\]]+)([\]]))?([\]])
 
-#+BEGIN_SRC css :noweb yes
-  <<org-bracket-link-analytic-regexp++-js()>>
-#+END_SRC
+   #+BEGIN_SRC css :noweb yes :exports none 
+     <<org-bracket-link-analytic-regexp++-js()>>
+   #+END_SRC
 
+- regular-links-js
 
-#+NAME: regular-links-js
-#+BEGIN_SRC css :noweb yes
-  ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
-#+END_SRC
+  #+NAME: regular-links-js
+  #+BEGIN_SRC css :noweb yes
+    ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
+  #+END_SRC
 
-#+RESULTS: regular-links-js
-: ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
+  #+RESULTS: regular-links-js
+  : ([\[])(?:(([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]]))(([\[])([^\]]+)([\]]))|(?:([\[])(?:(b(?:bdb|ibtex)|coderef|do(?:cview|i)|e(?:lisp|shell|ww)|f(?:ile(?:[+](?:(?:emac|sy)s))?|tp)|gnus|h(?:elp|ttps?)|i(?:d|nfo|rc)|m(?:ailto|he)|news|rmail|shell|w3m)(:))?([^\]]+)([\]])))([\]])
 
 ********* COMMENT PATH3
 
@@ -5424,7 +5426,7 @@ besides square brackets.
 ********* Tests - Regular Links 
 ********** Web Case 1
 
-#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5458,7 +5460,7 @@ besides square brackets.
 
 ********** Web Case 2
 
-#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com][Google Search]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[https://www.google.com][Google Search]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5492,7 +5494,7 @@ besides square brackets.
 
 ********** File Case 1
 
-#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5526,7 +5528,7 @@ besides square brackets.
 
 ********** File Case 2
 
-#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org][This Code Example]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
+#+BEGIN_SRC js :cmd "node" :var data="[[file:links.org][This Code Example]]" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never" :exports results 
   let re = new RegExp(pattern);
   console.log(re)
   console.log(data.match(re))
@@ -5557,7 +5559,7 @@ besides square brackets.
   input: '[[file:links.org][This Code Example]]' ]
 #+END_SRC
 
-********** zzz Empty Test Regular Link
+********** zzz Empty Test Regular Link                    :noexport:
 
 #+BEGIN_SRC js :cmd "node" :var data="" :results replace output :var pattern=regular-links-js() :wrap "SRC js :eval never"
   let re = new RegExp(pattern);
@@ -5571,7 +5573,7 @@ besides square brackets.
 :END:
 
 #+NAME: gen-grammar-regular-links-cson
-#+BEGIN_SRC ruby :var object_link_type="regular-link" :var object_link_pattern=regular-links-js 
+#+BEGIN_SRC ruby :var object_link_type="regular-link" :var object_link_pattern=regular-links-js :exports results 
   object_link_template = <<-EOT
     'object-#{object_link_type.downcase}':
       'patterns':[
@@ -5674,14 +5676,14 @@ besides square brackets.
    {{{NAME(ARGUMENTS)}}}
    #+END_EXAMPLE
 
-   NAME must start with a letter and can be followed by any number of
+   =NAME= must start with a letter and can be followed by any number of
    alpha-numeric characters, hyphens and underscores.
 
-   ARGUMENTS can contain anything but "}}}" string.  Values within
-   ARGUMENTS are separated by commas.  Non-separating commas have to
+   =ARGUMENTS= can contain anything but =}}}= string.  Values within
+   =ARGUMENTS= are separated by commas.  Non-separating commas have to
    be escaped with a backslash character.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -5696,7 +5698,7 @@ besides square brackets.
    <<<CONTENTS>>>
    #+END_EXAMPLE
 
-   CONTENTS can be any character besides ~<~, ~>~ and "\n".  It cannot
+   =CONTENTS= can be any character besides ~<~, ~>~ and =\n=.  It cannot
    start or end with a whitespace character.  As far as objects go, it
    can contain text markup, entities, latex fragments, subscript and
    superscript only.
@@ -5707,11 +5709,11 @@ besides square brackets.
    <<TARGET>>
    #+END_EXAMPLE
 
-   TARGET can contain any character besides ~<~, ~>~ and "\n".  It
+   =TARGET= can contain any character besides ~<~, ~>~ and =\n=.  It
    cannot start or end with a whitespace character.  It cannot contain
    any object.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -5727,9 +5729,9 @@ besides square brackets.
    [NUM1/NUM2]
    #+END_EXAMPLE
 
-   PERCENT, NUM1 and NUM2 are numbers or the empty string.
+   =PERCENT=, =NUM1= and =NUM2= are numbers or the empty string.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -5750,28 +5752,28 @@ besides square brackets.
    CHAR^SCRIPT
    #+END_EXAMPLE
 
-   CHAR is any non-whitespace character.
+   =CHAR= is any non-whitespace character.
 
-   SCRIPT can be ~*~ or an expression enclosed in parenthesis
+   =SCRIPT= can be ~*~ or an expression enclosed in parenthesis
    (respectively curly brackets), possibly containing balanced
    parenthesis (respectively curly brackets).
 
-   SCRIPT can also follow the pattern:
+   =SCRIPT= can also follow the pattern:
 
    #+BEGIN_EXAMPLE
    SIGN CHARS FINAL
    #+END_EXAMPLE
 
-   SIGN is either a plus sign, a minus sign, or an empty string.
+   =SIGN= is either a plus sign, a minus sign, or an empty string.
 
-   CHARS is any number of alpha-numeric characters, commas,
+   =CHARS= is any number of alpha-numeric characters, commas,
    backslashes and dots, or an empty string.
 
-   FINAL is an alpha-numeric character.
+   =FINAL= is an alpha-numeric character.
 
    There is no white space between SIGN, CHARS and FINAL.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -5786,15 +5788,15 @@ besides square brackets.
    CONTENTS SPACES|
    #+END_EXAMPLE
 
-   CONTENTS can contain any character excepted a vertical bar.
+   =CONTENTS= can contain any character excepted a vertical bar.
 
-   SPACES contains any number of space characters, including zero.  It
+   =SPACES= contains any number of space characters, including zero.  It
    can be used to align properly the table.
 
    The final bar may be replaced with a newline character for the last
    cell in row.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -5815,41 +5817,41 @@ besides square brackets.
    [DATE TIME-TIME REPEATER-OR-DELAY]                             (inactive range)
    #+END_EXAMPLE
 
-   SEXP can contain any character excepted ~>~ and ~\n~.
+   =SEXP= can contain any character excepted ~>~ and ~\n~.
 
-   DATE follows the pattern:
+   =DATE= follows the pattern:
 
    #+BEGIN_EXAMPLE
    YYYY-MM-DD DAYNAME
    #+END_EXAMPLE
 
-   ~Y~, ~M~ and ~D~ are digits.  DAYNAME can contain any non
+   ~Y~, ~M~ and ~D~ are digits.  =DAYNAME= can contain any non
    whitespace-character besides ~+~, ~-~, ~]~, ~>~, a digit or ~\n~.
 
-   TIME follows the pattern ~H:MM~.  ~H~ can be one or two digit long
+   =TIME= follows the pattern ~H:MM~.  ~H~ can be one or two digit long
    and can start with 0.
 
-   REPEATER-OR-DELAY follows the pattern:
+   =REPEATER-OR-DELAY= follows the pattern:
 
    #+BEGIN_EXAMPLE
    MARK VALUE UNIT
    #+END_EXAMPLE
 
-   MARK is ~+~ (cumulate type), ~++~ (catch-up type) or ~.+~ (restart
+   =MARK= is ~+~ (cumulate type), ~++~ (catch-up type) or ~.+~ (restart
    type) for a repeater, and ~-~ (all type) or ~--~ (first type) for
    warning delays.
 
-   VALUE is a number.
+   =VALUE= is a number.
 
-   UNIT is a character among ~h~ (hour), ~d~ (day), ~w~ (week), ~m~
+   =UNIT= is a character among ~h~ (hour), ~d~ (day), ~w~ (week), ~m~
    (month), ~y~ (year).
 
-   MARK, VALUE and UNIT are not separated by whitespace characters.
+   =MARK=, =VALUE= and =UNIT= are not separated by whitespace characters.
 
-   There can be two REPEATER-OR-DELAY in the timestamp: one as
+   There can be two =REPEATER-OR-DELAY= in the timestamp: one as
    a repeater and one as a warning delay.
 
-***** Code  
+***** Code                                                     :noexport:
 
 ****** Regular Expressions
 
@@ -5864,33 +5866,33 @@ besides square brackets.
    PRE MARKER CONTENTS MARKER POST
    #+END_EXAMPLE
 
-   PRE is a whitespace character, ~(~, ~{~ ~'~ or a double quote.  It
+   =PRE= is a whitespace character, ~(~, ~{~ ~'~ or a double quote.  It
    can also be a beginning of line.
 
-   MARKER is a character among ~*~ (bold), ~=~ (verbatim), ~/~
+   =MARKER= is a character among ~*~ (bold), ~=~ (verbatim), ~/~
    (italic), ~+~ (strike-through), ~_~ (underline), ~~~ (code).
 
-   CONTENTS is a string following the pattern:
+   =CONTENTS= is a string following the pattern:
 
    #+BEGIN_EXAMPLE
    BORDER BODY BORDER
    #+END_EXAMPLE
 
-   BORDER can be any non-whitespace character excepted ~,~, ~'~ or
+   =BORDER= can be any non-whitespace character excepted ~,~, ~'~ or
    a double quote.
 
-   BODY can contain contain any character but may not span over more
+   =BODY= can contain contain any character but may not span over more
    than 3 lines.
 
-   BORDER and BODY are not separated by whitespaces.
+   =BORDER= and BODY are not separated by whitespaces.
 
-   CONTENTS can contain any object encountered in a paragraph when
+   =CONTENTS= can contain any object encountered in a paragraph when
    markup is "bold", "italic", "strike-through" or "underline".
 
-   POST is a whitespace character, ~-~, ~.~, ~,~, ~:~, ~!~, ~?~, ~'~,
+   =POST= is a whitespace character, ~-~, ~.~, ~,~, ~:~, ~!~, ~?~, ~'~,
    ~)~, ~}~ or a double quote.  It can also be an end of line.
 
-   PRE, MARKER, CONTENTS, MARKER and POST are not separated by
+   =PRE=, =MARKER=, =CONTENTS=, =MARKER= and =POST= are not separated by
    whitespace characters.
 
    #+ATTR_ASCII: :width 5
@@ -5902,7 +5904,7 @@ besides square brackets.
 
    This should really be simplified.
 
-   Also, CONTENTS should be anything within code and verbatim
+   Also, =CONTENTS= should be anything within code and verbatim
    emphasis, by definition.  --- ngz
    #+END_QUOTE
 
@@ -5973,7 +5975,7 @@ version 24.4 of Emacs.
 
 
 #+NAME: text-markup-js
-#+BEGIN_SRC css :noweb yes 
+#+BEGIN_SRC css :noweb yes  :exports results 
   <<PRE-EM>><<MARKER-EM>><<CONTENTS-EM>><<MARKER-EM>><<POST-EM>>
 #+END_SRC
 
@@ -6021,7 +6023,7 @@ You need to reload Org or to restart Emacs after customizing this.
 
 Allowed characters. Beginning of line also allowed.
 
-: "- 	('\"{"
+# "- 	('\"{"
 
 #+NAME: PRE-EM
 #+BEGIN_SRC css 
@@ -6035,7 +6037,7 @@ Allowed characters. Beginning of line also allowed.
 
 Allowed characters. End of line also allowed.
 
-: "- 	.,:!?;'\")}\\["
+# "- 	.,:!?;'\")}\\["
 
 #+NAME: POST-EM
 #+BEGIN_SRC css 
@@ -6049,7 +6051,7 @@ Allowed characters. End of line also allowed.
 
 Forbidden characters
 
-: " 	"
+# " 	"
 
 #+NAME: BORDER-EM
 #+BEGIN_SRC css :noweb yes 
@@ -6061,11 +6063,11 @@ Forbidden characters
 
 ******** Implementation Notes
 
-- Added MARKER-EM-RUBY to Fix Pattern Collision with Headings
+- Added =MARKER-EM-RUBY= to Fix Pattern Collision with Headings
 
 ******* BODY-EM-REGEXP
 
-: "."
+# "."
 
 #+NAME: BODY-EM-REGEXP
 #+BEGIN_SRC css
@@ -6082,7 +6084,7 @@ Forbidden characters
 ******* CONTENTS-EM
 
 #+NAME: CONTENTS-EM
-#+BEGIN_SRC css :noweb yes 
+#+BEGIN_SRC css :noweb yes  :exports results 
   (<<BORDER-EM>><<BODY-EM-REGEXP>><<BORDER-EM>>|<<BORDER-EM>>{1,2})
 #+END_SRC
 
@@ -6101,7 +6103,7 @@ Forbidden characters
 
 ******** Implementation Notes
 
-- Added MARKER-EM-RUBY to simplify generating template
+- Added =MARKER-EM-RUBY= to simplify generating template
 
 ******** MARKER-EM-RUBY
 
@@ -6453,7 +6455,7 @@ The following objects are included in Text Markup grammar:
 The =gen-grammar-text-markup-cson= in the template code for generating text markup grammar.
 
 #+NAME: gen-grammar-text-markup-cson
-#+BEGIN_SRC ruby :var text_markers=org-emphasis-alist :results verbatim replace :noweb yes :var include_patterns=grammar-text-markup-include-objects() :var include_patterns_indent=26 :var exclude_patterns='() :exports code 
+#+BEGIN_SRC ruby :var text_markers=org-emphasis-alist :results verbatim replace :noweb yes :var include_patterns=grammar-text-markup-include-objects() :var include_patterns_indent=26 :var exclude_patterns='() :exports both
   <<grammar-include-patterns-ruby>>
 
   text_markers.map{ |m|
@@ -6492,6 +6494,8 @@ The =gen-grammar-text-markup-cson= in the template code for generating text mark
   EOT
   }.join("\n")
 #+END_SRC
+
+The Text Markup grammar:
 
 #+RESULTS: gen-grammar-text-markup-cson
 #+begin_example
