@@ -526,7 +526,7 @@
   'task-status-todo':
       'patterns': [
           {
-            'match': '(?<=[\\\*]\\s)(TODO)\\b'
+            'match': '(?i)(?<=[\\\*]\\s)(TODO)\\b'
             'name': 'constant.task.status.todo.org-mode'
           }
       ]
@@ -534,7 +534,7 @@
   'task-status-done':
       'patterns': [
           {
-            'match': '(?<=[\\\*]\\s)(DONE)\\b'
+            'match': '(?i)(?<=[\\\*]\\s)(DONE)\\b'
             'name': 'constant.task.status.done.org-mode'
           }
       ]
@@ -579,7 +579,7 @@
               ]
         }
     ]
-  
+
 
   'verbatim':
     'patterns':[
@@ -611,7 +611,7 @@
               ]
         }
     ]
-  
+
 
   'bold':
     'patterns':[
@@ -658,7 +658,7 @@
               ]
         }
     ]
-  
+
 
   'underline':
     'patterns':[
@@ -705,7 +705,7 @@
               ]
         }
     ]
-  
+
 
   'italic':
     'patterns':[
@@ -752,7 +752,7 @@
               ]
         }
     ]
-  
+
 
   'strike-through':
     'patterns':[
@@ -799,12 +799,12 @@
               ]
         }
     ]
-  
+
 
   'code-block-shell':
     'patterns':[
         {
-          'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sh|shell|bash)(\\s+(:\\w+)(\\s+.+)?)*$'
+          'begin': '^(?i)(\\s*#\\+BEGIN_SRC\\s+)(sh|shell|bash)(\\s+(:\\w+)(\\s+.+)?)*$'
           'beginCaptures':
             '1':
               'name': 'punctuation.definition.string.org-mode'
@@ -828,7 +828,7 @@
   'code-block-ruby':
     'patterns':[
         {
-          'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(ruby)(\\s+(:\\w+)(\\s+.+)?)*$'
+          'begin': '^(?i)(\\s*#\\+BEGIN_SRC\\s+)(ruby)(\\s+(:\\w+)(\\s+.+)?)*$'
           'beginCaptures':
             '1':
               'name': 'punctuation.definition.string.org-mode'
@@ -852,7 +852,7 @@
   'code-block-python':
     'patterns':[
         {
-          'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(python)(\\s+(:\\w+)(\\s+.+)?)*$'
+          'begin': '^(?i)(\\s*#\\+BEGIN_SRC\\s+)(python)(\\s+(:\\w+)(\\s+.+)?)*$'
           'beginCaptures':
             '1':
               'name': 'punctuation.definition.string.org-mode'
@@ -876,7 +876,7 @@
   'code-block-sql':
     'patterns':[
         {
-          'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(sql)(\\s+(:\\w+)(\\s+.+)?)*$'
+          'begin': '^(?i)(\\s*#\\+BEGIN_SRC\\s+)(sql)(\\s+(:\\w+)(\\s+.+)?)*$'
           'beginCaptures':
             '1':
               'name': 'punctuation.definition.string.org-mode'
@@ -899,7 +899,7 @@
   'code-block-css':
     'patterns':[
         {
-          'begin': '^(\\s*#\\+BEGIN_SRC\\s+)(css)(\\s+(:\\w+)(\\s+.+)?)*$'
+          'begin': '^(?i)(\\s*#\\+BEGIN_SRC\\s+)(css)(\\s+(:\\w+)(\\s+.+)?)*$'
           'beginCaptures':
             '1':
               'name': 'punctuation.definition.string.org-mode'
@@ -923,7 +923,7 @@
   'options-line':
     'patterns': [
       {
-        'begin': '^(\\s*#[+])(OPTIONS|TITLE|DATE|AUTHOR|EMAIL|LANGUAGE|CREATOR|SELECT_TAGS|EXCLUDE_TAGS|SETUP|PROPERTY|MACRO)(:)((\\s+)(.+))?'
+        'begin': '^(?i)(\\s*#[+])(OPTIONS|TITLE|DATE|AUTHOR|EMAIL|LANGUAGE|CREATOR|SELECT_TAGS|EXCLUDE_TAGS|SETUP|PROPERTY|MACRO)(:)((\\s+)(.+))?'
         'end': '$'
         'captures':
           '1':
@@ -943,7 +943,7 @@
   'keywords-line':
     'patterns': [
       {
-        'begin': '^(\\s*#[+])(HEADER|NAME|PLOT|CAPTION|RESULTS[\\\[\\\]a-f0-9]*)(:)((\\s+)(.+))?'
+        'begin': '^(?i)(\\s*#[+])(HEADER|NAME|PLOT|CAPTION|RESULTS[\\\[\\\]a-f0-9]*)(:)((\\s+)(.+))?'
         'end': '$'
         'captures':
           '1':
@@ -963,7 +963,7 @@
   'babel-call':
     'patterns': [
       {
-        'begin': '^(\\s*#[+])(CALL[\\\[\\\]a-zA-Z0-9,]*)(:)((\\s+)(.+))?'
+        'begin': '^(?i)(\\s*#[+])(CALL[\\\[\\\]a-zA-Z0-9,]*)(:)((\\s+)(.+))?'
         'end': '$'
         'captures':
           '1':
@@ -1021,7 +1021,7 @@
               'name': 'punctuation.definition.regular-link.end.display-none.org-mode'
         }
     ]
-  
+
 
   'object-radio-link':
     'patterns':[
@@ -1038,7 +1038,7 @@
               'name': 'punctuation.definition.radio-link.end.org-mode'
         }
     ]
-  
+
 
   'object-plain-link':
     'patterns':[
@@ -1055,7 +1055,7 @@
               'name': 'punctuation.definition.plain-link.end.org-mode'
         }
     ]
-  
+
 
   'object-angle-link':
     'patterns':[
@@ -1072,7 +1072,7 @@
               'name': 'punctuation.definition.angle-link.end.org-mode'
         }
     ]
-  
+
 
   'object-links':
       'patterns': [
@@ -1111,7 +1111,7 @@
           ]
         }
     ]
-  
+
   'export-block-ascii-legacy':
     'patterns':[
         {
@@ -1131,7 +1131,7 @@
           ]
         }
     ]
-  
+
   'export-block-beamer':
     'patterns':[
         {
@@ -1153,7 +1153,7 @@
           ]
         }
     ]
-  
+
   'export-block-beamer-legacy':
     'patterns':[
         {
@@ -1173,7 +1173,7 @@
           ]
         }
     ]
-  
+
   'export-block-html':
     'patterns':[
         {
@@ -1195,7 +1195,7 @@
           ]
         }
     ]
-  
+
   'export-block-html-legacy':
     'patterns':[
         {
@@ -1215,7 +1215,7 @@
           ]
         }
     ]
-  
+
   'export-block-latex':
     'patterns':[
         {
@@ -1237,7 +1237,7 @@
           ]
         }
     ]
-  
+
   'export-block-latex-legacy':
     'patterns':[
         {
@@ -1257,7 +1257,7 @@
           ]
         }
     ]
-  
+
   'export-block-man':
     'patterns':[
         {
@@ -1279,7 +1279,7 @@
           ]
         }
     ]
-  
+
   'export-block-man-legacy':
     'patterns':[
         {
@@ -1299,7 +1299,7 @@
           ]
         }
     ]
-  
+
   'export-block-md':
     'patterns':[
         {
@@ -1321,7 +1321,7 @@
           ]
         }
     ]
-  
+
   'export-block-md-legacy':
     'patterns':[
         {
@@ -1341,7 +1341,7 @@
           ]
         }
     ]
-  
+
   'export-block-odt':
     'patterns':[
         {
@@ -1363,7 +1363,7 @@
           ]
         }
     ]
-  
+
   'export-block-odt-legacy':
     'patterns':[
         {
@@ -1383,7 +1383,7 @@
           ]
         }
     ]
-  
+
   'export-block-texinfo':
     'patterns':[
         {
@@ -1405,7 +1405,7 @@
           ]
         }
     ]
-  
+
   'export-block-texinfo-legacy':
     'patterns':[
         {
@@ -1425,76 +1425,76 @@
           ]
         }
     ]
-  
+
 
   'export-blocks':
       'patterns': [
           {
             'include': '#export-block-ascii'
           }
-  
+
           {
             'include': '#export-block-ascii-legacy'
           }
-  
+
           {
             'include': '#export-block-beamer'
           }
-  
+
           {
             'include': '#export-block-beamer-legacy'
           }
-  
+
           {
             'include': '#export-block-html'
           }
-  
+
           {
             'include': '#export-block-html-legacy'
           }
-  
+
           {
             'include': '#export-block-latex'
           }
-  
+
           {
             'include': '#export-block-latex-legacy'
           }
-  
+
           {
             'include': '#export-block-man'
           }
-  
+
           {
             'include': '#export-block-man-legacy'
           }
-  
+
           {
             'include': '#export-block-md'
           }
-  
+
           {
             'include': '#export-block-md-legacy'
           }
-  
+
           {
             'include': '#export-block-odt'
           }
-  
+
           {
             'include': '#export-block-odt-legacy'
           }
-  
+
           {
             'include': '#export-block-texinfo'
           }
-  
+
           {
             'include': '#export-block-texinfo-legacy'
           }
-  
+
       ]
-  
+
 
   'user-defined-block':
     'patterns':[
